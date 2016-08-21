@@ -103,8 +103,9 @@ public class Hash {
     }
     
     public static void main(String[] args) {
-        System.out.println(SHA("test", SHA_512));
-        System.out.println(SHA("test", SHA_384));
-        System.out.println(SHA("test", SHA_256));
+//        System.out.println(SHA("test", SHA_512));
+        System.out.println("DE-" + SHA_160("ChIJs7LSxmQFl0cRwEoJjTz9HwQ"));
+//        System.out.println(SHA("test", SHA_384));
+//        System.out.println(SHA("test", SHA_256));
     }
 }

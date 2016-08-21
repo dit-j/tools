@@ -17,14 +17,14 @@ import de.jawb.tools.util.string.SecStringUtil;
  */
 public class FileUtil {
     
-    public static final long KB = 1024;
-    public static final long MB = KB * KB;
-    public static final long GB = KB * MB;
+//    public static final long KB = 1024;
+//    public static final long MB = KB * KB;
+//    public static final long GB = KB * MB;
                                 
     /**
      * @param dir
      * @param fileType
-     *            z.B. .png oder .txt
+     *            z.B. .png oder txt
      * @return
      * @throws IOException 
      */
@@ -35,7 +35,7 @@ public class FileUtil {
         File file       = null;
         int i           = 0;
         int nameLength  = 10;
-        
+        final String fileTYPE = fileType.startsWith(".") ? fileType : ("." + fileType);
         do {
             //
             if (++i == 10) {
@@ -43,7 +43,7 @@ public class FileUtil {
                 ++nameLength;
             }
             //
-            file = new File(dir, SecStringUtil.generateToken(nameLength) + fileType);
+            file = new File(dir, SecStringUtil.generateToken(nameLength) + fileTYPE);
         } while (file.exists());
         
         return file;

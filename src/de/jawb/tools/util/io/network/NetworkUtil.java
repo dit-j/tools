@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 /**
  * @author dit (01.02.2015)
  */
+@Deprecated
 public class NetworkUtil {
     
     public static String getLocalhostIP() {
@@ -23,6 +24,7 @@ public class NetworkUtil {
     
     
     public static void main(String[] args) {
+        
         System.out.println(getLocalhostIP());
     }
 }

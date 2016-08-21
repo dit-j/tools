@@ -31,6 +31,17 @@ public class StringCleaner {
         }
     }
     
+    
+    public static String removeTrailingString(String str, String trailingString) {
+        if(StringUtil.notEmpty(str)) {
+            if (str.endsWith(trailingString)) {
+                return str.substring(0, str.length() - trailingString.length());
+            }
+        }
+        return str;
+    }
+    
+    
     /**
      * Entfernt <b>alle</b> Leerzeichen aus einem String.
      * 
@@ -106,7 +117,8 @@ public class StringCleaner {
     }
     
     public static void main(String[] args) {
-        System.out.println(removeAllNotLetter("sdfölskdjf+-_%%sdff--->>>=="));
+//        System.out.println(removeAllNotLetter("sdfï¿½lskdjf+-_%%sdff--->>>=="));
+//        System.out.println(removeTrailingString("/aa", "/aaa"));
     }
     
 }

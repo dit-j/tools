@@ -90,12 +90,15 @@ public class ExceptionUtil {
     public static String getErrorMessage(Throwable e) {
         String error = e.getMessage();
         if (StringUtil.isEmpty(error)) {
+            
+            error = e.getClass() + " ";
+            
             Throwable cause = e.getCause();
             if (cause != null) {
-                error = cause.getMessage();
+                error += cause.getMessage();
             }
             if (StringUtil.isEmpty(error)) {
-                error = getStackTraceAsString(e);
+                error += getStackTraceAsString(e);
             }
         }
         return error;

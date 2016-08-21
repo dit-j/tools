@@ -13,6 +13,8 @@ public enum ImageType {
             ".jpg"),
     jpeg(
             ".jpeg"),
+    gif(
+            ".gif"),
     bmp(
             ".bmp");
             
@@ -23,8 +25,9 @@ public enum ImageType {
     }
     
     public static final ImageType getImageTypeByFileName(String name) throws IOException {
+        final String fileName = name.toLowerCase();
         for (ImageType t : ImageType.values()) {
-            if (name.toLowerCase().endsWith(t.end)) {
+            if (fileName.endsWith(t.end)) {
                 return t;
             }
         }

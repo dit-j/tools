@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -99,6 +100,37 @@ public class Zip {
         writeFile(source, os);
         os.close();
         return zippedFile;
+    }
+    
+    public static File zipAll(List<File> files, String destFile) throws IOException {
+        
+        //create byte buffer
+        byte[] buffer = new byte[1024];
+        
+        File dest = new File(destFile);
+        FileOutputStream fout = new FileOutputStream(dest);
+        
+        //create object of ZipOutputStream from FileOutputStream
+        ZipOutputStream zout = new ZipOutputStream(fout);
+        
+        for (File file : files) {
+            
+            FileInputStream fin = new FileInputStream(file);
+            zout.putNextEntry(new ZipEntry(file.getName()));
+            
+            int length;
+            
+            while ((length = fin.read(buffer)) > 0) {
+                zout.write(buffer, 0, length);
+            }
+            zout.closeEntry();
+            fin.close();
+            
+        }
+        
+        zout.close();
+        
+        return dest;
     }
     
     private static File buildDirectoryHierarchyFor(String entryName, File destDir) {

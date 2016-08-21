@@ -3,6 +3,7 @@
  */
 package de.jawb.tools.util.string;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -15,7 +16,7 @@ public class SecStringUtil {
     public static final String CHARS_UC      = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     public static final String CHARS_SPECIAL = "()[]{}?!$%&/=*+~,.;:<>-_";
     public static final String CHARS_ALL     = CHARS + CHARS_SPECIAL;
-    
+                                             
     /**
      * Generiert ein zufaelliges Passwort
      * 
@@ -28,11 +29,14 @@ public class SecStringUtil {
     }
     
     /**
-     * Generiert ein zufaelliges Passwort mit spez. Zeichen (optional)
+     * Generiert ein zufaelliges Passwort mit spez. Zeichen
+     * (optional)
      * 
      * @param length
      *            Laenge des Passworts
-     * @param useSpecialCharacter Sonderzeichen: <tt>()[]{}?!$%&/=*+~,.;:<>-_</tt>
+     * @param useSpecialCharacter
+     *            Sonderzeichen:
+     *            <tt>()[]{}?!$%&/=*+~,.;:<>-_</tt>
      * @return Passwort
      */
     public static String generatePassword(int length, boolean useSpecialCharacter) {
@@ -43,7 +47,7 @@ public class SecStringUtil {
             chars = CHARS;
         }
         StringBuilder sb = new StringBuilder();
-        Random r = new Random();
+        Random r = new SecureRandom();
         for (int i = 0; i < length; i++) {
             int j = r.nextInt(chars.length());
             sb.append(chars.charAt(j));
@@ -52,9 +56,11 @@ public class SecStringUtil {
     }
     
     /**
-     * Generiert eine "zufaellige" Zeichenkette der Laenge 40.
+     * Generiert eine "zufaellige" Zeichenkette der Laenge
+     * 40.
      * 
-     * @return z.B. <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
+     * @return z.B.
+     *         <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
      */
     public static String generateToken() {
         return generateToken(40);
@@ -65,11 +71,12 @@ public class SecStringUtil {
      * 
      * @param length
      *            Laenge der Kette
-     * @return z.B. <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
+     * @return z.B.
+     *         <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
      */
     public static String generateToken(int length) {
         StringBuilder sb = new StringBuilder();
-        Random r = new Random();
+        Random r = new SecureRandom();
         for (int i = 0; i < length; ++i) {
             int j = r.nextInt(CHARS_LC.length());
             sb.append(CHARS_LC.charAt(j));
@@ -78,8 +85,8 @@ public class SecStringUtil {
     }
     
     /**
-     * Generiert eine "zufaellige" Zeichenkette die aus X Bloecken besteht je 5
-     * Zeichen.
+     * Generiert eine "zufaellige" Zeichenkette die aus X
+     * Bloecken besteht je 5 Zeichen.
      * 
      * @param partsCount
      *            Anzahl der Bloecke
@@ -87,7 +94,7 @@ public class SecStringUtil {
      */
     public static String generateBlockToken(int partsCount) {
         StringBuilder sb = new StringBuilder();
-        Random r = new Random();
+        Random r = new SecureRandom();
         int charsInBlock = 5;
         for (int b = 0; b < partsCount; b++) {
             for (int i = 0; i < charsInBlock; i++) {
@@ -102,8 +109,8 @@ public class SecStringUtil {
     }
     
     /**
-     * Erzeugt aus einem String einen Integer. String muss genau vie Zeichen
-     * lang sein.
+     * Erzeugt aus einem String einen Integer. String muss
+     * genau vie Zeichen lang sein.
      * 
      * @param str
      *            ein String der aus 4 Zeichen besteht
@@ -142,8 +149,8 @@ public class SecStringUtil {
     }
     
     /**
-     * Maskiert ein Password. Erste 3 Zeichen bleiben offen, der Rest wird durch
-     * mehrere Sternchen ersetzt.
+     * Maskiert ein Password. Erste 3 Zeichen bleiben offen,
+     * der Rest wird durch mehrere Sternchen ersetzt.
      * 
      * @param password
      *            Password.

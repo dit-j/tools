@@ -26,6 +26,10 @@ public class ImageDimension {
         return height;
     }
     
+    public boolean isPortrait() {
+        return height > width;
+    }
+    
     public boolean hasMinDimension(ImageDimension otherDim) {
         return this.width >= otherDim.width && this.height >= otherDim.height;
     }
@@ -36,12 +40,12 @@ public class ImageDimension {
     
     @Override
     public String toString() {
-        return "ImageDimension [width=" + width + ", height=" + height + "]";
+        return "[" + width + "x" + height + "]";
     }
     
     public static void main(String[] args) {
         
-        System.out.println(new ImageDimension(150, 150).hasMinDimension(new ImageDimension(150, 150)));
+        System.out.println(new ImageDimension(150, 150));
         
     }
     

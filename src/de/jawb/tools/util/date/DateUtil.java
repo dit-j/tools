@@ -18,7 +18,49 @@ public class DateUtil {
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final SimpleDateFormat TIME_HMS           = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat TIME_HM            = new SimpleDateFormat("HH:mm");
-                                                            
+         
+    public static String getTimeString(int minutes, boolean is24Hours) {
+        
+        StringBuilder sb = new StringBuilder();
+        
+        appendTimeString(sb, minutes, is24Hours);
+
+        return sb.toString();
+    }
+    
+    
+    public static void appendTimeString(StringBuilder sb, int minutes, boolean is24Hours) {
+
+        int h = minutes / 60;
+        int m = minutes - h * 60;
+        
+        String t = null;
+        
+        if(!is24Hours) {
+            if(h > 12) {
+                h -= 12;
+                t = "PM";
+            } else {
+                t = "AM";
+            }
+        }
+        
+        if(h < 10) sb.append("0");
+        sb.append(h).append(":");
+
+        if(m < 10) sb.append("0");
+        sb.append(m);
+        
+        if(t != null) sb.append(" AM");
+        
+    }
+    
+    
+    public static boolean isWeekend(Calendar c) {
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
+    }
+    
     /**
      * Erstellt Zeitstring. Datum:Heute.
      * 
@@ -88,6 +130,11 @@ public class DateUtil {
      * @return datum (, zeit)
      */
     public static final String getDateTimeString(Long millis, boolean time) {
+        
+        if(millis < 0) {
+            return "-1";
+        }
+        
         
         String today = SIMPLE_DATE_FORMAT.format(millis);
         if (!time) {
