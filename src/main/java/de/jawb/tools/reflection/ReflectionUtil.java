@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import de.jawb.tools.util.collections.CollectionsUtil;
+import de.jawb.tools.collections.CollectionsUtil;
 
 public class ReflectionUtil {
     

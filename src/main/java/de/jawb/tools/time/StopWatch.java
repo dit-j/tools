@@ -1,6 +1,6 @@
 package de.jawb.tools.time;
 
-import de.jawb.tools.util.date.DateUtil;
+import de.jawb.tools.date.DateUtil;
 
 public class StopWatch {
     
