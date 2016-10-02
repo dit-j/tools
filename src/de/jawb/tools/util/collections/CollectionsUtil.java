@@ -1,6 +1,7 @@
 package de.jawb.tools.util.collections;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -96,5 +97,11 @@ public class CollectionsUtil {
             if (object.equals(item)) return true;
         }
         return false;
+    }
+    
+    public static <E, T> Map<E, T> initMap(E key, T value) {
+        Map<E, T> map = new HashMap<E, T>();
+        map.put(key, value);
+        return map;
     }
 }
