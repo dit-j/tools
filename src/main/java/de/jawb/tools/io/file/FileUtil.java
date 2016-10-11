@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import javax.swing.filechooser.FileSystemView;
 
-import de.jawb.tools.string.SecStringUtil;
+import de.jawb.tools.security.Generator;
 
 /**
  * @author dit (25.07.2011)
@@ -43,7 +43,7 @@ public class FileUtil {
                 ++nameLength;
             }
             //
-            file = new File(dir, SecStringUtil.generateToken(nameLength) + fileTYPE);
+            file = new File(dir, Generator.generateToken(nameLength) + fileTYPE);
         } while (file.exists());
         
         return file;

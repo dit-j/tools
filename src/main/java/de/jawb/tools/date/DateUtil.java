@@ -19,6 +19,12 @@ public class DateUtil {
     public static final SimpleDateFormat TIME_HMS           = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat TIME_HM            = new SimpleDateFormat("HH:mm");
          
+    /**
+     * 
+     * @param minutes von 0 (00:00) bis 1439
+     * @param is24Hours
+     * @return
+     */
     public static String getTimeString(int minutes, boolean is24Hours) {
         
         StringBuilder sb = new StringBuilder();
@@ -167,6 +173,6 @@ public class DateUtil {
     }
     
     public static void main(String[] args) {
-        System.out.println(getDurationFromMillis(122265469));
+        System.out.println(getTimeString(1439, false));
     }
 }

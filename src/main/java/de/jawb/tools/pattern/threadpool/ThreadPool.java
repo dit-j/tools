@@ -71,20 +71,13 @@ public class ThreadPool {
     public static final String getInfo() {
         StringBuffer sb = new StringBuffer();
         sb.append("|~| " + ThreadPool.class.getSimpleName());
-        sb.append(": InitPoolGr��e - ");
-        sb.append(_executorService.getCorePoolSize() + ", Aktuelle Poolgr��e - ");
+        sb.append(": InitPoolGröße - ");
+        sb.append(_executorService.getCorePoolSize() + ", Aktuelle Poolgröße - ");
         sb.append(_executorService.getPoolSize() + ", Aktuell aktiv - ");
         sb.append(_executorService.getActiveCount() + ", Erledigte Aufgaben: ");
         sb.append(_executorService.getCompletedTaskCount() + ", KeepAliveTime: ");
         sb.append(_executorService.getKeepAliveTime(TimeUnit.SECONDS) + " sekunden.");
         
         return sb.toString();
-    }
-    
-    public static void main(String[] args) {
-        Locale l = new Locale("", "de");
-        String norway = l.getDisplayCountry();
-        
-        System.out.println(norway);
     }
 }

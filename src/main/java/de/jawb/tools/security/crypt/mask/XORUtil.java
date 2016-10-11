@@ -1,18 +1,17 @@
-package de.jawb.tools.string.security;
+package de.jawb.tools.security.crypt.mask;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+
+import de.jawb.tools.security.Base64;
+
 /**
- * 
  * @author dit (17.05.2013)
- *
  */
-public class EncryptUtils {
-    
-    public static final String   DEFAULT_ENCODING = "UTF-8";
-//    private static BASE64Encoder enc              = new BASE64Encoder();
-//    private static BASE64Decoder dec              = new BASE64Decoder();
-    
+public class XORUtil {
+
+    public static final String DEFAULT_ENCODING = "UTF-8";
+
     /**
      * Kodiert eine Nachricht mit Hilfe eines XOR-Kodierer
      * 
@@ -26,21 +25,20 @@ public class EncryptUtils {
         try {
             String textXOR = xorMessage(text, xorKey);
             String rez = Base64.encodeBytes(textXOR.getBytes(DEFAULT_ENCODING));
-            
+
             if (!isDecodable(rez, text, xorKey)) {
                 throw new RuntimeException("String '" + text + "' kann nicht dekodiert werden.");
             }
-            
             return rez;
         } catch (UnsupportedEncodingException e) {
-            return null;
+            throw new RuntimeException(e);
         }
     }
-    
+
     private static boolean isDecodable(String encoded, String original, String xorKey) {
         return decode(encoded, xorKey).equals(original);
     }
-    
+
     /**
      * Dekodiert eine Nachricht mit Hilfe eines XOR-Kodierer
      * 
@@ -59,19 +57,16 @@ public class EncryptUtils {
             return null;
         }
     }
-    
-    public static String xorMessage(String message, String key) {
+
+    private static String xorMessage(String message, String key) {
         try {
-//            if ((message == null) || (key == null)) {
-//                return null;
-//            }
             char[] keys = key.toCharArray();
             char[] mesg = message.toCharArray();
-            
+
             int ml = mesg.length;
             int kl = keys.length;
             char[] newmsg = new char[ml];
-            
+
             for (int i = 0; i < ml; i++) {
                 newmsg[i] = (char) (mesg[i] ^ keys[i % kl]);
             }
@@ -79,26 +74,7 @@ public class EncryptUtils {
             keys = null;
             return new String(newmsg);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
-            return null;
+            throw new RuntimeException(e);
         }
     }
-    
-//    private static void test() {
-//        long i = 0;
-//        String k = "test";
-//        while (i < Long.MAX_VALUE) {
-//            String pw = SecStringUtil.generatePassword(140, true);
-//            String en = encode(pw, k);
-//            String de = decode(en, k);
-//            if(!de.equals(pw)){
-//                System.err.println(pw);
-//            }
-//        }
-//    }
-//
-//    public static void main(String[] args) {
-////        test();
-//    }
-    
 }

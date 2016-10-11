@@ -1,7 +1,7 @@
 /**
  * 
  */
-package de.jawb.tools.string;
+package de.jawb.tools.security;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -9,7 +9,7 @@ import java.util.Random;
 /**
  * @author dit (13.08.2012)
  */
-public class SecStringUtil {
+public class Generator {
     
     public static final String CHARS         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     public static final String CHARS_LC      = "abcdefghijklmnopqrstuvwxyz0123456789";

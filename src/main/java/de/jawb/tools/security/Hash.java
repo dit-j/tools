@@ -1,4 +1,4 @@
-package de.jawb.tools.string.security;
+package de.jawb.tools.security;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
