@@ -5,7 +5,7 @@ import java.nio.charset.Charset;
 
 import de.jawb.tools.security.Base64;
 
-public class Base64Masker implements IMasker {
+class Base64Masker implements IMasker {
 
     private static final Charset FOR_NAME = Charset.forName("UTF-8");
 
@@ -22,5 +22,9 @@ public class Base64Masker implements IMasker {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(new Base64Masker().mask("abc"));
     }
 }

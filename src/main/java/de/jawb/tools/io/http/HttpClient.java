@@ -50,7 +50,7 @@ public class HttpClient {
             
             if (urlRequest) {
                 url = new URL(query == null ? request.url : request.url + "?" + query);
-            } else if ("POST".equals(request.method)) {
+            } else if ("POST".equals(request.method) || "PUT".equals(request.method)) {
                 url = new URL(request.url);
             } else {
                 throw new RuntimeException("unknown method " + request.method);
@@ -90,7 +90,7 @@ public class HttpClient {
     }
     
     private boolean isUrlRequest(HttpRequest request) {
-        return "GET".equals(request.method) || "DELETE".equals(request.method) || "PUT".equals(request.method);
+        return "GET".equals(request.method) || "DELETE".equals(request.method);
     }
     
     private String read(InputStream inputStream) throws IOException {
@@ -108,7 +108,7 @@ public class HttpClient {
     
     private String createQuery(HttpRequest requestTemplate) throws UnsupportedEncodingException {
 
-        // TODO: Neue HttpRequest Klasse fuer solche Fälle...
+        // TODO: Neue HttpRequest Klasse fuer solche Fï¿½lle...
         if(requestTemplate.jsonRequest) {
             return requestTemplate.parameters.get("_json_");
         }

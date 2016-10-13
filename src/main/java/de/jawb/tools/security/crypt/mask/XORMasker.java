@@ -1,10 +1,10 @@
 package de.jawb.tools.security.crypt.mask;
 
-public class XORMasker implements IMasker {
+class XORMasker implements IMasker {
 
     private String xorKey;
 
-    public XORMasker(String xorKey) {
+    XORMasker(String xorKey) {
         this.xorKey = xorKey;
     }
 

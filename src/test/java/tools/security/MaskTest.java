@@ -9,9 +9,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.jawb.tools.security.crypt.mask.Base64Masker;
 import de.jawb.tools.security.crypt.mask.IMasker;
-import de.jawb.tools.security.crypt.mask.XORMasker;
+import de.jawb.tools.security.crypt.mask.MaskerFactory;
 
 @RunWith(Parameterized.class)
 public class MaskTest {
@@ -27,20 +26,31 @@ public class MaskTest {
         return Arrays.asList(new Object[] { //
                 "Minions ipsum poopayee bappleees la bodaaa belloo!", //
                 "Süßigkeiten", //
-                "asd 44 -)? _%`"
-        });
+                "asd 44 -)? _%`", //
+                "abc" });
     }
 
     @Test
     public void test64Masker() {
-        IMasker masker = new Base64Masker();
+        IMasker masker = MaskerFactory.base64();
         Assert.assertEquals(txt, masker.unmask(masker.mask(txt)));
     }
-    
+
     @Test
     public void testXORMasker() {
-        IMasker masker = new XORMasker("xocn$s+4");
+        IMasker masker = MaskerFactory.xor("xocn$s+4");
         Assert.assertEquals(txt, masker.unmask(masker.mask(txt)));
+    }
+
+    @Test
+    public void testROTMasker() {
+        IMasker base64 = MaskerFactory.base64();
+        IMasker rot = MaskerFactory.rot();
+        String txtAsBase64 = base64.mask(txt);
+        String txtRot = rot.mask(txtAsBase64);
+        String txtUnRot = rot.unmask(txtRot);
+
+        Assert.assertEquals(txt, base64.unmask(txtUnRot));
     }
 
 }
