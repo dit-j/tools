@@ -39,7 +39,7 @@ public class AESUtil {
 
             byte[] encrypted = cipher.doFinal(str.getBytes());
 
-            return Base64.encodeBytes(encrypted);
+            return Base64.encodeToString(encrypted);
 
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -49,7 +49,7 @@ public class AESUtil {
     public static String descrypt(String secKey, String encryptedString) {
         try {
 
-            byte[] cryptedBytes = Base64.decode(encryptedString);
+            byte[] cryptedBytes = Base64.decodeToBytes(encryptedString);
             Cipher cipher = Cipher.getInstance(CIPHER_ALG);
             cipher.init(Cipher.DECRYPT_MODE, create(secKey));
             byte[] cipherData = cipher.doFinal(cryptedBytes);

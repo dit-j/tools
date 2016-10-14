@@ -107,8 +107,7 @@ public class HttpClient {
     }
     
     private String createQuery(HttpRequest requestTemplate) throws UnsupportedEncodingException {
-
-        // TODO: Neue HttpRequest Klasse fuer solche F�lle...
+        // TODO: Neue HttpRequest Klasse fuer solche Fälle...
         if(requestTemplate.jsonRequest) {
             return requestTemplate.parameters.get("_json_");
         }
@@ -138,8 +137,7 @@ public class HttpClient {
         return null;
     }
     
-    public static void main(String[] args) throws InterruptedException {
-        
+    public static void main(String[] args) throws Exception {
         HttpRequest r = new HttpRequest("http://localhost:8081/v1/ratetour", "POST");
         r.addHeader("User-Agent", "mytourapp/android");
         r.addHeader("Api-Key", "570603f329e62b7a29159c86");
@@ -148,7 +146,6 @@ public class HttpClient {
         r.addParameter("tour", "110");
         r.addParameter("stars", "5");
         r.addParameter("comment", "Klasse!");
-        
         
         System.out.println(r);
         

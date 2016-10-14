@@ -10,13 +10,13 @@ import java.util.Random;
  * @author dit (13.08.2012)
  */
 public class Generator {
-    
+
     public static final String CHARS         = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     public static final String CHARS_LC      = "abcdefghijklmnopqrstuvwxyz0123456789";
     public static final String CHARS_UC      = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     public static final String CHARS_SPECIAL = "()[]{}?!$%&/=*+~,.;:<>-_";
     public static final String CHARS_ALL     = CHARS + CHARS_SPECIAL;
-                                             
+
     /**
      * Generiert ein zufaelliges Passwort
      * 
@@ -27,16 +27,14 @@ public class Generator {
     public static String generatePassword(int length) {
         return generatePassword(length, false);
     }
-    
+
     /**
-     * Generiert ein zufaelliges Passwort mit spez. Zeichen
-     * (optional)
+     * Generiert ein zufaelliges Passwort mit spez. Zeichen (optional)
      * 
      * @param length
      *            Laenge des Passworts
      * @param useSpecialCharacter
-     *            Sonderzeichen:
-     *            <tt>()[]{}?!$%&/=*+~,.;:<>-_</tt>
+     *            Sonderzeichen: <tt>()[]{}?!$%&/=*+~,.;:<>-_</tt>
      * @return Passwort
      */
     public static String generatePassword(int length, boolean useSpecialCharacter) {
@@ -54,25 +52,22 @@ public class Generator {
         }
         return sb.toString();
     }
-    
+
     /**
-     * Generiert eine "zufaellige" Zeichenkette der Laenge
-     * 40.
+     * Generiert eine "zufaellige" Zeichenkette der Laenge 40.
      * 
-     * @return z.B.
-     *         <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
+     * @return z.B. <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
      */
     public static String generateToken() {
         return generateToken(40);
     }
-    
+
     /**
      * Generiert eine "zufaellige" Zeichenkette.
      * 
      * @param length
      *            Laenge der Kette
-     * @return z.B.
-     *         <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
+     * @return z.B. <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
      */
     public static String generateToken(int length) {
         StringBuilder sb = new StringBuilder();
@@ -83,10 +78,9 @@ public class Generator {
         }
         return sb.toString();
     }
-    
+
     /**
-     * Generiert eine "zufaellige" Zeichenkette die aus X
-     * Bloecken besteht je 5 Zeichen.
+     * Generiert eine "zufaellige" Zeichenkette die aus X Bloecken besteht je 5 Zeichen.
      * 
      * @param partsCount
      *            Anzahl der Bloecke
@@ -107,21 +101,20 @@ public class Generator {
         }
         return sb.toString();
     }
-    
+
     /**
-     * Erzeugt aus einem String einen Integer. String muss
-     * genau vie Zeichen lang sein.
+     * Erzeugt aus einem String einen Integer. String muss genau vie Zeichen lang sein.
      * 
      * @param str
      *            ein String der aus 4 Zeichen besteht
      * @return Integer der diesen String repraesenstiert
      */
     public static int stringToSalt(String str) {
-        
+
         if (str.length() > 4) {
             throw new IllegalArgumentException("str to int. max 4 chars");
         }
-        
+
         byte[] salt = str.getBytes();
         int a = 0;
         int s = 24;
@@ -131,7 +124,7 @@ public class Generator {
         }
         return a;
     }
-    
+
     /**
      * Wandelt einen Integer in einen String um
      * 
@@ -147,10 +140,9 @@ public class Generator {
         temp[3] = (byte) (salt);
         return new String(temp);
     }
-    
+
     /**
-     * Maskiert ein Password. Erste 3 Zeichen bleiben offen,
-     * der Rest wird durch mehrere Sternchen ersetzt.
+     * Maskiert ein Password. Erste 3 Zeichen bleiben offen, der Rest wird durch mehrere Sternchen ersetzt.
      * 
      * @param password
      *            Password.
@@ -163,23 +155,5 @@ public class Generator {
             return first_part + stars;
         }
         return stars;
-    }
-    
-    public static void main(String[] args) throws Exception {
-        // String pass = SecurityUtil.generatePassword(10);
-        // String dfpw = pass.substring(0, 6);
-        // String salt = pass.substring(6);
-        // int saltInt = SecurityUtil.stringToSalt(salt);
-        //
-        // System.out.println(pass);
-        // System.out.println(dfpw);
-        // System.out.println(salt);
-        // System.out.println(saltInt);
-        
-        // int s = stringToSalt("t3vc");
-        // System.out.println(s);
-        // String a = saltToString(s);
-        // System.out.println(a);
-        
     }
 }

@@ -1,38 +1,27 @@
 package de.jawb.tools.security.crypt.mask;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import de.jawb.tools.security.Base64;
-
 /**
  * @author dit (17.05.2013)
  */
 public class XORUtil {
 
-    public static final String DEFAULT_ENCODING = "UTF-8";
-
     /**
      * Kodiert eine Nachricht mit Hilfe eines XOR-Kodierer
      * 
-     * @param text
-     *            Nachricht
+     * @param original
+     *            Nachricht (am Besten davor mit Base64 maskieren)
      * @param xorKey
      *            XOR-Key
-     * @return eine BASE64-kodierte Nachricht
+     * @return eine XOR-kodierte Nachricht
+     * @throws IllegalArgumentException
+     *             wenn text nicht dekodierbar ist.
      */
-    public static String encode(String text, String xorKey) {
-        try {
-            String textXOR = xorMessage(text, xorKey);
-            String rez = Base64.encodeBytes(textXOR.getBytes(DEFAULT_ENCODING));
-
-            if (!isDecodable(rez, text, xorKey)) {
-                throw new RuntimeException("String '" + text + "' kann nicht dekodiert werden.");
-            }
-            return rez;
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+    public static String encode(String original, String xorKey) {
+        String textXOR = xorMessage(original, xorKey);
+        if (!isDecodable(textXOR, original, xorKey)) {
+            throw new IllegalArgumentException("String '" + original + "' kann nicht kodiert werden. (Involution unmoeglich)");
         }
+        return textXOR;
     }
 
     private static boolean isDecodable(String encoded, String original, String xorKey) {
@@ -49,13 +38,7 @@ public class XORUtil {
      * @return Originalnachricht
      */
     public static String decode(String text, String xorKey) {
-        try {
-            String string = new String(Base64.decode(text), DEFAULT_ENCODING);
-            return xorMessage(string, xorKey);
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            return null;
-        }
+        return xorMessage(text, xorKey);
     }
 
     private static String xorMessage(String message, String key) {
