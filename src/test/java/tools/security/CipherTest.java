@@ -10,7 +10,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import de.jawb.tools.security.Generator;
-import de.jawb.tools.security.crypt.cipher.Cipher;
+import de.jawb.tools.security.crypt.cipher.MaskedAESCipher;
 import de.jawb.tools.security.crypt.cipher.CipherFactory;
 import de.jawb.tools.security.crypt.cipher.ICipher;
 
@@ -44,7 +44,7 @@ public class CipherTest {
 
     @Test
     public void testAES_2() {
-        ICipher c = new Cipher();
+        ICipher c = new MaskedAESCipher();
         String encoded = c.encrypt(txt);
         String decoded = c.descrypt(encoded);
         Assert.assertEquals(txt, decoded);

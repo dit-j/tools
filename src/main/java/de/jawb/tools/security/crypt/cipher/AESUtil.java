@@ -37,7 +37,7 @@ public class AESUtil {
             Cipher cipher = Cipher.getInstance(CIPHER_ALG);
             cipher.init(Cipher.ENCRYPT_MODE, create(secKey));
 
-            byte[] encrypted = cipher.doFinal(str.getBytes());
+            byte[] encrypted = cipher.doFinal(str.getBytes("UTF-8"));
 
             return Base64.encodeToString(encrypted);
 
@@ -54,7 +54,7 @@ public class AESUtil {
             cipher.init(Cipher.DECRYPT_MODE, create(secKey));
             byte[] cipherData = cipher.doFinal(cryptedBytes);
 
-            return new String(cipherData);
+            return new String(cipherData, "UTF-8");
 
         } catch (Exception e) {
             throw new RuntimeException(e);

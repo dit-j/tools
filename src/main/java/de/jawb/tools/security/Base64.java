@@ -25,8 +25,12 @@ public class Base64 {
     }
 
     public static String decodeToString(String base64Str) {
-        byte[] bytes = java.util.Base64.getDecoder().decode(base64Str);
-        return new String(bytes);
+        try {
+            byte[] bytes = java.util.Base64.getDecoder().decode(base64Str);
+            return new String(bytes, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static byte[] decodeToBytes(String base64Str) {

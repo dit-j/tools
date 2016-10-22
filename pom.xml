@@ -4,15 +4,15 @@
 	<groupId>jawb.tools</groupId>
 	<artifactId>jawb-tools-util</artifactId>
 	<packaging>jar</packaging>
-	<version>0.13</version>
+	<version>0.14</version>
 
 	<properties>
 		<slf4j.version>1.7.16</slf4j.version>
 		<json-jackson-version>2.4.1</json-jackson-version>
+		<jmh.version>1.15</jmh.version>
 	</properties>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -66,9 +66,24 @@
 		</dependency>
 
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.3</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-core</artifactId>
+			<version>${jmh.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.openjdk.jmh</groupId>
+			<artifactId>jmh-generator-annprocess</artifactId>
+			<version>${jmh.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		
 	</dependencies>
 </project>

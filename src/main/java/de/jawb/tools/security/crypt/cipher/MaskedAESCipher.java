@@ -6,7 +6,7 @@ import java.util.List;
 import de.jawb.tools.security.crypt.mask.IMasker;
 import de.jawb.tools.security.crypt.mask.MaskerFactory;
 
-public class Cipher implements ICipher {
+public class MaskedAESCipher implements ICipher {
 
     private List<? extends IMasker> maskers = Arrays.asList(   //
             MaskerFactory.base64(),                            //
@@ -16,6 +16,8 @@ public class Cipher implements ICipher {
     private List<? extends ICipher> ciphers = Arrays.asList(   //
             CipherFactory.createAES_128("blablabla")           //
     );
+
+    //TODO: Contructor
 
     @Override
     public String encrypt(String str) {
