@@ -23,6 +23,7 @@ public final class HttpRequest {
 
     private String                    jsonObject;
     private StringBuilder             query;
+
     private boolean                   cachable;
 
     public HttpRequest(String url) {
@@ -87,6 +88,34 @@ public final class HttpRequest {
         return cachable;
     }
 
+    public String uid() {
+        StringBuilder sb = new StringBuilder(method.toString());
+
+//        if (!headers.isEmpty()) {
+//            sb.append(":");
+//            Iterator<Entry<String, String>> it = headers.entrySet().iterator();
+//            while (it.hasNext()) {
+//                Entry<String, String> e = it.next();
+//                sb.append(e.getKey()).append("-").append(e.getValue());
+//                if (it.hasNext()) {
+//                    sb.append("_");
+//                }
+//            }
+//        }
+
+        sb.append(":").append(url);
+
+        if (query != null) {
+            sb.append(":").append(query.toString());
+        }
+
+        return Hash.SHA_160(sb.toString());
+    }
+
+    //
+    // HttpClient
+    //
+
     HttpRequestMethod method() {
         return method;
     }
@@ -116,30 +145,6 @@ public final class HttpRequest {
             }
         }
         return null;
-    }
-
-    public String uid() {
-        StringBuilder sb = new StringBuilder(method.toString());
-
-//        if (!headers.isEmpty()) {
-//            sb.append(":");
-//            Iterator<Entry<String, String>> it = headers.entrySet().iterator();
-//            while (it.hasNext()) {
-//                Entry<String, String> e = it.next();
-//                sb.append(e.getKey()).append("-").append(e.getValue());
-//                if (it.hasNext()) {
-//                    sb.append("_");
-//                }
-//            }
-//        }
-
-        sb.append(":").append(url);
-
-        if (query != null) {
-            sb.append(":").append(query.toString());
-        }
-
-        return Hash.SHA_160(sb.toString());
     }
 
     @Override
