@@ -1,5 +1,5 @@
 @echo off
-call mvn clean package
+call mvn clean install
 timeout /T 1  > nul
 
 echo.

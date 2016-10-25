@@ -7,9 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import de.jawb.tools.json.JsonUtil;
 import de.jawb.tools.security.Hash;
@@ -20,20 +18,33 @@ import de.jawb.tools.security.Hash;
 public final class HttpRequest {
 
     private final Map<String, String> headers = new HashMap<>();
-    private final String              method;
+    private final HttpRequestMethod   method;
     private String                    url;
 
     private String                    jsonObject;
     private StringBuilder             query;
+    private boolean                   cachable;
 
-    public HttpRequest(String url, String method) {
-        super();
-        this.method = method.toUpperCase();
+    public HttpRequest(String url) {
+        this(HttpRequestMethod.GET, url);
+    }
+
+    public HttpRequest(String url, boolean cachable) {
+        this(HttpRequestMethod.GET, url, cachable);
+    }
+
+    public HttpRequest(HttpRequestMethod method, String url) {
+        this(method, url, method.canBeCached);
+    }
+
+    public HttpRequest(HttpRequestMethod method, String url, boolean cachable) {
+        this.method = method;
         this.url = url;
         addHeader("Accept-Charset", "UTF-8");
-        if (hasRequestBody()) {
+        if (method == HttpRequestMethod.POST || method == HttpRequestMethod.PUT) {
             addHeader("Content-Type", "application/x-www-form-urlencoded");
         }
+        this.cachable = cachable;
     }
 
     public HttpRequest addHeader(String key, Object value) {
@@ -51,7 +62,6 @@ public final class HttpRequest {
     }
 
     public HttpRequest addParameter(String key, Object value) {
-
         if (query == null) {
             query = new StringBuilder();
         } else { // if (params.length() > 0)
@@ -73,11 +83,11 @@ public final class HttpRequest {
         return this;
     }
 
-    boolean hasRequestBody() {
-        return "POST".equals(method) || "PUT".equals(method);
+    public boolean isCachable() {
+        return cachable;
     }
 
-    String method() {
+    HttpRequestMethod method() {
         return method;
     }
 
@@ -93,8 +103,12 @@ public final class HttpRequest {
         return query != null ? query.toString() : null;
     }
 
-    byte[] requestBody() {
-        if (hasRequestBody()) {
+    boolean hasBodyData() {
+        return (method == HttpRequestMethod.POST || method == HttpRequestMethod.PUT) && (jsonObject != null || query != null);
+    }
+
+    byte[] bodyData() {
+        if (hasBodyData()) {
             if (jsonObject != null) {
                 return jsonObject.getBytes(Charset.forName("UTF-8"));
             } else if (query != null) {
@@ -105,26 +119,26 @@ public final class HttpRequest {
     }
 
     public String uid() {
-        StringBuilder sb = new StringBuilder(method);
+        StringBuilder sb = new StringBuilder(method.toString());
 
-        if (!headers.isEmpty()) {
-            sb.append(":");
-            Iterator<Entry<String, String>> it = headers.entrySet().iterator();
-            while (it.hasNext()) {
-                Entry<String, String> e = it.next();
-                sb.append(e.getKey()).append("-").append(e.getValue());
-                if (it.hasNext()) {
-                    sb.append("_");
-                }
-            }
-        }
+//        if (!headers.isEmpty()) {
+//            sb.append(":");
+//            Iterator<Entry<String, String>> it = headers.entrySet().iterator();
+//            while (it.hasNext()) {
+//                Entry<String, String> e = it.next();
+//                sb.append(e.getKey()).append("-").append(e.getValue());
+//                if (it.hasNext()) {
+//                    sb.append("_");
+//                }
+//            }
+//        }
 
         sb.append(":").append(url);
 
         if (query != null) {
             sb.append(":").append(query.toString());
         }
-        
+
         return Hash.SHA_160(sb.toString());
     }
 

@@ -37,10 +37,10 @@ public class HttpClient {
 
         try {
             URL url = null;
-            final String urlString = request.url();
-            final boolean postOrPut = request.hasRequestBody();
+            final String urlString      = request.url();
+            final boolean hasBodyData   = request.hasBodyData();
 
-            if (postOrPut) {
+            if (hasBodyData) {
                 url = new URL(urlString);
             } else {
                 String query = request.query();
@@ -58,26 +58,26 @@ public class HttpClient {
                 connection.setRequestProperty(e.getKey(), e.getValue());
             }
 
-            if (postOrPut) {
+            if (hasBodyData) {
                 connection.setDoOutput(true);
                 connection.setChunkedStreamingMode(0);
                 try (OutputStream output = connection.getOutputStream()) {
-                    output.write(request.requestBody());
+                    output.write(request.bodyData());
                 }
             }
-            
+
             int responseCode = connection.getResponseCode();
-            String message   = connection.getResponseMessage();
-            String data      = null;
-            
-            if(responseCode > 220){
+            String message = connection.getResponseMessage();
+            String data = null;
+
+            if (responseCode > 220) {
                 data = NetworkUtil.readFromStream(connection.getErrorStream());
             } else {
                 data = NetworkUtil.readFromStream(connection.getInputStream());
             }
 
             return new HttpResponse(responseCode, message, data);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -88,8 +88,8 @@ public class HttpClient {
         }
     }
 
-   public static void main(String[] args) throws Exception {
-        HttpRequest r = new HttpRequest("http://localhost:8081/v1/tours/{tour}/ratetour", "POST");
+    public static void main(String[] args) throws Exception {
+        HttpRequest r = new HttpRequest(HttpRequestMethod.POST, "http://localhost:8081/v1/tours/{tour}/ratetour");
         r.addHeader("User-Agent", "mytourapp/android");
         r.addHeader("Api-Key", "570603f329e62b7a29159c86");
 

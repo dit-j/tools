@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import de.jawb.tools.io.http.HttpClient;
 import de.jawb.tools.io.http.HttpRequest;
+import de.jawb.tools.io.http.HttpRequestMethod;
 import de.jawb.tools.io.http.HttpResponse;
 
 @RunWith(Parameterized.class)
@@ -29,23 +30,35 @@ public class HttpClientTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRequest_addPathParam() {
-        HttpRequest r = new HttpRequest(url, "GET");
+        HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
         r.addPathParameter("asdad", "search");
     }
 
     @Test
     public void testRequest_addPathParam2() {
-        HttpRequest r = new HttpRequest(url, "GET");
+        HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
         r.addPathParameter("path", "search");
     }
 
     @Test
+    public void testRequest_IsCachable() {
+        HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
+        Assert.assertTrue(r.isCachable());
+    }
+
+    @Test
+    public void testRequest_IsCachable2() {
+        HttpRequest r = new HttpRequest(HttpRequestMethod.POST, url);
+        Assert.assertFalse(r.isCachable());
+    }
+
+    @Test
     public void testClient() {
-        HttpRequest r = new HttpRequest(url, "GET");
+        HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
         r.addPathParameter("path", "search").addParameter("q", "apple");
 
         HttpResponse response = new HttpClient().sendRequest(r);
-        
+
         Assert.assertEquals(403, response.getCode());
     }
 
