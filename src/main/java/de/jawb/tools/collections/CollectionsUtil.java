@@ -9,10 +9,6 @@ import java.util.Set;
 
 public class CollectionsUtil {
 
-    public static void main(String[] args) {
-        System.out.println(notEmpty(new HashSet<String>()));
-    }
-
     public static boolean isEmpty(Collection<?> col) {
         return col == null || col.isEmpty();
     }
@@ -53,17 +49,17 @@ public class CollectionsUtil {
         return sb.toString();
     }
 
-//    public static <K, V> V tryKeys(Map<K, V> map, Object... keys) {
-//        if(map.size() == 0) return null;
-//
-//        for (Object key : keys) {
-//            V v = map.get(key);
-//            if (v != null) {
-//                return v;
-//            }
-//        }
-//        return null;
-//    }
+    // public static <K, V> V tryKeys(Map<K, V> map, Object... keys) {
+    // if(map.size() == 0) return null;
+    //
+    // for (Object key : keys) {
+    // V v = map.get(key);
+    // if (v != null) {
+    // return v;
+    // }
+    // }
+    // return null;
+    // }
 
     @SafeVarargs
     public static <E> Set<E> toNoNullItemSet(E... es) {
@@ -80,12 +76,14 @@ public class CollectionsUtil {
 
     public static <K, V> V getOneValid(Map<K, V> map, Object... prefferedKeys) {
 
-        if (map.size() == 0) return null;
+        if (map.size() == 0)
+            return null;
 
         if (prefferedKeys != null) {
             if (prefferedKeys.length == 1) {
                 V v = map.get(prefferedKeys[0]);
-                if (v != null) return v;
+                if (v != null)
+                    return v;
             } else {
                 for (Object key : toNoNullItemSet(prefferedKeys)) { // new HashSet<>(Arrays.asList(suggestedKeys))
                     V v = map.get(key);
@@ -101,7 +99,8 @@ public class CollectionsUtil {
 
     public static boolean contains(Object[] arr, Object item) {
         for (Object object : arr) {
-            if (object.equals(item)) return true;
+            if (object.equals(item))
+                return true;
         }
         return false;
     }

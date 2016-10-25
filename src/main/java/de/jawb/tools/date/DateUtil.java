@@ -50,9 +50,9 @@ public class DateUtil {
         if (!is24Hours) {
             if (h > 12) {
                 h -= 12;
-                t = "PM";
+                t = " PM";
             } else {
-                t = "AM";
+                t = " AM";
             }
         }
 
@@ -62,7 +62,7 @@ public class DateUtil {
         if (m < 10) sb.append("0");
         sb.append(m);
 
-        if (t != null) sb.append(" AM");
+        if (t != null) sb.append(t);
 
     }
 
@@ -175,7 +175,4 @@ public class DateUtil {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println(getTimeString(1439, false));
-    }
 }
