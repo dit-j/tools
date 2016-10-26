@@ -1,12 +1,11 @@
 package de.jawb.tools.io.http;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Map;
 import java.util.Map.Entry;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.jawb.tools.io.net.NetworkUtil;
 
@@ -15,9 +14,8 @@ import de.jawb.tools.io.net.NetworkUtil;
  */
 public class HttpClient {
 
-    protected final Logger _logger = LoggerFactory.getLogger(this.getClass());
-
-    private final int      TIMEOUT;
+//    private final Logger _logger = LoggerFactory.getLogger(this.getClass());
+    private final int    TIMEOUT;
 
     public HttpClient() {
         TIMEOUT = 15000;
@@ -37,8 +35,8 @@ public class HttpClient {
 
         try {
             URL url = null;
-            final String urlString      = request.url();
-            final boolean hasBodyData   = request.hasBodyData();
+            final String urlString = request.url();
+            final boolean hasBodyData = request.hasBodyData();
 
             if (hasBodyData) {
                 url = new URL(urlString);
@@ -66,17 +64,7 @@ public class HttpClient {
                 }
             }
 
-            int responseCode = connection.getResponseCode();
-            String message = connection.getResponseMessage();
-            String data = null;
-
-            if (responseCode > 220) {
-                data = NetworkUtil.readFromStream(connection.getErrorStream());
-            } else {
-                data = NetworkUtil.readFromStream(connection.getInputStream());
-            }
-
-            return new HttpResponse(responseCode, message, data);
+            return createResponse(connection);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,6 +74,22 @@ public class HttpClient {
                 connection.disconnect();
             }
         }
+    }
+
+    private HttpResponse createResponse(HttpURLConnection connection) throws IOException {
+
+        int responseCode = connection.getResponseCode();
+        String message = connection.getResponseMessage();
+        String data = null;
+        Map<String, String> headers = NetworkUtil.getResponseHeaders(connection);
+
+        if (responseCode > 220) {
+            data = NetworkUtil.readFromStream(connection.getErrorStream());
+        } else {
+            data = NetworkUtil.readFromStream(connection.getInputStream());
+        }
+
+        return new HttpResponse(responseCode, message, data, headers);
     }
 
     public static void main(String[] args) throws Exception {

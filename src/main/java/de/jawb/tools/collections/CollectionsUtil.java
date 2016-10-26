@@ -29,7 +29,7 @@ public class CollectionsUtil {
 
     public static String join(Collection<?> list, String separator) {
 
-        if (list.isEmpty()) {
+        if (isEmpty(list)) {
             return null;
         }
 
@@ -49,18 +49,6 @@ public class CollectionsUtil {
         return sb.toString();
     }
 
-    // public static <K, V> V tryKeys(Map<K, V> map, Object... keys) {
-    // if(map.size() == 0) return null;
-    //
-    // for (Object key : keys) {
-    // V v = map.get(key);
-    // if (v != null) {
-    // return v;
-    // }
-    // }
-    // return null;
-    // }
-
     @SafeVarargs
     public static <E> Set<E> toNoNullItemSet(E... es) {
         Set<E> set = new HashSet<>();
@@ -76,8 +64,9 @@ public class CollectionsUtil {
 
     public static <K, V> V getOneValid(Map<K, V> map, Object... prefferedKeys) {
 
-        if (map.size() == 0)
+        if (map.size() == 0){
             return null;
+        }
 
         if (prefferedKeys != null) {
             if (prefferedKeys.length == 1) {

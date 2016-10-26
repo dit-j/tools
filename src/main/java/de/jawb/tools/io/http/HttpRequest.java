@@ -61,7 +61,7 @@ public final class HttpRequest {
         url = url.replace(placeHolder, value.toString());
         return this;
     }
-
+    
     public HttpRequest addParameter(String key, Object value) {
         if (query == null) {
             query = new StringBuilder();
