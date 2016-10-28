@@ -3,7 +3,9 @@ package de.jawb.tools.reflection;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +27,24 @@ public class ReflectionUtil {
 
     public static Map<String, Object> beanToTreeMap(Object o, String... ignoreFields) {
         return new TreeMap<>(beanToMap(o, ignoreFields));
+    }
+
+    public static Map<String, Object> getConstants(Class<?> c) {
+
+        Map<String, Object> map = new HashMap<>();
+
+        for (Field f : c.getDeclaredFields()) {
+            int mod = f.getModifiers();
+            if (Modifier.isStatic(mod) && Modifier.isPublic(mod) && Modifier.isFinal(mod)) {
+                try {
+                    map.put(f.getName(), f.get(null));
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return map;
     }
 
     public static Map<String, Object> beanToMap(Object o, String... ignoreFields) {
