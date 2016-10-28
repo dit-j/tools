@@ -26,6 +26,9 @@ public class DateUtil {
      * @return
      */
     public static String getTimeString(int minutes, boolean is24Hours) {
+        if (minutes < 0) {
+            throw new IllegalArgumentException("minutes may not be negative");
+        }
 
         StringBuilder sb = new StringBuilder();
 
@@ -35,7 +38,10 @@ public class DateUtil {
     }
 
     public static Date getTomorrow() {
-        Calendar calendar = Calendar.getInstance();
+        return getTomorrow(Calendar.getInstance());
+    }
+
+    public static Date getTomorrow(Calendar calendar) {
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         return calendar.getTime();
     }
@@ -56,13 +62,16 @@ public class DateUtil {
             }
         }
 
-        if (h < 10) sb.append("0");
+        if (h < 10)
+            sb.append("0");
         sb.append(h).append(":");
 
-        if (m < 10) sb.append("0");
+        if (m < 10)
+            sb.append("0");
         sb.append(m);
 
-        if (t != null) sb.append(t);
+        if (t != null)
+            sb.append(t);
 
     }
 
@@ -71,19 +80,6 @@ public class DateUtil {
         return dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY;
     }
 
-    /**
-     * Erstellt Zeitstring. Datum:Heute.
-     *
-     * @param time
-     *            wenn <code>true</code> wird Zeit der Form erstellt:
-     *            <b>10.04.2012, 10:00</b><br>
-     *            sonst: <b>10.04.2012</b>
-     * @return datum, zeit
-     */
-    public static final String getTodayString(boolean time) {
-        Calendar cal = Calendar.getInstance();
-        return getDateTimeString(cal.getTime(), time);
-    }
 
     /**
      * Gibt die Dauer als ein String der Form: <dd:>hh:mm:ss:ms
@@ -112,8 +108,7 @@ public class DateUtil {
      * @param date
      *            Datum
      * @param time
-     *            wenn <code>true</code> wird Zeit der Form erstellt:
-     *            <b>10.04.2012, 10:00</b><br>
+     *            wenn <code>true</code> wird Zeit der Form erstellt: <b>10.04.2012, 10:00</b><br>
      *            sonst: <b>10.04.2012</b>
      * @return datum (, zeit)
      */
@@ -129,13 +124,26 @@ public class DateUtil {
     }
 
     /**
+     * Erstellt Zeitstring. Datum:Heute.
+     *
+     * @param time
+     *            wenn <code>true</code> wird Zeit der Form erstellt: <b>10.04.2012, 10:00</b><br>
+     *            sonst: <b>10.04.2012</b>
+     * @return datum, zeit
+     */
+    public static final String getTodayString(boolean time) {
+        Calendar cal = Calendar.getInstance();
+        return getDateTimeString(cal.getTime(), time);
+    }
+
+
+    /**
      * Erstellt Zeitstring
      *
      * @param millis
      *            Datum als millis
      * @param time
-     *            wenn <code>true</code> wird Zeit der Form erstellt:
-     *            <b>10.04.2012, 10:00</b><br>
+     *            wenn <code>true</code> wird Zeit der Form erstellt: <b>10.04.2012, 10:00</b><br>
      *            sonst: <b>10.04.2012</b>
      * @return datum (, zeit)
      */
@@ -164,8 +172,7 @@ public class DateUtil {
      *            z.b. <tt>23.04.2012, 21:45</tt>
      * @return z.B. 1335210300000 (23.04.2012, 21:45)
      * @throws ParseException
-     *             wenn der String nicht der Form <tt>dd.MM.yyyy, hh:mm</tt>
-     *             oder <tt>dd.MM.yyyy</tt> ist
+     *             wenn der String nicht der Form <tt>dd.MM.yyyy, hh:mm</tt> oder <tt>dd.MM.yyyy</tt> ist
      */
     public static final long getMillisFromDateString(String dateTime) throws ParseException {
         if ((dateTime != null) && (dateTime.indexOf(',') < 0)) {
