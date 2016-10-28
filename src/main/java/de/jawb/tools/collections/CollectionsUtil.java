@@ -9,16 +9,28 @@ import java.util.Set;
 
 public class CollectionsUtil {
 
+    public static boolean isEmpty(Map<?, ?> map) {
+        return map == null || map.isEmpty();
+    }
+
+    public static boolean notEmpty(Map<?, ?> map) {
+        return !isEmpty(map);
+    }
+
     public static boolean isEmpty(Collection<?> col) {
         return col == null || col.isEmpty();
     }
 
     public static boolean notEmpty(Collection<?> col) {
-        return col != null && !col.isEmpty();
+        return !isEmpty(col);
+    }
+
+    public static boolean isEmpty(Object[] arr) {
+        return arr == null || arr.length == 0;
     }
 
     public static boolean notEmpty(Object[] arr) {
-        return arr != null && arr.length > 0;
+        return isEmpty(arr);
     }
 
     public static <E, T> Map<E, T> initMap(E key, T value) {
@@ -64,15 +76,14 @@ public class CollectionsUtil {
 
     public static <K, V> V getOneValid(Map<K, V> map, Object... prefferedKeys) {
 
-        if (map.size() == 0){
+        if (map.size() == 0) {
             return null;
         }
 
         if (prefferedKeys != null) {
             if (prefferedKeys.length == 1) {
                 V v = map.get(prefferedKeys[0]);
-                if (v != null)
-                    return v;
+                if (v != null) return v;
             } else {
                 for (Object key : toNoNullItemSet(prefferedKeys)) { // new HashSet<>(Arrays.asList(suggestedKeys))
                     V v = map.get(key);
@@ -88,8 +99,7 @@ public class CollectionsUtil {
 
     public static boolean contains(Object[] arr, Object item) {
         for (Object object : arr) {
-            if (object.equals(item))
-                return true;
+            if (object.equals(item)) return true;
         }
         return false;
     }
