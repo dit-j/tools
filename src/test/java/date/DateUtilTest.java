@@ -2,7 +2,9 @@ package date;
 
 import static org.junit.Assert.fail;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +19,7 @@ public class DateUtilTest {
     @Before
     public void setUp() throws Exception {
         CAL.set(2016, Calendar.OCTOBER, 29, 10, 0, 0);
+        CAL.set(Calendar.MILLISECOND, 0);
     }
 
     @Test
@@ -28,8 +31,11 @@ public class DateUtilTest {
         Assert.assertEquals("00:20 AM", DateUtil.getTimeString(20, false));
         Assert.assertEquals("10:34 AM", DateUtil.getTimeString(60 * 10 + 34, false));
         Assert.assertEquals("08:11 PM", DateUtil.getTimeString(60 * 20 + 11, false));
+    }
 
-        Assert.assertEquals("08:11 PM", DateUtil.getTimeString(-60 * 20 + 11, false));
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetTimeStringException() {
+        DateUtil.getTimeString(-60 * 20 + 11, false);
     }
 
     @Test
@@ -39,7 +45,7 @@ public class DateUtilTest {
 
     @Test
     public void testGetDurationFromMillis() {
-        Assert.assertEquals("00:04:00:000", DateUtil.getDurationFromMillis(1000 * 60 *4));
+        Assert.assertEquals("00:04:00:000", DateUtil.getDurationFromMillis(1000 * 60 * 4));
     }
 
     @Test
@@ -54,12 +60,21 @@ public class DateUtilTest {
 
     @Test
     public void testGetDateFromDateString() {
-        fail("Not yet implemented");
+        try {
+            Date date = DateUtil.getDateFromDateString("29.10.2016, 10:00:00");
+            Assert.assertEquals(CAL.getTimeInMillis(), date.getTime());
+        } catch (ParseException e) {
+            fail(e.getMessage());
+        }
     }
 
     @Test
-    public void testGetMillisFromDateString() {
-        fail("Not yet implemented");
+    public void testGetMillisFromDateString() {try {
+        long millis = DateUtil.getMillisFromDateString("29.10.2016, 10:00:00");
+        Assert.assertEquals(CAL.getTimeInMillis(), millis);
+    } catch (ParseException e) {
+        fail(e.getMessage());
+    }
     }
 
 }
