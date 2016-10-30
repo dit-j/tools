@@ -3,3 +3,4 @@
 *.classpath
 .project
 *.prefs
+mvn_clean_install_copy.bat
