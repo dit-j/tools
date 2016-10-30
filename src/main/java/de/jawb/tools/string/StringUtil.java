@@ -68,7 +68,8 @@ public class StringUtil {
     }
 
     /**
-     * Sucht in dem Array nach einem leeren String. Verwendet die {@link #isEmpty(String)} - Methode.
+     * Sucht in dem Array nach einem leeren String. Verwendet die
+     * {@link #isEmpty(String)} - Methode.
      *
      * @param strings
      *            Ein String-Array
@@ -99,8 +100,7 @@ public class StringUtil {
 
     public static boolean allEmpty(String... strings) {
         for (int i = 0; i < strings.length; i++) {
-            if (notEmpty(strings[i]))
-                return false;
+            if (notEmpty(strings[i])) return false;
         }
         return true;
     }
@@ -127,9 +127,11 @@ public class StringUtil {
      * @param str
      *            der zu pruefende String
      * @param min
-     *            Minimale Anzahl der Zeichen <i>(bei -1 wird die minimale Laenge ignoriert)</i>
+     *            Minimale Anzahl der Zeichen <i>(bei -1 wird die minimale
+     *            Laenge ignoriert)</i>
      * @param max
-     *            Maximale Anzahl der Zeichen <i>(bei -1 wird die maximale Laenge ignoriert)</i>
+     *            Maximale Anzahl der Zeichen <i>(bei -1 wird die maximale
+     *            Laenge ignoriert)</i>
      * @return <code>true</code> wenn String eine gültige Laenge hat
      */
     public static boolean isValidLength(String str, int min, int max) {
@@ -141,6 +143,15 @@ public class StringUtil {
             return true;
         }
         return (str != null) && (min < 0);
+    }
+
+    public static String getFirstNotNull(String... strs) {
+        for (String string : strs) {
+            if (notEmpty(string)) {
+                return string;
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) throws IOException {
@@ -159,8 +170,7 @@ public class StringUtil {
                 if (i > 0) {
                     trimmed = trimmed.substring(0, i);
                 }
-                newLines.add("<a onclick=\"this.parentNode.removeChild(this)\" target=\"_blank\" href=\"" + trimmed + "\">" + j + "&nbsp;&nbsp;" + trimmed
-                        + "<br></a>");
+                newLines.add("<a onclick=\"this.parentNode.removeChild(this)\" target=\"_blank\" href=\"" + trimmed + "\">" + j + "&nbsp;&nbsp;" + trimmed + "<br></a>");
                 System.out.println(trimmed);
                 ++j;
             }
