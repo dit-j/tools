@@ -14,8 +14,8 @@ import de.jawb.tools.io.net.NetworkUtil;
  */
 public class HttpClient {
 
-//    private final Logger _logger = LoggerFactory.getLogger(this.getClass());
-    private final int    TIMEOUT;
+    // private final Logger _logger = LoggerFactory.getLogger(this.getClass());
+    private final int TIMEOUT;
 
     public HttpClient() {
         TIMEOUT = 15000;
@@ -25,11 +25,15 @@ public class HttpClient {
         TIMEOUT = connectionTimeout;
     }
 
+    public HttpResponse sendRequest(HttpRequest request) {
+        return sendRequest(request, null);
+    }
+
     /**
      * @param request
      * @return
      */
-    public HttpResponse sendRequest(HttpRequest request) {
+    public HttpResponse sendRequest(HttpRequest request, int... expectedResponseCodes) {
 
         HttpURLConnection connection = null;
 
@@ -64,7 +68,7 @@ public class HttpClient {
                 }
             }
 
-            return createResponse(connection);
+            return createResponse(connection, expectedResponseCodes);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,56 +80,37 @@ public class HttpClient {
         }
     }
 
-    private HttpResponse createResponse(HttpURLConnection connection) throws IOException {
+
+    private HttpResponse createResponse(HttpURLConnection connection, int... expectedResponseCodes) throws IOException {
 
         int responseCode = connection.getResponseCode();
         String message = connection.getResponseMessage();
         String data = null;
         Map<String, String> headers = NetworkUtil.getResponseHeaders(connection);
 
-        if (responseCode > 220) {
-            data = NetworkUtil.readFromStream(connection.getErrorStream());
+        if (expectedResponseCodes != null) {
+
+            for (int rc : expectedResponseCodes) {
+                if (rc == responseCode) {
+                    data = getData(responseCode, connection);
+                    break;
+                }
+            }
+
         } else {
-            data = NetworkUtil.readFromStream(connection.getInputStream());
+            data = getData(responseCode, connection);
         }
+
 
         return new HttpResponse(responseCode, message, data, headers);
     }
 
-    public static void main(String[] args) throws Exception {
-        HttpRequest r = new HttpRequest(HttpRequestMethod.POST, "http://localhost:8081/v1/tours/{tour}/ratetour");
-        r.addHeader("User-Agent", "mytourapp/android");
-        r.addHeader("Api-Key", "570603f329e62b7a29159c86");
-
-        r.addParameter("author", "dit");
-        r.addParameter("tour", "110");
-        r.addParameter("stars", "5");
-        r.addParameter("comment", "Klasse!");
-
-        r.addPathParameter("tour", 2L);
-
-        System.out.println(r);
-
-        HttpClient client = new HttpClient();
-
-        long start = System.currentTimeMillis();
-        long i;
-        for (i = 0; i < 1; i++) {
-            // long s = System.currentTimeMillis();
-            try {
-                System.out.println(client.sendRequest(r));
-                // Thread.sleep(200);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // long e = System.currentTimeMillis();
-            // System.out.println(response);
-            // System.out.println((e - s));
+    private String getData(int responseCode, HttpURLConnection connection) throws IOException {
+        if (responseCode > 220) {
+            return NetworkUtil.readFromStream(connection.getErrorStream());
+        } else {
+            return NetworkUtil.readFromStream(connection.getInputStream());
         }
-
-        long time = System.currentTimeMillis() - start;
-        long reqPerSecond = (i * 1000) / time;
-        System.out.println(reqPerSecond + " req/sec.");
     }
 
 }
