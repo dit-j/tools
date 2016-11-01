@@ -5,4 +5,8 @@ public class CipherFactory {
     public static ICipher createAES_128(String key) {
         return new AESCipher(key);
     }
+
+    public static ICipher createMaskedAESCipher(String xorKey, String aesKey) {
+        return new MaskedAESCipher(xorKey, aesKey);
+    }
 }

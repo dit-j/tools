@@ -17,7 +17,7 @@ class AESCipher implements ICipher {
     }
 
     @Override
-    public String descrypt(String encryptedString) {
+    public String decrypt(String encryptedString) {
         return AESUtil.descrypt(secKey, encryptedString);
     }
     

@@ -10,7 +10,6 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import de.jawb.tools.security.Generator;
-import de.jawb.tools.security.crypt.cipher.MaskedAESCipher;
 import de.jawb.tools.security.crypt.cipher.CipherFactory;
 import de.jawb.tools.security.crypt.cipher.ICipher;
 
@@ -30,23 +29,24 @@ public class CipherTest {
                 "Süßigkeiten", //
                 "asd 44 -)? _%`", //
                 "Hallo-Wält", //
+                "randoM.e_5$9wj#m)dyc0", //
                 Generator.generateToken(250) //
         });
     }
 
     @Test
     public void testAES_1() {
-        ICipher c = CipherFactory.createAES_128("imuGnd&+äe4ifDF");
+        ICipher c = CipherFactory.createAES_128("example-unsafe_key");
         String encoded = c.encrypt(txt);
-        String decoded = c.descrypt(encoded);
+        String decoded = c.decrypt(encoded);
         Assert.assertEquals(txt, decoded);
     }
 
     @Test
     public void testAES_2() {
-        ICipher c = new MaskedAESCipher();
+        ICipher c = CipherFactory.createMaskedAESCipher("example-XOR-Key", "example-AES-Key");
         String encoded = c.encrypt(txt);
-        String decoded = c.descrypt(encoded);
+        String decoded = c.decrypt(encoded);
         Assert.assertEquals(txt, decoded);
     }
 }

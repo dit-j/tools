@@ -8,16 +8,22 @@ import de.jawb.tools.security.crypt.mask.MaskerFactory;
 
 public class MaskedAESCipher implements ICipher {
 
-    private List<? extends IMasker> maskers = Arrays.asList(   //
-            MaskerFactory.base64(),                            //
-            MaskerFactory.xor("asc$t56lcoednmcpw")             //
-    );
+    private List<? extends IMasker> maskers;
+    private List<? extends ICipher> ciphers;
 
-    private List<? extends ICipher> ciphers = Arrays.asList(   //
-            CipherFactory.createAES_128("blablabla")           //
-    );
-
-    //TODO: Contructor
+    /**
+     * @param xorKey
+     * @param aes128Key
+     */
+    MaskedAESCipher(String xorKey, String aesKey) {
+        maskers = Arrays.asList( //
+                MaskerFactory.base64(), //
+                MaskerFactory.xor(xorKey) //
+        );
+        ciphers = Arrays.asList( //
+                CipherFactory.createAES_128(aesKey) //
+        );
+    }
 
     @Override
     public String encrypt(String str) {
@@ -32,10 +38,10 @@ public class MaskedAESCipher implements ICipher {
     }
 
     @Override
-    public String descrypt(String encryptedString) {
+    public String decrypt(String encryptedString) {
         String temp = encryptedString;
         for (int i = ciphers.size() - 1; i >= 0; i--) {
-            temp = ciphers.get(i).descrypt(temp);
+            temp = ciphers.get(i).decrypt(temp);
         }
         for (int i = maskers.size() - 1; i >= 0; i--) {
             temp = maskers.get(i).unmask(temp);

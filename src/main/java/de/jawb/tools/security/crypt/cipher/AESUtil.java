@@ -42,7 +42,7 @@ public class AESUtil {
             return Base64.encodeToString(encrypted);
 
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new CipherException(ex);
         }
     }
 
@@ -56,8 +56,8 @@ public class AESUtil {
 
             return new String(cipherData, "UTF-8");
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception ex) {
+            throw new CipherException(ex);
         }
     }
 

@@ -4,5 +4,5 @@ public interface ICipher {
 
 	String encrypt(String str);
 
-	String descrypt(String encryptedString);
+	String decrypt(String encryptedString);
 }
