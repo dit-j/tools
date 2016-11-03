@@ -20,19 +20,8 @@ import de.jawb.tools.io.net.NetworkUtil;
 public class HttpClient {
 
     static {
-        //for localhost testing only
-        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(
-                new javax.net.ssl.HostnameVerifier(){
-
-                    @Override
-                    public boolean verify(String hostname,
-                            javax.net.ssl.SSLSession sslSession) {
-                        if (hostname.equals("localhost")) {
-                            return true;
-                        }
-                        return false;
-                    }
-                });
+        // for localhost testing only
+        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(new CustomHostnameVerifier(""));
     }
 
 
@@ -159,7 +148,7 @@ public class HttpClient {
     }
 
     public static void main(String[] args) {
-        //        HttpRequest get = new HttpRequest("https://localhost");
+        // HttpRequest get = new HttpRequest("https://localhost");
         HttpRequest get = new HttpRequest("https://www.google.com");
         HttpResponse res = new HttpClient().sendRequest(get);
         System.out.println(res);
