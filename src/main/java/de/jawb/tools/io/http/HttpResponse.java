@@ -39,8 +39,7 @@ public class HttpResponse {
 
     @Override
     public String toString() {
-        return "HttpResponse [code=" + code + ", msg=" + msg + ", data=" + data + "]";
+        return "HttpResponse [code=" + code + ", msg=" + msg + ", headers=" + headers + ", data=" + data + "]";
     }
-
 
 }

@@ -1,41 +1,41 @@
 package de.jawb.tools.io.http;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.SecureRandom;
-import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.SSLSocketFactory;
 
-import de.jawb.tools.io.net.NetworkUtil;
+import de.jawb.tools.io.http.ssl.SSLConfiguration;
 
 /**
  * @author dit (27.11.2015)
  */
-public class HttpClient {
+public class HttpClient extends HttpClientSupport {
 
-    static {
-        // for localhost testing only
-        javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(new CustomHostnameVerifier(""));
-    }
-
-
-    // private final Logger _logger = LoggerFactory.getLogger(this.getClass());
-    private final int TIMEOUT;
+    protected final int        TIMEOUT;
+    protected SSLConfiguration sslConfiguration;
 
     public HttpClient() {
-        TIMEOUT = 15000;
+        this(null, 15000);
     }
 
     public HttpClient(int connectionTimeout) {
-        TIMEOUT = connectionTimeout;
+        this(null, connectionTimeout);
     }
 
+    public HttpClient(SSLConfiguration sslConfigs, int connectionTimeout) {
+        TIMEOUT = connectionTimeout;
+        sslConfiguration = sslConfigs;
+    }
+
+    /**
+     * @param request
+     * @return
+     */
     public HttpResponse sendRequest(HttpRequest request) {
         return sendRequest(request, null);
     }
@@ -46,38 +46,60 @@ public class HttpClient {
      */
     public HttpResponse sendRequest(HttpRequest request, int... expectedResponseCodes) {
 
+        logMethodCall(request, expectedResponseCodes);
+
         HttpURLConnection connection = null;
 
         try {
-            URL url = null;
             final String urlString = request.url();
             final boolean hasBodyData = request.hasBodyData();
 
             if (hasBodyData) {
-                url = new URL(urlString);
+                connection = (HttpURLConnection) new URL(urlString).openConnection();
             } else {
                 String query = request.query();
-                url = new URL(query == null ? urlString : urlString + "?" + query);
+                String urlSpec = query == null ? urlString : urlString + "?" + query;
+                connection = (HttpURLConnection) new URL(urlSpec).openConnection();
             }
 
-            connection = (HttpURLConnection) url.openConnection();
+            logConnectionOpened(connection);
 
+            //
+            // SSL
+            //
             if (connection instanceof HttpsURLConnection) {
-                System.out.println("trustmanager");
-                try {
-                    SSLContext sc = SSLContext.getInstance("SSL");
-                    sc.init(null, new X509TrustManager[] { new SelfSignedTrustManager() }, new SecureRandom());
 
-                    //
-                    ((HttpsURLConnection) connection).setSSLSocketFactory(sc.getSocketFactory());
+                if (sslConfiguration != null) {
 
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    logSSLConfiguration(sslConfiguration);
+
+                    try {
+
+                        HttpsURLConnection httpsURLConnection = (HttpsURLConnection) connection;
+                        HostnameVerifier hostNameVerifier = sslConfiguration.getHostNameVerifier();
+                        SSLSocketFactory sslSocketFactory = sslConfiguration.getSslSocketFactory();
+
+                        if (hostNameVerifier != null) {
+                            httpsURLConnection.setHostnameVerifier(hostNameVerifier);
+                        }
+
+                        if (sslSocketFactory != null) {
+                            httpsURLConnection.setSSLSocketFactory(sslSocketFactory);
+                        }
+
+                    } catch (Exception e) {
+                        logErrorSSLSocketFactory(e);
+                        throw new RuntimeException(e);
+                    }
+
+                } else {
+                    logWarnNoSslConfiguration();
                 }
-
             }
 
+            logSetTimeout(TIMEOUT);
             connection.setConnectTimeout(TIMEOUT);
+            connection.setReadTimeout(TIMEOUT);
             connection.setUseCaches(false);
 
             //
@@ -87,7 +109,13 @@ public class HttpClient {
                 connection.setRequestProperty(e.getKey(), e.getValue());
             }
 
+            //
+            // BODY
+            //
             if (hasBodyData) {
+
+                logInitBodyData();
+
                 connection.setDoOutput(true);
                 connection.setChunkedStreamingMode(0);
                 try (OutputStream output = connection.getOutputStream()) {
@@ -95,6 +123,9 @@ public class HttpClient {
                 }
             }
 
+            //
+            // READ DATA
+            //
             return createResponse(connection, expectedResponseCodes);
 
         } catch (Exception e) {
@@ -105,46 +136,6 @@ public class HttpClient {
                 connection.disconnect();
             }
         }
-    }
-
-
-    private HttpResponse createResponse(HttpURLConnection connection, int... expectedResponseCodes) throws IOException {
-
-        int responseCode = connection.getResponseCode();
-        String message = connection.getResponseMessage();
-        String data = null;
-        Map<String, String> headers = NetworkUtil.getResponseHeaders(connection);
-
-        if (expectedResponseCodes != null) {
-
-            for (int rc : expectedResponseCodes) {
-                if (rc == responseCode) {
-                    data = getData(responseCode, connection);
-                    break;
-                }
-            }
-
-        } else {
-            data = getData(responseCode, connection);
-        }
-
-
-        return new HttpResponse(responseCode, message, data, headers);
-    }
-
-    private String getData(int rCode, HttpURLConnection connection) throws IOException {
-
-        if (rCode >= 300) {
-            if (connection.getErrorStream() != null) {
-                return NetworkUtil.read(connection.getErrorStream());
-            }
-        } else {
-            if (connection.getInputStream() != null) {
-                return NetworkUtil.read(connection.getInputStream());
-            }
-        }
-
-        return null;
     }
 
     public static void main(String[] args) {

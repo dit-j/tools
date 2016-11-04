@@ -1,8 +1,11 @@
-package de.jawb.tools.io.http;
+package de.jawb.tools.io.http.ssl;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 
+/**
+ * @author dit
+ */
 public class CustomHostnameVerifier implements HostnameVerifier {
 
     private final String hostName;

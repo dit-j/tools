@@ -1,4 +1,4 @@
-package de.jawb.tools.io.http;
+package de.jawb.tools.io.http.ssl;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +10,9 @@ import java.security.cert.X509Certificate;
 
 import javax.net.ssl.X509TrustManager;
 
+/**
+ * @author dit
+ */
 public class SelfSignedTrustManager implements X509TrustManager {
 
     @Override
