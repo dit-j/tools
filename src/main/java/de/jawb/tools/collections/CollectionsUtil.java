@@ -30,7 +30,7 @@ public class CollectionsUtil {
     }
 
     public static boolean notEmpty(Object[] arr) {
-        return isEmpty(arr);
+        return !isEmpty(arr);
     }
 
     public static <E, T> Map<E, T> initMap(E key, T value) {
