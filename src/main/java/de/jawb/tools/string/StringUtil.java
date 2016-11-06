@@ -154,6 +154,13 @@ public class StringUtil {
         return null;
     }
 
+    public static String getNonEmptyString(String str, String defaultIfEmpty){
+        if(isEmpty(str)){
+            return defaultIfEmpty;
+        }
+        return str;
+    }
+
     public static void main(String[] args) throws IOException {
 
         Set<String> newLines = new LinkedHashSet<>();
