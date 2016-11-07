@@ -1,14 +1,5 @@
 package de.jawb.tools.string;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
-import de.jawb.tools.io.file.FileAccess;
-
 /**
  * @author dit (24.03.2011)
  */
@@ -159,32 +150,5 @@ public class StringUtil {
             return defaultIfEmpty;
         }
         return str;
-    }
-
-    public static void main(String[] args) throws IOException {
-
-        Set<String> newLines = new LinkedHashSet<>();
-        newLines.add("<html><body><div>");
-        int j = 0;
-        List<String> lines = FileAccess.getContentByLine(new File("d:\\xing.txt"));
-        for (String l : lines) {
-
-            String trimmed = l.trim();
-
-            if (trimmed.length() > 0) {
-
-                int i = trimmed.indexOf('?');
-                if (i > 0) {
-                    trimmed = trimmed.substring(0, i);
-                }
-                newLines.add("<a onclick=\"this.parentNode.removeChild(this)\" target=\"_blank\" href=\"" + trimmed + "\">" + j + "&nbsp;&nbsp;" + trimmed + "<br></a>");
-                System.out.println(trimmed);
-                ++j;
-            }
-        }
-        newLines.add("</div></body></html>");
-
-        FileAccess.writeContent(new File("d:\\xing.html"), new ArrayList<>(newLines), false);
-
     }
 }

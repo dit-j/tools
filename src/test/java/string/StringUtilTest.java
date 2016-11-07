@@ -39,23 +39,23 @@ public class StringUtilTest {
     public void testFindEmpty() {
         Assert.assertTrue(StringUtil.findEmpty("a", "b", "", "d") == 2);
         Assert.assertTrue(StringUtil.findEmpty("a", null, "", "d") == 1);
-        Assert.assertTrue(StringUtil.findEmpty((String[])null) == 0);
+        Assert.assertTrue(StringUtil.findEmpty((String[]) null) == 0);
 
         Assert.assertFalse(StringUtil.findEmpty("a", "b", " ", "d") == 2);
     }
 
     @Test
     public void testAllNotEmpty() {
-        Assert.assertTrue(StringUtil.allNotEmpty("a", "b", "c", "d") );
-        Assert.assertFalse(StringUtil.allNotEmpty("a", "b", "", "d") );
+        Assert.assertTrue(StringUtil.allNotEmpty("a", "b", "c", "d"));
+        Assert.assertFalse(StringUtil.allNotEmpty("a", "b", "", "d"));
     }
 
     @Test
     public void testAllEmpty() {
-        Assert.assertTrue(StringUtil.allEmpty("", "", "", "") );
-        Assert.assertTrue(StringUtil.allEmpty("", null, "") );
+        Assert.assertTrue(StringUtil.allEmpty("", "", "", ""));
+        Assert.assertTrue(StringUtil.allEmpty("", null, ""));
 
-        Assert.assertFalse(StringUtil.allEmpty("", null, "", "d") );
+        Assert.assertFalse(StringUtil.allEmpty("", null, "", "d"));
     }
 
     @Test
@@ -83,8 +83,24 @@ public class StringUtilTest {
     public void testIsValidLength() {
         Assert.assertTrue(StringUtil.isValidLength("abcd", 4, 10));
         Assert.assertTrue(StringUtil.isValidLength("abcd", 3, 4));
+        Assert.assertTrue(StringUtil.isValidLength("abcd", 3, -1));
+        Assert.assertTrue(StringUtil.isValidLength("abcd", 2, -1));
+        Assert.assertTrue(StringUtil.isValidLength("", -1, 3));
+        Assert.assertTrue(StringUtil.isValidLength("asdasd", -1, -1));
 
+        Assert.assertFalse(StringUtil.isValidLength("", 1, 3));
+        Assert.assertFalse(StringUtil.isValidLength("abc", 4, 10));
+        Assert.assertFalse(StringUtil.isValidLength("abcd", 2, 3));
         Assert.assertFalse(StringUtil.isValidLength("abcd", 1, 3));
+        Assert.assertFalse(StringUtil.isValidLength(null, 1, 3));
+    }
+
+    public void testGetFirstNotNull() {
+        Assert.assertEquals("a", StringUtil.getFirstNotNull("a", "b", "c"));
+        Assert.assertEquals("a", StringUtil.getFirstNotNull(null, null, "a", "b", "c"));
+        Assert.assertEquals("a", StringUtil.getFirstNotNull(null, "a", null, "a", "b", "c"));
+
+        Assert.assertNull(StringUtil.getFirstNotNull((String)null));
     }
 
 }

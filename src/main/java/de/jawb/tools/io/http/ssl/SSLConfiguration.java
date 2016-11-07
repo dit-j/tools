@@ -18,7 +18,7 @@ public class SSLConfiguration {
     private SSLSocketFactory sslSocketFactory;
 
 
-    public SSLConfiguration(HostnameVerifier hostNameVerifier, SSLSocketFactory sslSocketFactory) {
+    private SSLConfiguration(HostnameVerifier hostNameVerifier, SSLSocketFactory sslSocketFactory) {
         super();
         this.hostNameVerifier = hostNameVerifier;
         this.sslSocketFactory = sslSocketFactory;
