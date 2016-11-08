@@ -95,12 +95,21 @@ public class StringUtilTest {
         Assert.assertFalse(StringUtil.isValidLength(null, 1, 3));
     }
 
+    @Test
     public void testGetFirstNotNull() {
         Assert.assertEquals("a", StringUtil.getFirstNotNull("a", "b", "c"));
         Assert.assertEquals("a", StringUtil.getFirstNotNull(null, null, "a", "b", "c"));
         Assert.assertEquals("a", StringUtil.getFirstNotNull(null, "a", null, "a", "b", "c"));
 
         Assert.assertNull(StringUtil.getFirstNotNull((String)null));
+        Assert.assertNull(StringUtil.getFirstNotNull(""));
+    }
+
+    @Test
+    public void testGetNonEmptyString() {
+        Assert.assertEquals("a", StringUtil.getNonEmptyString(null, "a"));
+        Assert.assertEquals("a", StringUtil.getNonEmptyString("", "a"));
+        Assert.assertEquals("a", StringUtil.getNonEmptyString("a", "a"));
     }
 
 }

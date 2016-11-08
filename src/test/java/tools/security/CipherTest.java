@@ -16,10 +16,10 @@ import de.jawb.tools.security.crypt.cipher.ICipher;
 @RunWith(Parameterized.class)
 public class CipherTest {
 
-    private String txt;
+    private String original;
 
     public CipherTest(String txt) {
-        this.txt = txt;
+        this.original = txt;
     }
 
     @Parameters
@@ -37,16 +37,16 @@ public class CipherTest {
     @Test
     public void testAES_1() {
         ICipher c = CipherFactory.createAES_128("example-unsafe_key");
-        String encoded = c.encrypt(txt);
+        String encoded = c.encrypt(original);
         String decoded = c.decrypt(encoded);
-        Assert.assertEquals(txt, decoded);
+        Assert.assertEquals(original, decoded);
     }
 
     @Test
     public void testAES_2() {
         ICipher c = CipherFactory.createMaskedAESCipher("example-XOR-Key", "example-AES-Key");
-        String encoded = c.encrypt(txt);
+        String encoded = c.encrypt(original);
         String decoded = c.decrypt(encoded);
-        Assert.assertEquals(txt, decoded);
+        Assert.assertEquals(original, decoded);
     }
 }

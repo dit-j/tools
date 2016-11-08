@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.jawb.tools.io.file;
 
@@ -11,27 +11,29 @@ import java.io.IOException;
 import javax.swing.filechooser.FileSystemView;
 
 import de.jawb.tools.security.Generator;
+import de.jawb.tools.string.Regex;
+import de.jawb.tools.string.StringUtil;
 
 /**
  * @author dit (25.07.2011)
  */
 public class FileUtil {
-    
-//    public static final long KB = 1024;
-//    public static final long MB = KB * KB;
-//    public static final long GB = KB * MB;
-                                
+
+    //    public static final long KB = 1024;
+    //    public static final long MB = KB * KB;
+    //    public static final long GB = KB * MB;
+
     /**
      * @param dir
      * @param fileType
      *            z.B. .png oder txt
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
-    public static File createRandomNamedFile(File dir, String fileType) throws IOException { 
-        
+    public static File createRandomNamedFile(File dir, String fileType) throws IOException {
+
         ensureDirExists(dir);
-        
+
         File file       = null;
         int i           = 0;
         int nameLength  = 10;
@@ -45,24 +47,24 @@ public class FileUtil {
             //
             file = new File(dir, Generator.generateToken(nameLength) + fileTYPE);
         } while (file.exists());
-        
+
         return file;
     }
-    
+
     /**
      * @param root
      * @param fileType
-     *            z.B. .png oder .txt 
+     *            z.B. .png oder .txt
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     public static File createRandomNamedFile(String path, String fileType) throws IOException {
         return createRandomNamedFile(new File(path), fileType);
     }
-    
+
     /**
      * Erstellt eine Datei mit bestimmten Inhalt.
-     * 
+     *
      * @param path
      *            Pfad
      * @param content
@@ -81,10 +83,10 @@ public class FileUtil {
         }
         return null;
     }
-    
+
     /**
      * Prueft ob es um ein Rootverzeichnis (c:\\, d:\\ usw.) handelt
-     * 
+     *
      * @param file
      *            Verzeichnis
      * @return <code>true</code> wenn 'file' ein Rootverzeichnis ist
@@ -92,10 +94,10 @@ public class FileUtil {
     public static final boolean isRoot(File file) {
         return FileSystemView.getFileSystemView().isFileSystemRoot(file);
     }
-    
+
     /**
      * Stellt sicher dass ein Verzeichnis existiert.
-     * 
+     *
      * @param file
      *            Verzeichnis
      * @throws IOException
@@ -107,10 +109,10 @@ public class FileUtil {
             }
         }
     }
-    
+
     /**
      * Prueft ob eine Datei existiert.
-     * 
+     *
      * @param path
      *            Pfad zur Datei
      * @return <code>true</code> wenn Datei existiert
@@ -119,11 +121,11 @@ public class FileUtil {
         File file = new File(path);
         return file.exists();
     }
-    
+
     /**
      * Prueft ob es sich um einen gueltigen Dateinamen handelt.<br>
      * <b>Wichtig:</b> Leerzeichen ist kein gueltiges Zeichen.
-     * 
+     *
      * @param name
      *            der zu pruefende Name einer Datei.
      * @return <code>true</code> wenn Name gueltig ist. sonst <code>false</code>
@@ -142,10 +144,27 @@ public class FileUtil {
         }
         return true;
     }
-    
+
+
+
+    /**
+     * Entfernt alle unnoetigen Zeichen aus dem String der als KnotenName verwendet wird.
+     *
+     * @param string
+     *            String mit FarbeCodes oder SonderZeichen.
+     * @return ein String vom Typ {@link Regex#NON_WORD} in "toLowerCase"
+     */
+    public static String createValideFileName(String string) {
+        if(StringUtil.isEmpty(string)){
+            throw new IllegalArgumentException ("can not be empty");
+        }
+        return string.replaceAll(Regex.NON_WORD.regex, "");
+    }
+
+
     /**
      * Entfernt Datei oder Verzeichnis komplett mit Inhalt (rekursiv)
-     * 
+     *
      * @param file
      *            Verzeichnis oder Datei
      * @throws IOException
@@ -154,7 +173,7 @@ public class FileUtil {
         if (!file.exists()) {
             return;
         }
-        
+
         if (file.isDirectory()) {
             if (!file.delete()) {
                 File[] files = file.listFiles();
@@ -169,5 +188,5 @@ public class FileUtil {
             }
         }
     }
-    
+
 }
