@@ -1,8 +1,11 @@
-package de.jawb.tools.string;
+package string;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import de.jawb.tools.string.Regex;
+import de.jawb.tools.string.StringCleaner;
 
 public class StringCleanerTest {
 
