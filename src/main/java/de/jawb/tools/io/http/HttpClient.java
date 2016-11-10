@@ -139,8 +139,7 @@ public class HttpClient extends HttpClientSupport {
     }
 
     public static void main(String[] args) {
-        // HttpRequest get = new HttpRequest("https://localhost");
-        HttpRequest get = new HttpRequest("https://www.google.com");
+        HttpRequest get = new HttpRequest("https://localhost");
         HttpResponse res = new HttpClient().sendRequest(get);
         System.out.println(res);
     }

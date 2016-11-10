@@ -1,5 +1,7 @@
 package de.jawb.tools.io.net;
 
+import static de.jawb.tools.string.StringUtil.isEmpty;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -38,18 +40,14 @@ public class NetworkUtil {
     }
 
     public static String read(InputStream io) throws IOException {
-
-        if (io.available() > 0) {
-            ByteArrayOutputStream result = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = io.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
-            }
-            return result.toString("UTF-8");
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = io.read(buffer)) != -1) {
+            result.write(buffer, 0, length);
         }
-
-        return null;
+        String rawData = result.toString("UTF-8").trim();
+        return isEmpty(rawData) ? null : rawData;
     }
 
     @Deprecated
