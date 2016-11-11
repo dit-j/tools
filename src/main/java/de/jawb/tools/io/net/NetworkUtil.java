@@ -2,11 +2,9 @@ package de.jawb.tools.io.net;
 
 import static de.jawb.tools.string.StringUtil.isEmpty;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URLConnection;
 import java.net.UnknownHostException;
@@ -18,6 +16,9 @@ import de.jawb.tools.collections.CollectionsUtil;
 
 public class NetworkUtil {
 
+    /**
+     * @return
+     */
     public static String getLocalhostIP() {
         try {
             return InetAddress.getLocalHost().getHostAddress();
@@ -26,6 +27,10 @@ public class NetworkUtil {
         }
     }
 
+    /**
+     * @param connection
+     * @return
+     */
     public static Map<String, String> getResponseHeaders(URLConnection connection) {
         Map<String, String> headerMap = new HashMap<>();
         Map<String, List<String>> map = connection.getHeaderFields();
@@ -39,6 +44,11 @@ public class NetworkUtil {
         return headerMap;
     }
 
+    /**
+     * @param io
+     * @return
+     * @throws IOException
+     */
     public static String read(InputStream io) throws IOException {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -48,21 +58,6 @@ public class NetworkUtil {
         }
         String rawData = result.toString("UTF-8").trim();
         return isEmpty(rawData) ? null : rawData;
-    }
-
-    @Deprecated
-    public static String readFromStream(InputStream inputStream) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-        String inputLine;
-        Appendable response = new StringBuilder(); // new StringBuilder();
-        boolean data = false;
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine.trim());
-            data = true;
-        }
-        in.close();
-
-        return data ? response.toString() : null;
     }
 
 }

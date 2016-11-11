@@ -38,10 +38,10 @@ public class DefaultMailService extends AbstractMailService {
     @Override
     protected Session createSession() {
 
-        Properties props = _configuration.getProperties();
+        Properties props = configuration.getProperties();
 
-        final String username = _configuration.getValue(AUTH_Prop.USER);
-        final String password = _configuration.getValue(AUTH_Prop.PASS);
+        final String username = configuration.getValue(AUTH_Prop.USER);
+        final String password = configuration.getValue(AUTH_Prop.PASS);
 
         Session session = null;
 

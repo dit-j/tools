@@ -16,10 +16,10 @@ import de.jawb.tools.mail.conf.MailServiceConfiguration;
  */
 public abstract class AbstractMailService implements MailService {
 
-    protected MailServiceConfiguration _configuration;
+    protected MailServiceConfiguration configuration;
 
     public AbstractMailService(MailServiceConfiguration conf) {
-        _configuration = conf;
+        configuration = conf;
     }
 
     protected abstract Session createSession();
@@ -36,7 +36,7 @@ public abstract class AbstractMailService implements MailService {
             //
             Transport.send(msg);
         } catch (Exception e) {
-            throw new MailException(e.getCause());
+            throw new MailException("Can't send Email.", e.getCause());
         }
     }
 }
