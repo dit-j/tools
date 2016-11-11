@@ -1,14 +1,17 @@
 package de.jawb.tools.io.file;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * Speichert und Laedt JavaObjekte.
  *
  * @author dit (08.05.2011)
  */
-@Deprecated
-public class Serializator {
+public class ObjectSerialization {
 
     /**
      * Speichert ein Objekt in einer Datei.
@@ -20,8 +23,10 @@ public class Serializator {
      * @throws IOException
      *             Bei Fehlern.
      */
-    public static void write(Object obj, String saveAs) throws IOException {
-        ObjectSerialization.serialize(obj, saveAs);
+    public static void serialize(Object obj, String saveAs) throws IOException {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(saveAs))) {
+            out.writeObject(obj);
+        }
     }
 
     /**
@@ -35,7 +40,9 @@ public class Serializator {
      * @throws ClassNotFoundException
      *             Klasse wurde nicht gefunden.
      */
-    public static Object read(String path) throws IOException, ClassNotFoundException {
-        return ObjectSerialization.deserialize(path);
+    public static Object deserialize(String path) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(path))) {
+            return in.readObject();
+        }
     }
 }

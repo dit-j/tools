@@ -3,25 +3,22 @@
  */
 package de.jawb.tools.io.file;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.filechooser.FileSystemView;
 
+import de.jawb.tools.collections.CollectionsUtil;
+import de.jawb.tools.readable.ByteUtil;
 import de.jawb.tools.security.Generator;
 import de.jawb.tools.string.Regex;
+import de.jawb.tools.string.StringCleaner;
 import de.jawb.tools.string.StringUtil;
 
 /**
  * @author dit (25.07.2011)
  */
 public class FileUtil {
-
-    //    public static final long KB = 1024;
-    //    public static final long MB = KB * KB;
-    //    public static final long GB = KB * MB;
 
     /**
      * @param dir
@@ -34,9 +31,9 @@ public class FileUtil {
 
         ensureDirExists(dir);
 
-        File file       = null;
-        int i           = 0;
-        int nameLength  = 10;
+        File file = null;
+        int i = 0;
+        int nameLength = 10;
         final String fileTYPE = fileType.startsWith(".") ? fileType : ("." + fileType);
         do {
             //
@@ -63,9 +60,9 @@ public class FileUtil {
     }
 
     /**
-     * Erstellt eine Datei mit bestimmten Inhalt.
+     * Erstellt eine Datei mit bestimmten Inhalt (UTF-8).
      *
-     * @param path
+     * @param target
      *            Pfad
      * @param content
      *            Inhalt der Datei
@@ -73,15 +70,13 @@ public class FileUtil {
      * @throws IOException
      *             Schrebe-/Lesefehler
      */
-    public static File createASCIIFile(String path, String content) throws IOException {
-        File tempFile = new File(path);
-        if (tempFile.createNewFile()) {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(tempFile));
-            bw.write(content);
-            bw.close();
-            return tempFile;
+    public static File createFileWithContent(String target, String content) throws IOException {
+        File file = new File(target);
+        if (file.createNewFile()) {
+            FileAccess.writeString(file, content, false);
+            return file;
         }
-        return null;
+        throw new IOException("can not create file: " + target);
     }
 
     /**
@@ -131,11 +126,12 @@ public class FileUtil {
      * @return <code>true</code> wenn Name gueltig ist. sonst <code>false</code>
      */
     public static boolean isValideFileName(String name) {
-        char[] chars = name.toCharArray();
-        if (chars.length == 0) {
+
+        if (StringUtil.isEmptyTrim(name)) {
             return false;
         }
-        for (char ch : chars) {
+
+        for (char ch : name.toCharArray()) {
             if (!Character.isLetterOrDigit(ch)) {// A-Za-z0-9
                 if ((ch != '-') && (ch != '.') && (ch != '_')) {
                     return false;
@@ -145,22 +141,46 @@ public class FileUtil {
         return true;
     }
 
+    /**
+     * @param f
+     * @return
+     */
+    public long getSize(File f) {
+        if (f.isDirectory()) {
+            File[] files = f.listFiles();
+            long size = 0L;
+            if (CollectionsUtil.notEmpty(files)) {
+                for (File file : files) {
+                    size += getSize(file);
+                }
+            }
+            return size;
+        }
+        return f.length();
+    }
 
+    /**
+     * @param f
+     * @return
+     */
+    public String getReadableFileSize(File f) {
+        return ByteUtil.getReadableSizeString(getSize(f));
+    }
 
     /**
      * Entfernt alle unnoetigen Zeichen aus dem String der als KnotenName verwendet wird.
      *
      * @param string
      *            String mit FarbeCodes oder SonderZeichen.
-     * @return ein String vom Typ {@link Regex#NON_WORD} in "toLowerCase"
+     * @return ein String vom Typ {@link Regex#WORD}
      */
     public static String createValideFileName(String string) {
-        if(StringUtil.isEmpty(string)){
-            throw new IllegalArgumentException ("can not be empty");
+        if (StringUtil.isEmptyTrim(string)) {
+            throw new IllegalArgumentException("can not be empty");
         }
-        return string.replaceAll(Regex.NON_WORD.regex, "");
+        String temp = StringCleaner.removeDoubleWhiteSpaces(string).trim();
+        return temp.replaceAll(Regex.WHITESPACE.regex, "-").replaceAll(Regex.NON_WORD.regex, "");
     }
-
 
     /**
      * Entfernt Datei oder Verzeichnis komplett mit Inhalt (rekursiv)
