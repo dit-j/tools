@@ -9,6 +9,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
+import de.jawb.tools.exeptionhandling.ExceptionUtil;
 import de.jawb.tools.io.http.ssl.SSLConfiguration;
 
 /**
@@ -129,8 +130,7 @@ public class HttpClient extends HttpClientSupport {
             return createResponse(connection, expectedResponseCodes);
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(ExceptionUtil.getErrorMessage(e));
         } finally {
             if (connection != null) {
                 connection.disconnect();

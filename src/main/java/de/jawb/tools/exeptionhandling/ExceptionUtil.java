@@ -4,23 +4,23 @@ import de.jawb.tools.string.StringUtil;
 
 /**
  * Ausnahmenbehandlung.
- * 
+ *
  * @author dit (17.08.2011)
  */
 public class ExceptionUtil {
-    
+
     protected static String     _markedLinePrefix;
-    
+
     private static final String HTML_LINE     = "<hr />";
     private static final String HTML_NEW_LINE = "<br>";
-    
+
     private ExceptionUtil() {
         _markedLinePrefix = "de.jawb.";
     }
-    
+
     /**
      * Erstellt aus dem StackTrace einer Ausnahme einen String.
-     * 
+     *
      * @param errorObj
      *            eine Ausnahme oder Error.
      * @return StackTrace eines {@link Throwable} Objekts als String.
@@ -37,11 +37,11 @@ public class ExceptionUtil {
         }
         return sb.toString();
     }
-    
+
     /**
      * Erstellt aus dem StackTrace einer Ausnahme einen String zum Anzeigen auf
      * einer HTML Seite
-     * 
+     *
      * @param errorObj
      *            eine Ausnahme oder Error.
      * @return StackTrace eines {@link Throwable} Objekts als String.
@@ -76,13 +76,13 @@ public class ExceptionUtil {
         }
         return sb.toString();
     }
-    
+
     /**
      * Gibt die Fehlernachricht einer Exception zurueck. Falls Exception keine
      * Nachricht enthaelt wird
      * {@link ExceptionUtil#getStackTraceAsString(Throwable)} als
      * Fehlermeldung zurueckgegeben.
-     * 
+     *
      * @param e
      *            Ausnahme
      * @return Fehlermeldung.
@@ -90,37 +90,34 @@ public class ExceptionUtil {
     public static String getErrorMessage(Throwable e) {
         String error = e.getMessage();
         if (StringUtil.isEmpty(error)) {
-            
+
             error = e.getClass() + " ";
-            
+
             Throwable cause = e.getCause();
             if (cause != null) {
                 error += cause.getMessage();
             }
-            if (StringUtil.isEmpty(error)) {
-                error += getStackTraceAsString(e);
-            }
         }
         return error;
     }
-    
+
     /**
      * Ruft die Methode {@link Throwable#printStackTrace()} aus
-     * 
+     *
      * @param throwable
      *            Objekt des Typs {@link Throwable}
      */
     public static void printStackTrace(Throwable throwable) {
         throwable.printStackTrace();
     }
-    
+
     /**
      * Aktuellen Stacktrace ausgeben.
      */
     public static void printStackTrace() {
         printStackTrace(new Exception());
     }
-    
+
 //    /**
 //     * Setzt die Fehlermeldung als {@link SessionAttributes#LAST_ERROR} in
 //     * session.
@@ -136,7 +133,7 @@ public class ExceptionUtil {
 //			handleException(e);
 //		}
 //	}
-    
+
 //    public void handleException(Exception e) {
 //        // ErrorLog.getInstance().log(e);
 //
@@ -150,7 +147,7 @@ public class ExceptionUtil {
 //            }
 //        }
 //    }
-    
+
     public static final void setMarkedLinePrefix(String prefix) {
         _markedLinePrefix = prefix;
     }

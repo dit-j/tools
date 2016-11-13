@@ -83,8 +83,7 @@ public class CollectionsUtil {
         if (prefferedKeys != null) {
             if (prefferedKeys.length == 1) {
                 V v = map.get(prefferedKeys[0]);
-                if (v != null)
-                    return v;
+                if (v != null) return v;
             } else {
                 for (Object key : toNoNullItemSet(prefferedKeys)) { // new HashSet<>(Arrays.asList(suggestedKeys))
                     V v = map.get(key);
@@ -98,11 +97,17 @@ public class CollectionsUtil {
         return map.values().iterator().next();
     }
 
-    public static boolean contains(Object[] arr, Object item) {
-        for (Object object : arr) {
-            if (object.equals(item))
-                return true;
+    public static int find(Object[] arr, Object item) {
+        for (int i = 0; i < arr.length; ++i) {
+            Object object = arr[i];
+            if(object.equals(item)){
+                return i;
+            }
         }
-        return false;
+        return -1;
+    }
+
+    public static boolean contains(Object[] arr, Object item) {
+        return find(arr, item) >= 0;
     }
 }

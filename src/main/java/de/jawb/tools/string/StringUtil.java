@@ -1,5 +1,7 @@
 package de.jawb.tools.string;
 
+import java.util.Locale;
+
 /**
  * @author dit (24.03.2011)
  */
@@ -150,5 +152,27 @@ public class StringUtil {
             return defaultIfEmpty;
         }
         return str;
+    }
+
+    public static String toLowerCase(String text, String lang){
+        try {
+
+            Locale l = null;
+            if("de".equalsIgnoreCase(lang)){
+                l = Locale.GERMAN;
+            } else if ("en".equalsIgnoreCase(lang)){
+                l = Locale.ENGLISH;
+            }  else if ("fr".equalsIgnoreCase(lang)){
+                l = Locale.FRENCH;
+            }  else if ("it".equalsIgnoreCase(lang)){
+                l = Locale.ITALIAN;
+            } else {
+                l = new Locale(lang);
+            }
+            return text.toLowerCase(l);
+
+        } catch (Exception ex) {
+            return text.toLowerCase();
+        }
     }
 }
