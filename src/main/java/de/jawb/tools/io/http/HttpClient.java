@@ -9,7 +9,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSocketFactory;
 
-import de.jawb.tools.exeptionhandling.ExceptionUtil;
+import de.jawb.tools.exeption.ExceptionUtil;
 import de.jawb.tools.io.http.ssl.SSLConfiguration;
 
 /**

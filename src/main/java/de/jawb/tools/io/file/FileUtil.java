@@ -9,7 +9,7 @@ import java.io.IOException;
 import javax.swing.filechooser.FileSystemView;
 
 import de.jawb.tools.collections.CollectionsUtil;
-import de.jawb.tools.readable.ByteUtil;
+import de.jawb.tools.io.ByteUtil;
 import de.jawb.tools.security.Generator;
 import de.jawb.tools.string.Regex;
 import de.jawb.tools.string.StringCleaner;

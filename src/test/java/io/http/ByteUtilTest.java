@@ -1,10 +1,10 @@
-package readable;
+package io.http;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.jawb.tools.readable.ByteUtil;
+import de.jawb.tools.io.ByteUtil;
 
 public class ByteUtilTest {
 

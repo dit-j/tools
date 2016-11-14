@@ -2,8 +2,8 @@ package de.jawb.tools.jvm;
 
 import java.util.concurrent.TimeUnit;
 
+import de.jawb.tools.io.ByteUtil;
 import de.jawb.tools.number.NumberUtil;
-import de.jawb.tools.readable.ByteUtil;
 
 /**
  * @author dit (11.04.2013)

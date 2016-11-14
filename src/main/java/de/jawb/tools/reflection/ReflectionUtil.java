@@ -17,16 +17,16 @@ import de.jawb.tools.collections.CollectionsUtil;
 
 public class ReflectionUtil {
 
-    public static Map<String, Object> beanToMap(Object o) {
-        return beanToMap(o, "class");
+    public static Map<String, Object> beanToMap(Object simpleBean) {
+        return beanToMap(simpleBean, "class");
     }
 
-    public static Map<String, Object> beanToTreeMap(Object o) {
-        return new TreeMap<>(beanToMap(o, (String[]) null));
+    public static Map<String, Object> beanToTreeMap(Object simpleBean) {
+        return new TreeMap<>(beanToMap(simpleBean, (String[]) null));
     }
 
-    public static Map<String, Object> beanToTreeMap(Object o, String... ignoreFields) {
-        return new TreeMap<>(beanToMap(o, ignoreFields));
+    public static Map<String, Object> beanToTreeMap(Object simpleBean, String... ignoreFields) {
+        return new TreeMap<>(beanToMap(simpleBean, ignoreFields));
     }
 
     public static Map<String, Object> getConstants(Class<?> c) {
