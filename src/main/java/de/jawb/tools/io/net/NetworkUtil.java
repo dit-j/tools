@@ -27,6 +27,15 @@ public class NetworkUtil {
         }
     }
 
+    public static String getHostNameByIP(String ip) {
+        try {
+            InetAddress inetAddress =InetAddress.getByName(ip);
+            return inetAddress.getHostName();
+        } catch (UnknownHostException e) {
+            return null;
+        }
+    }
+
     /**
      * @param connection
      * @return
@@ -58,6 +67,10 @@ public class NetworkUtil {
         }
         String rawData = result.toString("UTF-8").trim();
         return isEmpty(rawData) ? null : rawData;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getHostNameByIP("172.217.21.46"));
     }
 
 }
