@@ -1,6 +1,6 @@
 package de.jawb.tools.security.crypt.mask;
 
-import de.jawb.tools.security.Base64;
+import de.jawb.tools.security.base64.Base64;
 
 class Base64Masker implements IMasker {
 

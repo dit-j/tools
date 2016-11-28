@@ -37,8 +37,14 @@ public class StringUtil {
         return new String(buffer);
     }
 
-    public static String emptyToNull(String str){
-        if(isEmpty(str)){
+    /**
+     * Falls ein String "" oder null ist gibt die Methode ein <code>null</code> zurück.
+     *
+     * @param str
+     * @return <code>null</code> oder str
+     */
+    public static String emptyToNull(String str) {
+        if (isEmpty(str)) {
             return null;
         }
         return str;
@@ -68,8 +74,7 @@ public class StringUtil {
     }
 
     /**
-     * Sucht in dem Array nach einem leeren String. Verwendet die
-     * {@link #isEmpty(String)} - Methode.
+     * Sucht in dem Array nach einem leeren String. Verwendet die {@link #isEmpty(String)} - Methode.
      *
      * @param strings
      *            Ein String-Array
@@ -100,7 +105,8 @@ public class StringUtil {
 
     public static boolean allEmpty(String... strings) {
         for (int i = 0; i < strings.length; i++) {
-            if (notEmpty(strings[i])) return false;
+            if (notEmpty(strings[i]))
+                return false;
         }
         return true;
     }
@@ -127,11 +133,9 @@ public class StringUtil {
      * @param str
      *            der zu pruefende String
      * @param min
-     *            Minimale Anzahl der Zeichen <i>(bei -1 wird die minimale
-     *            Laenge ignoriert)</i>
+     *            Minimale Anzahl der Zeichen <i>(bei -1 wird die minimale Laenge ignoriert)</i>
      * @param max
-     *            Maximale Anzahl der Zeichen <i>(bei -1 wird die maximale
-     *            Laenge ignoriert)</i>
+     *            Maximale Anzahl der Zeichen <i>(bei -1 wird die maximale Laenge ignoriert)</i>
      * @return <code>true</code> wenn String eine gültige Laenge hat
      */
     public static boolean isValidLength(String str, int min, int max) {
@@ -154,24 +158,24 @@ public class StringUtil {
         return null;
     }
 
-    public static String getNonEmptyString(String str, String defaultIfEmpty){
-        if(isEmpty(str)){
+    public static String getNonEmptyString(String str, String defaultIfEmpty) {
+        if (isEmpty(str)) {
             return defaultIfEmpty;
         }
         return str;
     }
 
-    public static String toLowerCase(String text, String lang){
+    public static String toLowerCase(String text, String lang) {
         try {
 
             Locale l = null;
-            if("de".equalsIgnoreCase(lang)){
+            if ("de".equalsIgnoreCase(lang)) {
                 l = Locale.GERMAN;
-            } else if ("en".equalsIgnoreCase(lang)){
+            } else if ("en".equalsIgnoreCase(lang)) {
                 l = Locale.ENGLISH;
-            }  else if ("fr".equalsIgnoreCase(lang)){
+            } else if ("fr".equalsIgnoreCase(lang)) {
                 l = Locale.FRENCH;
-            }  else if ("it".equalsIgnoreCase(lang)){
+            } else if ("it".equalsIgnoreCase(lang)) {
                 l = Locale.ITALIAN;
             } else {
                 l = new Locale(lang);

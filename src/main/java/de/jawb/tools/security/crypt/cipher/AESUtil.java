@@ -6,7 +6,7 @@ import java.util.Arrays;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import de.jawb.tools.security.Base64;
+import de.jawb.tools.security.base64.Base64;
 
 public class AESUtil {
 
