@@ -14,7 +14,7 @@ import de.jawb.tools.io.net.NetworkUtil;
 
 class HttpClientSupport {
 
-    private static final Logger _logger = LoggerFactory.getLogger(HttpClient.class);
+    private final Logger _logger = LoggerFactory.getLogger(getClass());
 
     protected HttpResponse createResponse(HttpURLConnection connection, int... expectedResponseCodes) throws IOException {
 
@@ -35,6 +35,10 @@ class HttpClientSupport {
 
         } else {
             data = getData(responseCode, connection);
+        }
+
+        if (message == null && responseCode == 200) {
+            message = "OK";
         }
 
         return new HttpResponse(responseCode, message, data, NetworkUtil.getResponseHeaders(connection));
@@ -95,7 +99,9 @@ class HttpClientSupport {
     }
 
     private void logGotResponseCode(int responseCode, String message) {
-        _logger.debug("got response {} {}", responseCode, message);
+        if (_logger.isDebugEnabled()) {
+            _logger.debug("got response {} {}", responseCode, message);
+        }
     }
 
 }

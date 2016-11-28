@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.jawb.tools.security;
 
@@ -19,7 +19,7 @@ public class Generator {
 
     /**
      * Generiert ein zufaelliges Passwort
-     * 
+     *
      * @param length
      *            Laenge des Passworts
      * @return Passwort
@@ -30,7 +30,7 @@ public class Generator {
 
     /**
      * Generiert ein zufaelliges Passwort mit spez. Zeichen (optional)
-     * 
+     *
      * @param length
      *            Laenge des Passworts
      * @param useSpecialCharacter
@@ -55,7 +55,7 @@ public class Generator {
 
     /**
      * Generiert eine "zufaellige" Zeichenkette der Laenge 40.
-     * 
+     *
      * @return z.B. <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
      */
     public static String generateToken() {
@@ -64,7 +64,7 @@ public class Generator {
 
     /**
      * Generiert eine "zufaellige" Zeichenkette.
-     * 
+     *
      * @param length
      *            Laenge der Kette
      * @return z.B. <tt>4nwaxr26uz47lgc6bqj8dzv37n7ryqedmvfvpcru</tt>
@@ -81,7 +81,7 @@ public class Generator {
 
     /**
      * Generiert eine "zufaellige" Zeichenkette die aus X Bloecken besteht je 5 Zeichen.
-     * 
+     *
      * @param partsCount
      *            Anzahl der Bloecke
      * @return z.B. <tt>8G4YU-LQY03-B6V6J-8YALP-L7W0F</tt>
@@ -104,7 +104,7 @@ public class Generator {
 
     /**
      * Erzeugt aus einem String einen Integer. String muss genau vie Zeichen lang sein.
-     * 
+     *
      * @param str
      *            ein String der aus 4 Zeichen besteht
      * @return Integer der diesen String repraesenstiert
@@ -127,7 +127,7 @@ public class Generator {
 
     /**
      * Wandelt einen Integer in einen String um
-     * 
+     *
      * @param salt
      *            Integer der einen String repraesenstiert
      * @return String der aus diesem Integer errechnet wurde
@@ -143,7 +143,7 @@ public class Generator {
 
     /**
      * Maskiert ein Password. Erste 3 Zeichen bleiben offen, der Rest wird durch mehrere Sternchen ersetzt.
-     * 
+     *
      * @param password
      *            Password.
      * @return mypassword -> myp************

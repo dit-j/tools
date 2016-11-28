@@ -37,6 +37,13 @@ public class StringUtil {
         return new String(buffer);
     }
 
+    public static String emptyToNull(String str){
+        if(isEmpty(str)){
+            return null;
+        }
+        return str;
+    }
+
     /**
      * Aus einem String 'blaBla' wird 'BlaBla'
      *
