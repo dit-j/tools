@@ -41,4 +41,5 @@ public class Base64 {
             throw new RuntimeException(e);
         }
     }
+
 }
