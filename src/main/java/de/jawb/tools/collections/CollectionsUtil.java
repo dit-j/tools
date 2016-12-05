@@ -1,13 +1,23 @@
 package de.jawb.tools.collections;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class CollectionsUtil {
+
+    public static boolean isEmpty(long[] longs) {
+        return longs == null || longs.length == 0;
+    }
+
+    public static boolean isEmpty(int[] ints) {
+        return ints == null || ints.length == 0;
+    }
 
     public static boolean isEmpty(Map<?, ?> map) {
         return map == null || map.isEmpty();
@@ -37,6 +47,28 @@ public class CollectionsUtil {
         Map<E, T> map = new HashMap<E, T>();
         map.put(key, value);
         return map;
+    }
+
+    public static String join(long[] longs, String separator) {
+        if(isEmpty(longs)){
+            return null;
+        }
+        List<Long> list = new ArrayList<>();
+        for (long i : longs) {
+            list.add(i);
+        }
+        return join(list, separator);
+    }
+
+    public static String join(int[] ints, String separator) {
+        if(isEmpty(ints)){
+            return null;
+        }
+        List<Integer> list = new ArrayList<>();
+        for (int i : ints) {
+            list.add(i);
+        }
+        return join(list, separator);
     }
 
     public static String join(Collection<?> list, String separator) {

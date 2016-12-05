@@ -50,6 +50,21 @@ public class StringUtil {
         return str;
     }
 
+    public static String trim(String str) {
+        if(str == null){
+            return null;
+        }
+        return str.trim();
+    }
+
+    public static String trimToNull(String str) {
+        String trimmed = trim(str);
+        if (isEmpty(trimmed)) {
+            return null;
+        }
+        return trimmed;
+    }
+
     /**
      * Aus einem String 'blaBla' wird 'BlaBla'
      *
