@@ -16,30 +16,14 @@ class HttpClientSupport {
 
     private final Logger _logger = LoggerFactory.getLogger(getClass());
 
-    protected HttpResponse createResponse(HttpURLConnection connection, int... expectedResponseCodes) throws IOException {
+    protected HttpResponse createResponse(HttpURLConnection connection) throws IOException {
 
         int responseCode = connection.getResponseCode();
-        String message = connection.getResponseMessage();
-        String data = null;
+        String message   = connection.getResponseMessage();
 
         logGotResponseCode(responseCode, message);
 
-        if (expectedResponseCodes != null) {
-
-            for (int rc : expectedResponseCodes) {
-                if (rc == responseCode) {
-                    data = getData(responseCode, connection);
-                    break;
-                }
-            }
-
-        } else {
-            data = getData(responseCode, connection);
-        }
-
-        if (message == null && responseCode == 200) {
-            message = "OK";
-        }
+        String data      = getData(responseCode, connection);
 
         return new HttpResponse(responseCode, message, data, NetworkUtil.getResponseHeaders(connection));
     }

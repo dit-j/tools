@@ -45,6 +45,7 @@ public class HttpClient extends HttpClientSupport {
      * @param request
      * @return
      */
+    @Deprecated
     public HttpResponse sendRequest(HttpRequest request, int... expectedResponseCodes) {
 
         logMethodCall(request, expectedResponseCodes);
@@ -127,7 +128,7 @@ public class HttpClient extends HttpClientSupport {
             //
             // READ DATA
             //
-            return createResponse(connection, expectedResponseCodes);
+            return createResponse(connection);
 
         } catch (Exception e) {
             throw new RuntimeException(ExceptionUtil.getErrorMessage(e));
