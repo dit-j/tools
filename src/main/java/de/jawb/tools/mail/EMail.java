@@ -1,143 +1,67 @@
 package de.jawb.tools.mail;
 
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * @author dit (01.07.2011)
  */
 public class EMail {
 
-    private String[] recipients;
-    private String   subject;
-    private String   text;
-    private File[]   attachments;
+    private final String   sender;
 
-    private String   sender;
-    private boolean  htmlContent;
+    private final String[] recipients;
+    private final String   subject;
+    private final String   content;
+    private final File[]   attachments;
 
-    /**
-     * @param recipients
-     *            Empfaenger
-     * @param subject
-     *            Betreff
-     * @param text
-     *            Nachricht.
-     */
-    public EMail(String[] recipients, String subject, String text) {
-        this(recipients, subject, text, (File[])null);
-    }
-
-    /**
-     * @param recipients
-     *            Empfaenger
-     * @param subject
-     *            Betreff
-     * @param text
-     *            Nachricht.
-     * @param attachments
-     *            Anhaenge
-     */
-    public EMail(String[] recipients, String subject, String text, File... attachments) {
-        super();
+    public EMail(String from, String[] recipients, String subject, String content, File... attachments) {
+        this.sender = from;
         this.recipients = recipients;
         this.subject = subject;
-        this.text = text;
+        this.content = content;
         this.attachments = attachments;
     }
 
-    /**
-     * Gibt recipients zurueck
-     *
-     * @return the recipients
-     */
-    public String[] getRecipients() {
-        return recipients;
+    public EMail(String from, String[] recipients, String subject, String content) {
+        this(from, recipients, subject, content, (File[]) null);
     }
 
-    /**
-     * Aendert recipients
-     *
-     * @param recipients
-     *            neuer Wert
-     */
-    public void setRecipients(String[] recipients) {
-        this.recipients = recipients;
-    }
-
-    /**
-     * Gibt subject zurueck
-     *
-     * @return the subject
-     */
-    public String getSubject() {
-        return subject;
-    }
-
-    /**
-     * Aendert subject
-     *
-     * @param subject
-     *            neuer Wert
-     */
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    /**
-     * Gibt text zurueck
-     *
-     * @return the text
-     */
-    public String getMessage() {
-        return text;
-    }
-
-    /**
-     * Aendert text
-     *
-     * @param text
-     *            neuer Wert
-     */
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    /**
-     * Gibt attachments zurueck
-     *
-     * @return the attachments
-     */
-    public File[] getAttachments() {
-        return attachments;
-    }
-
-    /**
-     * Aendert attachments
-     *
-     * @param attachments
-     *            neuer Wert
-     */
-    public void setAttachments(File[] attachments) {
-        this.attachments = attachments;
-    }
-
-    /**
-     * Gibt sender zurueck
-     *
-     * @return the sender
-     */
     public String getSender() {
         return sender;
     }
 
-    /**
-     * Aendert sender
-     *
-     * @param sender
-     *            neuer Wert
-     */
-    public void setSender(String sender) {
-        this.sender = sender;
+    public String[] getRecipients() {
+        return recipients;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public File[] getAttachments() {
+        return attachments;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("EMail [sender=");
+        builder.append(sender);
+        builder.append(", recipients=");
+        builder.append(Arrays.toString(recipients));
+        builder.append(", subject=");
+        builder.append(subject);
+        builder.append(", content=");
+        builder.append(content);
+        builder.append(", attachments=");
+        builder.append(Arrays.toString(attachments));
+        builder.append("]");
+        return builder.toString();
     }
 
 }

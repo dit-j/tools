@@ -114,7 +114,7 @@ public class DefaultMailService extends AbstractMailService {
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setHeader("MIME-Version", "1.0");
             mimeBodyPart.setHeader("Content-Type", mimeBodyPart.getContentType());
-            mimeBodyPart.setContent(mail.getMessage(), DFLT_TYPE);
+            mimeBodyPart.setContent(mail.getContent(), DFLT_TYPE);
             multipart.addBodyPart(mimeBodyPart);
 
             msg.setContent(multipart);
@@ -124,7 +124,7 @@ public class DefaultMailService extends AbstractMailService {
         //
         // NACHRICHT SELBST
         //
-        msg.setContent(mail.getMessage(), DFLT_TYPE);
+        msg.setContent(mail.getContent(), DFLT_TYPE);
         return msg;
     }
 }
