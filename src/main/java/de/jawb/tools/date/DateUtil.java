@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class DateUtil {
 
-    public static final SimpleDateFormat DATE_TIME          = new SimpleDateFormat("dd.MM.yyyy, hh:mm");
+    public static final SimpleDateFormat DATE_TIME          = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final SimpleDateFormat TIME_HMS           = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat TIME_HM            = new SimpleDateFormat("HH:mm");
