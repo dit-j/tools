@@ -4,7 +4,7 @@
 	<groupId>jawb.tools</groupId>
 	<artifactId>jawb-tools-util</artifactId>
 	<packaging>jar</packaging>
-	<version>0.14</version>
+	<version>0.15</version>
 
 	<properties>
 		<slf4j.version>1.7.22</slf4j.version>
@@ -22,12 +22,14 @@
 			<groupId>javax.activation</groupId>
 			<artifactId>activation</artifactId>
 			<version>${javax.activation.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>${javax.mail.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- Jackson JSON Mapper -->
