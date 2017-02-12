@@ -103,6 +103,7 @@ public class HttpClient extends HttpClientSupport {
             connection.setConnectTimeout(TIMEOUT);
             connection.setReadTimeout(TIMEOUT);
             connection.setUseCaches(false);
+            connection.setRequestMethod(request.method().toString());
 
             //
             // HEADERS
