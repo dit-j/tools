@@ -4,7 +4,7 @@
 	<groupId>jawb.tools</groupId>
 	<artifactId>jawb-tools-util</artifactId>
 	<packaging>jar</packaging>
-	<version>0.15</version>
+	<version>1.0.0</version>
 
 	<properties>
 		<slf4j.version>1.7.22</slf4j.version>
@@ -37,18 +37,14 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
 			<version>${json.jackson.version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${json.jackson.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		<!-- LIBRARIES WRAPPER END -->
