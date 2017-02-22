@@ -1,5 +1,7 @@
 package io.http;
 
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -53,7 +55,7 @@ public class HttpClientTest {
     }
 
     @Test
-    public void testClient() {
+    public void testClient() throws SocketTimeoutException, UnknownHostException {
         HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
         r.addPathParameter("path", "search").addParameter("q", "apple");
 

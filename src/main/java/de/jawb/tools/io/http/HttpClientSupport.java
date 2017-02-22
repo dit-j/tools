@@ -2,19 +2,21 @@ package de.jawb.tools.io.http;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import de.jawb.tools.io.http.ssl.SSLConfiguration;
 import de.jawb.tools.io.net.NetworkUtil;
+import de.jawb.tools.logging.ISimpleLogger;
+import de.jawb.tools.logging.NopLogger;
 
 class HttpClientSupport {
 
-    private final Logger _logger = LoggerFactory.getLogger(getClass());
+    private ISimpleLogger logger = new NopLogger();
+
+    protected final void setSimpleLogger(ISimpleLogger logger){
+        this.logger = logger;
+    }
 
     protected HttpResponse createResponse(HttpURLConnection connection) throws IOException {
 
@@ -44,47 +46,51 @@ class HttpClientSupport {
     }
 
     protected void logWarnNoSslConfiguration() {
-        _logger.warn("no SSLConfiguration specified. Using default.");
+        if(logger.isEnabled()){
+            logger.warn("no SSLConfiguration specified. Using default.");
+        }
     }
 
     protected void logErrorSSLSocketFactory(Exception e) {
-        _logger.error("error while setting SSLSocketFactory", e);
+        if(logger.isEnabled()){
+            logger.error(e);
+        }
     }
 
     protected void logInitBodyData() {
-        if (_logger.isDebugEnabled()) {
-            _logger.debug("init request body");
+        if (logger.isEnabled()) {
+            logger.debug("init request body");
         }
     }
 
     protected void logSSLConfiguration(SSLConfiguration configs) {
-        if (_logger.isDebugEnabled()) {
-            _logger.debug("using SSLConfiguration: {}", configs);
+        if (logger.isEnabled()) {
+            logger.debug("using SSLConfiguration: " + configs);
         }
     }
 
     protected void logSetTimeout(int timeout) {
-        if (_logger.isDebugEnabled()) {
-            _logger.debug("set connection and read timeout: {}", timeout);
+        if (logger.isEnabled()) {
+            logger.debug("set connection and read timeout: " +  timeout);
         }
     }
 
     protected void logConnectionOpened(HttpURLConnection connection) {
-        if (_logger.isDebugEnabled()) {
+        if (logger.isEnabled()) {
             boolean ssl = connection instanceof HttpsURLConnection;
-            _logger.debug("connection opened. ssl={}", ssl);
+            logger.debug("connection opened. ssl=" + ssl);
         }
     }
 
-    protected void logMethodCall(HttpRequest request, int... expectedResponseCodes) {
-        if (_logger.isDebugEnabled()) {
-            _logger.debug("sendRequest: {}, {}", request, Arrays.toString(expectedResponseCodes));
+    protected void logMethodCall(HttpRequest request) {
+        if (logger.isEnabled()) {
+            logger.debug("sendRequest: " + request);
         }
     }
 
     private void logGotResponseCode(int responseCode, String message) {
-        if (_logger.isDebugEnabled()) {
-            _logger.debug("got response {} {}", responseCode, message);
+        if (logger.isEnabled()) {
+            logger.debug("got response " + responseCode + " " + message);
         }
     }
 
