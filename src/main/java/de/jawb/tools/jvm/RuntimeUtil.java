@@ -16,7 +16,7 @@ public class RuntimeUtil {
      */
     public static final void sleep(long time) {
         try {
-            TimeUnit.MILLISECONDS.sleep(5);
+            TimeUnit.MILLISECONDS.sleep(time);
         } catch (InterruptedException ex) {
             //
         }
