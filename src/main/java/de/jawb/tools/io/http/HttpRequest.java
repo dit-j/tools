@@ -43,7 +43,7 @@ public final class HttpRequest {
         this.url = url;
         addHeader("Accept-Charset", "UTF-8");
         if (method == HttpRequestMethod.POST || method == HttpRequestMethod.PUT) {
-            addHeader("Content-Type", "application/x-www-form-urlencoded");
+            addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
         }
         this.cachable = cachable;
     }
@@ -61,7 +61,7 @@ public final class HttpRequest {
         url = url.replace(placeHolder, value.toString());
         return this;
     }
-    
+
     public HttpRequest addParameter(String key, Object value) {
         if (query == null) {
             query = new StringBuilder();
@@ -133,7 +133,7 @@ public final class HttpRequest {
     }
 
     boolean hasBodyData() {
-        return (method == HttpRequestMethod.POST || method == HttpRequestMethod.PUT) && (jsonObject != null || query != null);
+        return (method == HttpRequestMethod.POST) && (jsonObject != null || query != null);
     }
 
     byte[] bodyData() {
