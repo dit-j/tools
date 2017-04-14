@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -180,6 +182,12 @@ public class DateUtil {
         } else {
             return DATE_TIME.parse(dateTime).getTime();
         }
+    }
+
+    public String getIsoDateString(long timestamp){
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US);
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return df.format(new Date(timestamp));
     }
 
 }
