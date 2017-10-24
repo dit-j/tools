@@ -1,15 +1,15 @@
 /**
- * 
+ *
  */
 package de.jawb.tools.iso;
 
 /**
  * ISO 4217 Currency Codes
- * 
+ *
  * @author dit (25.07.2015)
  */
 public enum Currency {
-    
+
     Afghanistan_Afghani(
             "afn",
             "Afghanistan Afghani",
@@ -636,24 +636,24 @@ public enum Currency {
             "zwl",
             "Zimbabwe Dollar",
             "Zimbabwe Dollar");
-    
+
     public final String code;
     public final String name;
     public final String symbol;
     public final int    subcurrency;
-    
+
     private Currency(String iso, String name, String sym) {
         this(iso, name, sym, 100); // dflt 100 cent
     }
-    
+
     private Currency(String iso, String name, String sym, int subC) {
         this.code = iso;
         this.name = name;
         this.subcurrency = subC;
         this.symbol = sym;
     }
-    
-    static Currency getByCode(String code) {
+
+    public static Currency getByCode(String code) {
         for (Currency c : Currency.values()) {
             if (c.code.equalsIgnoreCase(code)) {
                 return c;
@@ -661,10 +661,10 @@ public enum Currency {
         }
         throw new RuntimeException("code: " + code + " not found");
     }
-    
+
     /**
      * Bahraini_Dinar 1000 Malagasy_Ariary 5
-     * 
+     *
      * @param args
      */
     public static void main(String[] args) {
@@ -673,5 +673,5 @@ public enum Currency {
             System.out.println("currency.Short." + c.code + " = " + c.symbol);
         }
     }
-    
+
 }
