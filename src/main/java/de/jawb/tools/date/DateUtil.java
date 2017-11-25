@@ -3,23 +3,51 @@
  */
 package de.jawb.tools.date;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import de.jawb.tools.iso.Language;
 
 /**
  * @author dit (24.08.2012)
  */
 public class DateUtil {
 
+    private static final Map<Locale, DateFormat> formatterCache = new HashMap<>();
+
     public static final SimpleDateFormat DATE_TIME          = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
     public static final SimpleDateFormat TIME_HMS           = new SimpleDateFormat("HH:mm:ss");
     public static final SimpleDateFormat TIME_HM            = new SimpleDateFormat("HH:mm");
+
+    public static String getFullDateString(long timestamp, Locale locale){
+        return getFullDateString(new Date(timestamp), locale);
+    }
+
+    public static String getFullDateString(Date date, Locale locale){
+        DateFormat formatter = formatterCache.get(locale);
+        if(formatter == null){
+            formatter = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, locale);
+            formatterCache.put(locale, formatter);
+        }
+        return formatter.format(date);
+    }
+
+    public static String getTodayFullDateString(Locale locale){
+        return getFullDateString(System.currentTimeMillis(), locale);
+    }
+
+    public static String getTodayFullDateString(Language lang){
+        return getFullDateString(System.currentTimeMillis(), lang.getLocale());
+    }
 
     /**
      * @param minutes
@@ -113,7 +141,9 @@ public class DateUtil {
      *            wenn <code>true</code> wird Zeit der Form erstellt: <b>10.04.2012, 10:00</b><br>
      *            sonst: <b>10.04.2012</b>
      * @return datum (, zeit)
+     * @deprecated Benutze {@link #getFullDateString(long, Locale)}
      */
+    @Deprecated
     public static final String getDateTimeString(Date date, boolean time) {
         // if(date == null){
         // return "err:date==null";
@@ -132,7 +162,9 @@ public class DateUtil {
      *            wenn <code>true</code> wird Zeit der Form erstellt: <b>10.04.2012, 10:00</b><br>
      *            sonst: <b>10.04.2012</b>
      * @return datum, zeit
+     * @deprecated Benutze {@link #getFullDateString(long, Locale)}
      */
+    @Deprecated
     public static final String getTodayString(boolean time) {
         Calendar cal = Calendar.getInstance();
         return getDateTimeString(cal.getTime(), time);
