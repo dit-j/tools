@@ -2,20 +2,22 @@ package de.jawb.tools.mail;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Set;
 
 /**
  * @author dit (01.07.2011)
  */
 public class EMail {
 
-    private final String   sender;
 
-    private final String[] recipients;
-    private final String   subject;
-    private final String   content;
-    private final File[]   attachments;
+    private final String      sender;
 
-    public EMail(String from, String[] recipients, String subject, String content, File... attachments) {
+    private final Set<String> recipients;
+    private final String      subject;
+    private final String      content;
+    private final File[]      attachments;
+
+    public EMail(String from, Set<String> recipients, String subject, String content, File... attachments) {
         this.sender = from;
         this.recipients = recipients;
         this.subject = subject;
@@ -23,7 +25,7 @@ public class EMail {
         this.attachments = attachments;
     }
 
-    public EMail(String from, String[] recipients, String subject, String content) {
+    public EMail(String from, Set<String> recipients, String subject, String content) {
         this(from, recipients, subject, content, (File[]) null);
     }
 
@@ -31,7 +33,7 @@ public class EMail {
         return sender;
     }
 
-    public String[] getRecipients() {
+    public Set<String> getRecipients() {
         return recipients;
     }
 
@@ -53,7 +55,7 @@ public class EMail {
         builder.append("EMail [sender=");
         builder.append(sender);
         builder.append(", recipients=");
-        builder.append(Arrays.toString(recipients));
+        builder.append(recipients);
         builder.append(", subject=");
         builder.append(subject);
         builder.append(", content=");

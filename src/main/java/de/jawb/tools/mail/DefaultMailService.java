@@ -2,6 +2,7 @@ package de.jawb.tools.mail;
 
 import java.io.File;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -79,10 +80,11 @@ public class DefaultMailService extends AbstractMailService {
         //
         // EMPFAENGER LISTE
         //
-        String[] recipients = mail.getRecipients();
-        InternetAddress[] addressTo = new InternetAddress[recipients.length];
-        for (int i = 0; i < recipients.length; i++) {
-            addressTo[i] = new InternetAddress(recipients[i]);
+        Set<String> recipients = mail.getRecipients();
+        InternetAddress[] addressTo = new InternetAddress[recipients.size()];
+        int i = 0;
+        for (String emailAddress : recipients) {
+            addressTo[i++] = new InternetAddress(emailAddress);
         }
         msg.setRecipients(Message.RecipientType.TO, addressTo);
 
