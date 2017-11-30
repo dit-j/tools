@@ -156,4 +156,8 @@ public class Generator {
         }
         return stars;
     }
+    
+    public static void main(String[] args) {
+        System.out.println(generateToken(100000));
+    }
 }
