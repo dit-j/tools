@@ -115,7 +115,6 @@ public class PasswordScoreCalculator {
             score = score - countRepeatChars * 4;
         }
 
-        System.out.println(score);
         return score < 0 ? 0 : Math.min(score, 100);
     }
     
