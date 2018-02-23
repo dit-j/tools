@@ -21,6 +21,12 @@ public class Generator {
     public static final String CHARS_SPECIAL  = "()[]{}?!$%&/*+~-,.;:<=>_|@#";
     public static final String CHARS_ALL      = CHARS_UP_LC_NR + CHARS_SPECIAL;
     
+    public static void main(String[] args) {
+        String ps = generatePassword(8, false);
+        System.out.println(ps);
+        System.out.println(PasswordScoreCalculator.calculateScore(ps));
+    }
+    
     /**
      * Generiert ein zufaelliges Passwort
      *
@@ -45,19 +51,13 @@ public class Generator {
         final StringBuilder sb = new StringBuilder();
         final Random r = new SecureRandom();
         
-        if (length > 6) {
-            if (length >= 8) {
-                
-                final int minStrength = useSymbols ? 90 : 70;
-                boolean done = false;
-                do {
-                    PasswordScoreInfo si = createPrettyPassword(r, sb, length, useSymbols);
-                    done = si.countLC > 0 && si.countUC > 0 && si.countNr > 0 && si.score > minStrength;
-                } while (!done);
-                
-            } else {
-                createPrettyPassword(r, sb, length, useSymbols);
-            }
+        if (length >= 4) {
+            int minStrength = useSymbols ? Math.min(length * 10, 100) : Math.min((length * 10) - 10, 100);
+            boolean done = false;
+            do {
+                PasswordScoreInfo si = createPrettyPassword(r, sb, length, useSymbols);
+                done = si.countLC > 0 && si.countUC > 0 && si.countNr > 0 && si.score >= minStrength;
+            } while (!done);
         } else {
             final String chars = useSymbols ? CHARS_ALL : CHARS_UP_LC_NR;
             for (int i = 0; i < length; i++) {
@@ -72,23 +72,24 @@ public class Generator {
         if (sb.length() > 0) sb.setLength(0);
         
         sb.append(getRandomFromString(r, CHARS_LC_UC));
-
+        
         int lastType = 0;
         int nextType = 0;
-        String src   = null;
+        String src = null;
         int maxCharType = sym ? 4 : 3;
         
         for (int i = 0; i < length - 2; i++) {
             
-            while((nextType = r.nextInt(maxCharType)) == lastType);
+            while ((nextType = r.nextInt(maxCharType)) == lastType)
+                ;
             
-            if(nextType == 0){
+            if (nextType == 0) {
                 src = CHARS_LC_UC;
-            } else if (nextType == 1){
+            } else if (nextType == 1) {
                 src = CHARS_LC_UC;
-            } else if (nextType == 2){
+            } else if (nextType == 2) {
                 src = CHARS_NR;
-            } else if (nextType == 3){
+            } else if (nextType == 3) {
                 src = CHARS_SPECIAL;
             }
             lastType = nextType;
