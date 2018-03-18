@@ -63,7 +63,7 @@ public class DateUtilTest {
         try {
             Date date = DateUtil.getDateFromDateString("29.10.2016, 10:00:00");
             Assert.assertEquals(CAL.getTimeInMillis(), date.getTime());
-        } catch (ParseException e) {
+        } catch (Exception e) {
             fail(e.getMessage());
         }
     }
@@ -72,7 +72,7 @@ public class DateUtilTest {
     public void testGetMillisFromDateString() {try {
         long millis = DateUtil.getMillisFromDateString("29.10.2016, 10:00:00");
         Assert.assertEquals(CAL.getTimeInMillis(), millis);
-    } catch (ParseException e) {
+    } catch (Exception e) {
         fail(e.getMessage());
     }
     }
