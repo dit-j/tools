@@ -41,6 +41,9 @@ public class PasswordScoreCalculatorTest {
     
     @Test
     public void testPasswordScore() {
+        Assert.assertTrue(PasswordScoreCalculator.calculateScore("12345").score < 10);
+        Assert.assertTrue(PasswordScoreCalculator.calculateScore("123456").score < 10);
+        Assert.assertTrue(PasswordScoreCalculator.calculateScore("1234567").score < 10);
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("abc").score < 20);
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("a1b/C3").score > 50);
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("a1b/C3d%4").score == 100);

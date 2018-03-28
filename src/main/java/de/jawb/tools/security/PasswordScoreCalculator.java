@@ -1,9 +1,41 @@
 package de.jawb.tools.security;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author dit (15.02.2018)
  */
 public class PasswordScoreCalculator {
+    
+    private static List<String> BLACK_LIST = Arrays.asList(
+            "password", 
+            "123456789",
+            "12345678",
+            "1234567",
+            "123456",
+            "12345",
+            "1234",
+            "123",
+            "qwerty",
+            "abc123",
+            "football",
+            "monkey",
+            "letmein",
+            "111111",
+            "1q2w3e4r",
+            "google",
+            "1q2w3e4r5t",
+            "123qwe",
+            "zxcvbnm",
+            "1q2w3e",
+            "666666",
+            "123321",
+            "suzuki",
+            "yamaha",
+            "honda"
+    );
+    
     
     public static class PasswordScoreInfo {
         
@@ -32,6 +64,21 @@ public class PasswordScoreCalculator {
         
     }
     
+    private static String removeBlackListed(String password){
+        String temp = password;
+        for(String s : BLACK_LIST){
+            if(temp.contains(s)) temp = temp.replaceAll(s, "");
+        }
+        return temp;
+    }
+    
+    public static boolean containsBlackListed(String password){
+        for(String s : BLACK_LIST){
+            if(password.contains(s)) return true;
+        }
+        return false;
+    }
+    
     /**
      * Liefert Passwortstaerke von 0 bis 100%
      * 
@@ -39,6 +86,8 @@ public class PasswordScoreCalculator {
      * @return Passwortstaerke in Prozent
      */
     public static PasswordScoreInfo calculateScore(String password) {
+        
+        password = removeBlackListed(password);
         
         int score = 0;
         char[] chars = password.toCharArray();
@@ -71,7 +120,7 @@ public class PasswordScoreCalculator {
                     countNrOrSymInTheMiddle++;
                 }
                 if (!lastChar && Character.isDigit(chars[i + 1])) {
-                    countConsecutiveLC++;
+                    countConsecutiveNr++;
                 }
             } else if (!Character.isLetterOrDigit(ch) && !Character.isWhitespace(ch)) { // req5
                 countSym++;
@@ -122,8 +171,8 @@ public class PasswordScoreCalculator {
         }
         
         // Nur Zahlen
-        if (countNr > 0 && countLC == 0 && countUC == 0 && countNr == 0 && countSym == 0) {
-            score = score - length;
+        if (countNr > 0 && countLC == 0 && countUC == 0 && countSym == 0) {
+            score = score - length * 4;
         }
         
         // Mehrere Kleinbuchstaben hintereinander
@@ -136,7 +185,7 @@ public class PasswordScoreCalculator {
         }
         // Mehrere Zahlen hintereinander
         if (countConsecutiveNr > 0) {
-            score = score - countConsecutiveNr * 2;
+            score = score - countConsecutiveNr * 5;
         }
         // Zeichen die mehrmals vorkommen
         if (countRepeatChars > 0) {
