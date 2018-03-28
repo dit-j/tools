@@ -36,32 +36,7 @@ public class PasswordScoreCalculator {
             "honda"
     );
     
-    
-    public static class PasswordScoreInfo {
-        
-        public final int countUC, countLC, countNr, countSym, countRepeatChars;
-        public final int countConsecutiveLC, countConsecutiveUC, countConsecutiveNr;
-        public final int score;
-        
-        public PasswordScoreInfo(int countUC, int countLC, int countNr, int countSym, int countRepeatChars, int countConsecutiveLC, int countConsecutiveUC, int countConsecutiveNr, int score) {
-            super();
-            this.countUC = countUC;
-            this.countLC = countLC;
-            this.countNr = countNr;
-            this.countSym = countSym;
-            this.countRepeatChars = countRepeatChars;
-            this.countConsecutiveLC = countConsecutiveLC;
-            this.countConsecutiveUC = countConsecutiveUC;
-            this.countConsecutiveNr = countConsecutiveNr;
-            this.score = score;
-        }
-
-        @Override
-        public String toString() {
-            return "PasswordScoreInfo [score=" + score + ", countUC=" + countUC + ", countLC=" + countLC + ", countNr=" + countNr + ", countSym=" + countSym + "]";
-        }
-        
-        
+    private PasswordScoreCalculator() {
     }
     
     private static String removeBlackListed(String password){
@@ -202,6 +177,33 @@ public class PasswordScoreCalculator {
                 countConsecutiveUC, //
                 countConsecutiveNr, //
                 score < 0 ? 0 : Math.min(score, 100)); //
+    }
+
+    public static class PasswordScoreInfo {
+        
+        public final int countUC, countLC, countNr, countSym, countRepeatChars;
+        public final int countConsecutiveLC, countConsecutiveUC, countConsecutiveNr;
+        public final int score;
+        
+        public PasswordScoreInfo(int countUC, int countLC, int countNr, int countSym, int countRepeatChars, int countConsecutiveLC, int countConsecutiveUC, int countConsecutiveNr, int score) {
+            super();
+            this.countUC = countUC;
+            this.countLC = countLC;
+            this.countNr = countNr;
+            this.countSym = countSym;
+            this.countRepeatChars = countRepeatChars;
+            this.countConsecutiveLC = countConsecutiveLC;
+            this.countConsecutiveUC = countConsecutiveUC;
+            this.countConsecutiveNr = countConsecutiveNr;
+            this.score = score;
+        }
+
+        @Override
+        public String toString() {
+            return "PasswordScoreInfo [score=" + score + ", countUC=" + countUC + ", countLC=" + countLC + ", countNr=" + countNr + ", countSym=" + countSym + "]";
+        }
+        
+        
     }
     
 }
