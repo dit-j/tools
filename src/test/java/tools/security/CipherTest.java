@@ -36,7 +36,7 @@ public class CipherTest {
 
     @Test
     public void testAES_1() {
-        ICipher c = CipherFactory.createAES_128("example-unsafe_key");
+        ICipher c = CipherFactory.createAES_128_Legacy("example-unsafe_key");
         String encoded = c.encrypt(original);
         String decoded = c.decrypt(encoded);
         Assert.assertEquals(original, decoded);
@@ -48,5 +48,23 @@ public class CipherTest {
         String encoded = c.encrypt(original);
         String decoded = c.decrypt(encoded);
         Assert.assertEquals(original, decoded);
+    }
+    
+    @Test
+    public void testAES_128() {
+        ICipher c = CipherFactory.createAES_128("example-unsafe_key");
+        String encoded = c.encrypt(original);
+        String decoded = c.decrypt(encoded);
+        Assert.assertEquals(original, decoded);
+    }
+    
+    @Test
+    public void testAES_256() {
+//        if(CipherFactory.isAES_256Supported()){
+            ICipher c = CipherFactory.createAES_256("example-unsafe_key");
+            String encoded = c.encrypt(original);
+            String decoded = c.decrypt(encoded);
+            Assert.assertEquals(original, decoded);
+//        }
     }
 }

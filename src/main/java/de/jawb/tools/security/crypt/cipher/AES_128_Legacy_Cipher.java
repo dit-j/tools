@@ -8,10 +8,27 @@ import javax.crypto.spec.SecretKeySpec;
 
 import de.jawb.tools.security.base64.Base64;
 
-public class AESUtil {
+/**
+ * @author dit
+ */
+@Deprecated
+class AES_128_Legacy_Cipher implements ICipher {
 
-    private static final String KEY_SPEC_ALGORITHM = "AES";
-    private static final String CIPHER_ALG         = "AES";
+    private final String secKey;
+
+    AES_128_Legacy_Cipher(String secKey) {
+        this.secKey = secKey;
+    }
+
+    @Override
+    public String encrypt(String str) {
+        return encrypt(secKey, str);
+    }
+
+    @Override
+    public String decrypt(String encryptedString) {
+        return descrypt(secKey, encryptedString);
+    }
 
     private static SecretKeySpec create(String secKey) {
         try {
@@ -22,19 +39,19 @@ public class AESUtil {
 
             // nur die ersten 128 bit nutzen
             key = Arrays.copyOf(key, 16);
-
+            
             // der fertige Schluessel
-            return new SecretKeySpec(key, KEY_SPEC_ALGORITHM);
+            return new SecretKeySpec(key, "AES");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static String encrypt(String secKey, String str) {
+    private static String encrypt(String secKey, String str) {
         try {
 
-            Cipher cipher = Cipher.getInstance(CIPHER_ALG);
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.ENCRYPT_MODE, create(secKey));
 
             byte[] encrypted = cipher.doFinal(str.getBytes("UTF-8"));
@@ -46,11 +63,11 @@ public class AESUtil {
         }
     }
 
-    public static String descrypt(String secKey, String encryptedString) {
+    private static String descrypt(String secKey, String encryptedString) {
         try {
 
             byte[] cryptedBytes = Base64.decodeToBytes(encryptedString);
-            Cipher cipher = Cipher.getInstance(CIPHER_ALG);
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, create(secKey));
             byte[] cipherData = cipher.doFinal(cryptedBytes);
 
@@ -60,5 +77,4 @@ public class AESUtil {
             throw new CipherException(ex);
         }
     }
-
 }
