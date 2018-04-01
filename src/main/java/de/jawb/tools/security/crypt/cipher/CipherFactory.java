@@ -9,11 +9,11 @@ public class CipherFactory {
     }
     
     public static ICipher createAES_128(String key) {
-        return new AES_128_Cipher(key);
+        return new AESCipherImpl(key, 128);
     }
     
     public static ICipher createAES_256(String key) {
-        return new AES_256_Cipher(key);
+        return new AESCipherImpl(key, 256);
     }
     
     @Deprecated
