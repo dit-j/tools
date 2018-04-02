@@ -79,6 +79,11 @@ class AES_128_Legacy_Cipher implements ICipher {
     }
     
     @Override
+    public CipherType type() {
+        return CipherType.AES_128_Legacy;
+    }
+    
+    @Override
     public String toString() {
         return "AES-128-Cipher-Legacy";
     }

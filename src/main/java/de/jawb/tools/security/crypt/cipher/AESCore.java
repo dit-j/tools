@@ -1,6 +1,6 @@
 package de.jawb.tools.security.crypt.cipher;
 
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.security.SecureRandom;
 import java.security.spec.KeySpec;
 
@@ -21,6 +21,7 @@ import de.jawb.tools.security.base64.Base64;
  */
 class AESCore {
     
+    private static final Charset UTF_8 = Charset.forName("UTF-8");
     private static final String SEPARATOR = "#";
 
     private static void checkKeyLengthSupport(int keyLenght){
@@ -79,7 +80,7 @@ class AESCore {
             
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
-            byte[] encryptedData = cipher.doFinal(text.getBytes(StandardCharsets.UTF_8));
+            byte[] encryptedData = cipher.doFinal(text.getBytes(UTF_8));
             
             return toBase64(salt) + SEPARATOR + toBase64(iv) + SEPARATOR + toBase64(encryptedData);
             
@@ -111,7 +112,7 @@ class AESCore {
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
             byte[] decryptedData = cipher.doFinal(data);
             
-            return new String(decryptedData, StandardCharsets.UTF_8);
+            return new String(decryptedData, UTF_8);
             
         } catch (Exception e) {
             throw new CipherException(e);
@@ -142,10 +143,18 @@ class AESCore {
         
         // S2chxO/ASL4j7r1w/7i1Jg==|X1HbTkU9yPw83UTiadXuBA==|rCKsXyJB8DDEj30+uJztDw==
         long s = System.currentTimeMillis();
-        String encrypted = encrypt("test", "hallo welt", 256);
-        System.out.println(encrypted);
-        System.out.println(decrypt("test", encrypted, 256));
+//        String encrypted = encrypt("test", "hallo welt", 256);
         long e = System.currentTimeMillis();
+//        System.out.println(encrypted);
+//        System.out.println(e - s);
+        s = System.currentTimeMillis();
+        System.out.println(decrypt("test", "TR/2ww==#PPiT/HKPL9zFKDY63fssFw==#TLVG55K01NHyRkyXfc+DCg==", 256));
+        e = System.currentTimeMillis();
+        System.out.println(e - s);
+
+        s = System.currentTimeMillis();
+        System.out.println(decrypt("test", "iojB2w==#QX2ONa0+rOwb1fPF7OzG2A==#YXhdLb8bQHi2QfKASDqYIA==", 256));
+        e = System.currentTimeMillis();
         System.out.println(e - s);
         
     }

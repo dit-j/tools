@@ -24,4 +24,9 @@ class AESCipherImpl implements ICipher {
     public String toString() {
         return "AES-" + keyLength + "-Cipher (AES/CBC/PKCS5Padding)";
     }
+
+    @Override
+    public CipherType type() {
+        return keyLength == 256 ? CipherType.AES_256 : CipherType.AES_128;
+    }
 }

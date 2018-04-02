@@ -55,4 +55,9 @@ public class MaskedAESCipher implements ICipher {
         return temp;
     }
 
+    @Override
+    public CipherType type() {
+        return CipherType.AES_128_XOR_Legacy;
+    }
+
 }
