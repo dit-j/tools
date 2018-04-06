@@ -15,13 +15,13 @@ import de.jawb.tools.security.crypt.cipher.ICipher;
 
 @RunWith(Parameterized.class)
 public class CipherTest {
-
+    
     private String original;
-
+    
     public CipherTest(String txt) {
         this.original = txt;
     }
-
+    
     @Parameters
     public static Collection<Object> data() {
         return Arrays.asList(new Object[] { //
@@ -33,7 +33,7 @@ public class CipherTest {
                 Generator.generateToken(250) //
         });
     }
-
+    
     @Test
     public void testAES_1() {
         ICipher c = CipherFactory.createAES_128_Legacy("example-unsafe_key");
@@ -41,7 +41,7 @@ public class CipherTest {
         String decoded = c.decrypt(encoded);
         Assert.assertEquals(original, decoded);
     }
-
+    
     @Test
     public void testAES_2() {
         ICipher c = CipherFactory.createMaskedAESCipher("example-XOR-Key", "example-AES-Key");
@@ -59,12 +59,28 @@ public class CipherTest {
     }
     
     @Test
+    public void testAES_128_different_output() {
+        ICipher c = CipherFactory.createAES_128("example-unsafe_key");
+        String a = c.encrypt("test");
+        String b = c.encrypt("test");
+        Assert.assertNotEquals(a, b);
+    }
+    
+    @Test
     public void testAES_256() {
-//        if(CipherFactory.isAES_256Supported()){
+        if (CipherFactory.isAES_256Supported()) {
             ICipher c = CipherFactory.createAES_256("example-unsafe_key");
             String encoded = c.encrypt(original);
             String decoded = c.decrypt(encoded);
             Assert.assertEquals(original, decoded);
-//        }
+        }
+    }
+    
+    @Test
+    public void testAES_256_different_output() {
+        ICipher c = CipherFactory.createAES_256("example-unsafe_key");
+        String a = c.encrypt("test");
+        String b = c.encrypt("test");
+        Assert.assertNotEquals(a, b);
     }
 }

@@ -6,7 +6,9 @@ package de.jawb.tools.security;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import de.jawb.tools.security.PasswordScoreCalculator.PasswordScoreInfo;
+import de.jawb.tools.security.password.PasswordAnalysisResult;
+import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
+import de.jawb.tools.security.password.PasswordScoreCalculator;
 
 /**
  * @author dit (13.08.2012)
@@ -52,12 +54,18 @@ public class Generator {
         final Random r = new SecureRandom();
         
         if (length >= 4) {
+            
             int minStrength = useSymbols ? Math.min(length * 10, 100) : Math.min((length * 10) - 10, 100);
             boolean done = false;
             do {
-                PasswordScoreInfo si = createPrettyPassword(r, sb, length, useSymbols);
-                done = si.countLC > 0 && si.countUC > 0 && si.countNr > 0 && si.score >= minStrength;
+                PasswordAnalysisResult si = createPrettyPassword(r, sb, length, useSymbols);
+                int countLC = si.property(PasswordProperty.countLC);
+                int countUC = si.property(PasswordProperty.countUC);
+                int countNr = si.property(PasswordProperty.countNr);
+                int score   = si.score();
+                done = countLC > 0 && countUC > 0 && countNr > 0 && score >= minStrength;
             } while (!done);
+            
         } else {
             final String chars = useSymbols ? CHARS_ALL : CHARS_UP_LC_NR;
             for (int i = 0; i < length; i++) {
@@ -68,7 +76,7 @@ public class Generator {
         return sb.toString();
     }
     
-    private static PasswordScoreInfo createPrettyPassword(Random r, StringBuilder sb, int length, boolean sym) {
+    private static PasswordAnalysisResult createPrettyPassword(Random r, StringBuilder sb, int length, boolean sym) {
         if (sb.length() > 0) sb.setLength(0);
         
         sb.append(getRandomFromString(r, CHARS_LC_UC));
