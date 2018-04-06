@@ -126,9 +126,9 @@ class AESCore {
         return Base64.decodeToBytes(base64Data);
     }
     
-    private static byte[] createSalt(int keyLength){
+    private static byte[] createSalt(int keySize){
         SecureRandom random = new SecureRandom();  
-        byte[] salt = new byte[keyLength / 8];  
+        byte[] salt = new byte[keySize];  
         random.nextBytes(salt);
         return salt;
     }
@@ -140,22 +140,9 @@ class AESCore {
     }
     
     public static void main(String[] args) {
-        
         // S2chxO/ASL4j7r1w/7i1Jg==|X1HbTkU9yPw83UTiadXuBA==|rCKsXyJB8DDEj30+uJztDw==
-        long s = System.currentTimeMillis();
-//        String encrypted = encrypt("test", "hallo welt", 256);
-        long e = System.currentTimeMillis();
-//        System.out.println(encrypted);
-//        System.out.println(e - s);
-        s = System.currentTimeMillis();
-        System.out.println(decrypt("test", "TR/2ww==#PPiT/HKPL9zFKDY63fssFw==#TLVG55K01NHyRkyXfc+DCg==", 256));
-        e = System.currentTimeMillis();
-        System.out.println(e - s);
-
-        s = System.currentTimeMillis();
-        System.out.println(decrypt("test", "iojB2w==#QX2ONa0+rOwb1fPF7OzG2A==#YXhdLb8bQHi2QfKASDqYIA==", 256));
-        e = System.currentTimeMillis();
-        System.out.println(e - s);
+        System.out.println(encrypt("letmein", "name", 256));
+        System.out.println(decrypt("letmein", "cE0q4A==#haYUiPumFHseKAUtLj0HYg==#RaknPNnfqkadDobsLkvzyQ==", 256));
         
     }
 }
