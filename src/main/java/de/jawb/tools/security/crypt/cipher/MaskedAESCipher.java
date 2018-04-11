@@ -7,21 +7,21 @@ import de.jawb.tools.security.crypt.mask.IMasker;
 import de.jawb.tools.security.crypt.mask.MaskerFactory;
 
 /**
- * 
+ *
  * @author dit
  * @deprecated Diese Klasse verwendet den veralteten AES_128_Legacy Cipher!
  */
-@Deprecated 
+@Deprecated
 public class MaskedAESCipher implements ICipher {
 
     private List<? extends IMasker> maskers;
-    private List<? extends ICipher> ciphers; 
+    private List<? extends ICipher> ciphers;
 
     /**
      * @param xorKey
      * @param aes128Key
      */
-    MaskedAESCipher(String xorKey, String aesKey) {
+    MaskedAESCipher(String xorKey, char[] aesKey) {
         maskers = Arrays.asList( //
                 MaskerFactory.base64(), //
                 MaskerFactory.xor(xorKey) //
