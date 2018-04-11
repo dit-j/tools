@@ -25,14 +25,13 @@ import de.jawb.tools.security.base64.Base64;
  */
 class AESCore {
 
-
     private static final Charset UTF_8     = Charset.forName("UTF-8");
     private static final String  SEPARATOR = "#";
 
     private static void checkKeyLengthSupport(int keyLenght) {
         try {
             if (Cipher.getMaxAllowedKeyLength("AES") < keyLenght) {
-                throw new CipherException("AES-" + keyLenght + " is not supported");
+                throw new CipherException("AES-" + keyLenght + " is not supported. Current vm version: " + System.getProperty("java.version"));
             }
         } catch (Exception e) {
             if (e instanceof CipherException) {
@@ -147,8 +146,7 @@ class AESCore {
     private static byte[] toBytes(char[] chars) {
         CharBuffer charBuffer = CharBuffer.wrap(chars);
         ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
-        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
-                byteBuffer.position(), byteBuffer.limit());
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
         Arrays.fill(charBuffer.array(), '\u0000'); // clear sensitive data
         Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
         return bytes;
