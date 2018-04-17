@@ -12,6 +12,11 @@ public class StringUtilTest {
     public void setUp() throws Exception {}
 
     @Test
+    public void testCharsequenceToCharArray() {
+        Assert.assertEquals("dabc", new String(StringUtil.getChars("dabc")));
+    }
+
+    @Test
     public void testCutStringToMaxLength() {
         Assert.assertEquals("abcd...", StringUtil.cutStringToMaxLength("abcdefghijkl", 4));
         Assert.assertEquals("abcd", StringUtil.cutStringToMaxLength("abcd", 4));

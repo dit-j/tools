@@ -7,6 +7,14 @@ import java.util.Locale;
  */
 public class StringUtil {
 
+    public static char[] getChars(CharSequence charSequence){
+        char[] chars = new char[charSequence.length()];
+        for(int i = 0; i < chars.length; i++){
+            chars[i] = charSequence.charAt(i);
+        }
+        return chars;
+    }
+
     /**
      * Kuerzt einen String auf eine bestimmte Laenge.
      *

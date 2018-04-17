@@ -29,6 +29,14 @@ public class PasswordScoreCalculator {
         return temp;
     }
 
+    public static Set<String> getBlackListedStrings(String password){
+        Set<String> set = new HashSet<>();
+        for (String s : BLACK_LIST) {
+            if (password.contains(s)) set.add(s);
+        }
+        return set;
+    }
+
     public static boolean containsBlackListed(String password) {
         for (String s : BLACK_LIST) {
             if (password.contains(s)) return true;
@@ -180,7 +188,9 @@ public class PasswordScoreCalculator {
     }
 
     public static void main(String[] args) {
-        System.out.println(PasswordScoreCalculator.calculateScore("2958344913546871413587993462897"));
+        System.out.println(PasswordScoreCalculator.calculateScore("aGn5nd123"));
+
+        System.out.println(getBlackListedStrings("letmeinaGn5nd123"));
 
 //        for(int i = 1; i < 30; i++){
 //            int multiplier = Math.max((i - 4) + 1, 2);
