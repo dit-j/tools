@@ -157,11 +157,26 @@ public class DateUtil {
         if (style == DurationStyle.HumanReadable) {
             
             StringBuilder sb = new StringBuilder();
-            if (days > 0) sb.append(days).append("d ");
-            if (hours > 0) sb.append(hours).append("h ");
-            if (minutes > 0) sb.append(minutes).append("m ");
-            if (seconds > 0) sb.append(seconds).append("s ");
-            if (restMillis > 0) sb.append(restMillis).append("ms");
+
+            boolean appendNext = false;
+            if (days > 0) {
+                appendNext = true;
+                sb.append(days).append("d ");
+            }
+            if (hours > 0 || appendNext) {
+                appendNext = true;
+                sb.append(hours).append("h ");
+            }
+            if (minutes > 0 || appendNext) {
+                appendNext = true;
+                sb.append(minutes).append("m ");
+            }
+            if (seconds > 0 || appendNext) {
+                appendNext = true;
+                sb.append(seconds).append("s ");
+            }
+            
+            sb.append(restMillis).append("ms");
             
             return sb.toString().trim();
             

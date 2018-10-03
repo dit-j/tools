@@ -51,12 +51,14 @@ public class DateUtilTest {
     
     @Test
     public void testGetDurationFromMillis2() {
-        Assert.assertEquals("3m 234ms", DateUtil.toReadableString(DurationStyle.HumanReadable, TimeUnit.MINUTES.toMillis(3) + 234));
+        Assert.assertEquals("3m 0s 234ms",  DateUtil.toReadableString(DurationStyle.HumanReadable, TimeUnit.MINUTES.toMillis(3) + 234));
+        Assert.assertEquals("3m 1s 234ms",  DateUtil.toReadableString(DurationStyle.HumanReadable, TimeUnit.MINUTES.toMillis(3) + 1234));
+        Assert.assertEquals("0ms",          DateUtil.toReadableString(DurationStyle.HumanReadable, 0));
         Assert.assertEquals("00:03:00:234", DateUtil.toReadableString(DurationStyle.Full, TimeUnit.MINUTES.toMillis(3) + 234));
-        Assert.assertEquals("03:00:234", DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 234));
-        Assert.assertEquals("03:01:234", DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 1234));
-        Assert.assertEquals("234", DateUtil.toReadableString(DurationStyle.Short, 234));
-        Assert.assertEquals("234ms", DateUtil.toReadableString(DurationStyle.HumanReadable, 234));
+        Assert.assertEquals("03:00:234",    DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 234));
+        Assert.assertEquals("03:01:234",    DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 1234));
+        Assert.assertEquals("234",          DateUtil.toReadableString(DurationStyle.Short, 234));
+        Assert.assertEquals("234ms",        DateUtil.toReadableString(DurationStyle.HumanReadable, 234));
     }
 
     @Test
