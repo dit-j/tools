@@ -2,15 +2,16 @@ package date;
 
 import static org.junit.Assert.fail;
 
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import de.jawb.tools.date.DateUtil;
+import de.jawb.tools.date.DurationStyle;
 
 public class DateUtilTest {
 
@@ -46,6 +47,16 @@ public class DateUtilTest {
     @Test
     public void testGetDurationFromMillis() {
         Assert.assertEquals("00:04:00:000", DateUtil.getDurationFromMillis(1000 * 60 * 4));
+    }
+    
+    @Test
+    public void testGetDurationFromMillis2() {
+        Assert.assertEquals("3m 234ms", DateUtil.toReadableString(DurationStyle.HumanReadable, TimeUnit.MINUTES.toMillis(3) + 234));
+        Assert.assertEquals("00:03:00:234", DateUtil.toReadableString(DurationStyle.Full, TimeUnit.MINUTES.toMillis(3) + 234));
+        Assert.assertEquals("03:00:234", DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 234));
+        Assert.assertEquals("03:01:234", DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 1234));
+        Assert.assertEquals("234", DateUtil.toReadableString(DurationStyle.Short, 234));
+        Assert.assertEquals("234ms", DateUtil.toReadableString(DurationStyle.HumanReadable, 234));
     }
 
     @Test

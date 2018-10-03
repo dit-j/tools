@@ -27,7 +27,6 @@ public class DateUtil {
     public static final SimpleDateFormat                    TIME_HM            = new SimpleDateFormat("HH:mm");
     
     /**
-     * 
      * @param millis
      * @param locale
      * @param style
@@ -38,7 +37,6 @@ public class DateUtil {
     }
     
     /**
-     * 
      * @param date
      * @param locale
      * @param style
@@ -54,7 +52,6 @@ public class DateUtil {
     }
     
     /**
-     * 
      * @param locale
      * @param style
      * @return
@@ -128,6 +125,7 @@ public class DateUtil {
      *            dauer in Millisekunden
      * @return zB fuer 122265469 -> 1d 09:57:45:469
      */
+    @Deprecated
     public static String getDurationFromMillis(long duration) {
         long days = TimeUnit.MILLISECONDS.toDays(duration);
         long hours = TimeUnit.MILLISECONDS.toHours(duration) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(duration));
@@ -139,6 +137,66 @@ public class DateUtil {
             return String.format("%02d:%02d:%02d:%03d", hours, minutes, seconds, restMillis);
         } else {
             return String.format("%dd %02d:%02d:%02d:%03d", days, hours, minutes, seconds, restMillis);
+        }
+    }
+    
+    /**
+     * Gibt die Dauer als ein String der Form: <dd:>hh:mm:ss:ms
+     *
+     * @param duration
+     *            dauer in Millisekunden
+     * @return zB fuer 122265469 -> 1d 09:57:45:469
+     */
+    public static String toReadableString(DurationStyle style, long duration) {
+        long days = TimeUnit.MILLISECONDS.toDays(duration);
+        long hours = TimeUnit.MILLISECONDS.toHours(duration) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(duration));
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration));
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(duration) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
+        long restMillis = duration - (TimeUnit.MILLISECONDS.toSeconds(duration) * 1000);
+        
+        if (style == DurationStyle.HumanReadable) {
+            
+            StringBuilder sb = new StringBuilder();
+            if (days > 0) sb.append(days).append("d ");
+            if (hours > 0) sb.append(hours).append("h ");
+            if (minutes > 0) sb.append(minutes).append("m ");
+            if (seconds > 0) sb.append(seconds).append("s ");
+            if (restMillis > 0) sb.append(restMillis).append("ms");
+            
+            return sb.toString().trim();
+            
+        } else if (style == DurationStyle.Full) {
+            if (days == 0) {
+                return String.format("%02d:%02d:%02d:%03d", hours, minutes, seconds, restMillis);
+            } else {
+                return String.format("%dd %02d:%02d:%02d:%03d", days, hours, minutes, seconds, restMillis);
+            }
+        } else if (style == DurationStyle.Short) {
+            
+            StringBuilder sb = new StringBuilder();
+            boolean appendNext = false;
+            if (days > 0) {
+                appendNext = true;
+                sb.append(String.format("%dd", days)).append(":");
+            }
+            if (hours > 0 || appendNext) {
+                appendNext = true;
+                sb.append(String.format("%02d", hours)).append(":");
+            }
+            if (minutes > 0 || appendNext) {
+                appendNext = true;
+                sb.append(String.format("%02d", minutes)).append(":");
+            }
+            if (seconds > 0 || appendNext) {
+                appendNext = true;
+                sb.append(String.format("%02d", seconds)).append(":");
+            }
+            
+            sb.append(String.format("%03d", restMillis));
+            
+            return sb.toString().trim();
+        } else {
+            throw new IllegalArgumentException("Unknown style: " + style);
         }
     }
     
@@ -221,7 +279,7 @@ public class DateUtil {
      *             wenn der String nicht der Form <tt>dd.MM.yyyy, hh:mm</tt>
      *             oder <tt>dd.MM.yyyy</tt> ist
      */
-    public static final long getMillisFromDateString(String dateTime){
+    public static final long getMillisFromDateString(String dateTime) {
         try {
             if ((dateTime != null) && (dateTime.indexOf(',') < 0)) {
                 return SIMPLE_DATE_FORMAT.parse(dateTime).getTime();
