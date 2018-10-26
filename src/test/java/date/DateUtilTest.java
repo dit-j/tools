@@ -59,6 +59,7 @@ public class DateUtilTest {
         Assert.assertEquals("03:01:234",    DateUtil.toReadableString(DurationStyle.Short, TimeUnit.MINUTES.toMillis(3) + 1234));
         Assert.assertEquals("234",          DateUtil.toReadableString(DurationStyle.Short, 234));
         Assert.assertEquals("234ms",        DateUtil.toReadableString(DurationStyle.HumanReadable, 234));
+        Assert.assertEquals("0ms",        DateUtil.toReadableString(DurationStyle.HumanReadable, 0));
     }
 
     @Test
