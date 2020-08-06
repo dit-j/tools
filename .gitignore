@@ -5,3 +5,5 @@
 *.prefs
 mvn_clean_install_copy.bat
 *.iml
+.idea/
+.git/
