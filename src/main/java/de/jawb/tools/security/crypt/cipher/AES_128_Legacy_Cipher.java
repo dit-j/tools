@@ -89,10 +89,12 @@ class AES_128_Legacy_Cipher implements ICipher {
 
     public static void main(String[] args) {
 
-        ICipher c = new AES_128_Legacy_Cipher("letmein".toCharArray());
 
-        System.out.println(c.encrypt("test"));
-        System.out.println(c.decrypt("A85+ndGdLLv24jv+wL8t3w=="));
+        final String key1 = System.getProperty("cipher.key1", "DSdRHiKkOLEn");
+        final String key2 = System.getProperty("cipher.key2", "T/ndbn3!uHhpo");
+        final ICipher c = CipherFactory.createMaskedAESCipher(key1, key2.toCharArray());
+
+        System.out.println(c.decrypt("6cVeeiynhR8eHerWhOEeYdgUxg7A8Gkx5puxFRkIcQs="));
 
     }
 }

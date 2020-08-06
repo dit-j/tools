@@ -26,7 +26,7 @@ import de.jawb.tools.security.base64.Base64;
 class AESCore {
 
     private static final Charset UTF_8     = Charset.forName("UTF-8");
-    private static final String  SEPARATOR = "#";
+    private static final String LEGACY_SEPARATOR = "#";
 
     private static void checkKeyLengthSupport(int keyLenght) {
         try {
@@ -85,7 +85,12 @@ class AESCore {
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
             byte[] encryptedData = cipher.doFinal(text.getBytes(UTF_8));
 
-            return toBase64(salt) + SEPARATOR + toBase64(iv) + SEPARATOR + toBase64(encryptedData);
+//            return toBase64(salt) + LEGACY_SEPARATOR + toBase64(iv) + LEGACY_SEPARATOR + toBase64(encryptedData);
+            String saltBase64   = toBase64(salt);
+            String ivBase64     = toBase64(iv);
+            String dataBase64   = toBase64(encryptedData);
+
+            return saltBase64 + ivBase64 + dataBase64;
 
         } catch (Exception e) {
             throw new CipherException(e);
@@ -102,11 +107,29 @@ class AESCore {
 
         try {
 
-            String[] parts = encodedData.split(SEPARATOR);
+            byte[] salt, iv, data;
 
-            byte[] salt = fromBase64(parts[0]);
-            byte[] iv   = fromBase64(parts[1]);
-            byte[] data = fromBase64(parts[2]);
+            if(encodedData.contains(LEGACY_SEPARATOR)){
+                String[] parts = encodedData.split(LEGACY_SEPARATOR);
+
+                salt = fromBase64(parts[0]);
+                iv   = fromBase64(parts[1]);
+                data = fromBase64(parts[2]);
+
+            } else {
+
+                if(keyLengthInBits == 128){
+                    salt = fromBase64(encodedData.substring(0, 24));
+                    iv   = fromBase64(encodedData.substring(24, 48));
+                    data = fromBase64(encodedData.substring(48));
+                } else {
+                    salt = fromBase64(encodedData.substring(0, 44));
+                    iv   = fromBase64(encodedData.substring(44, 68));
+                    data = fromBase64(encodedData.substring(68));
+                }
+
+            }
+
 
             SecretKey key = generateKey(password, salt, keyLengthInBits);
 
@@ -154,7 +177,8 @@ class AESCore {
 
     public static void main(String[] args) {
         // S2chxO/ASL4j7r1w/7i1Jg==|X1HbTkU9yPw83UTiadXuBA==|rCKsXyJB8DDEj30+uJztDw==
-        System.out.println(encrypt("letmein".toCharArray(), "name", 256));
-        System.out.println(decrypt("letmein".toCharArray(), "cE0q4A==#haYUiPumFHseKAUtLj0HYg==#RaknPNnfqkadDobsLkvzyQ==", 256));
+        String encrypted = encrypt("letmein".toCharArray(), "name", 256);
+        System.out.println(encrypted);
+        System.out.println(decrypt("letmein".toCharArray(), encrypted, 256));
     }
 }
