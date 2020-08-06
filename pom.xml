@@ -8,7 +8,7 @@
 
 	<properties>
 		<slf4j.version>1.7.22</slf4j.version>
-		<json.jackson.version>2.8.5</json.jackson.version>
+		<json.jackson.version>2.11.2</json.jackson.version>
 		<javax.activation.version>1.1</javax.activation.version>
 		<javax.mail.version>1.4.7</javax.mail.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
