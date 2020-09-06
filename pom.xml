@@ -4,7 +4,7 @@
 	<groupId>jawb.tools</groupId>
 	<artifactId>jawb-tools-util</artifactId>
 	<packaging>jar</packaging>
-	<version>1.4.1</version>
+	<version>1.4.3</version>
 
 	<properties>
 		<slf4j.version>1.7.22</slf4j.version>

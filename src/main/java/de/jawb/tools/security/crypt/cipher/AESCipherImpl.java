@@ -1,13 +1,27 @@
 package de.jawb.tools.security.crypt.cipher;
 
+import java.util.Arrays;
+
 class AESCipherImpl implements ICipher {
 
-    private final char[] password;
-    private final int    keyLength;
+    private char[] password;
+    private int    keyLength;
 
     AESCipherImpl(char[] password, int keyLength) {
         this.password = password;
         this.keyLength = keyLength;
+    }
+
+    @Override
+    public ICipher clone() {
+        return new AESCipherImpl(this.password.clone(), keyLength);
+    }
+
+    @Override
+    public void reset() {
+        Arrays.fill(password, '0');
+        password = null;
+        keyLength = -1;
     }
 
     @Override

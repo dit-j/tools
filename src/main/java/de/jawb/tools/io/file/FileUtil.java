@@ -5,6 +5,7 @@ package de.jawb.tools.io.file;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.swing.filechooser.FileSystemView;
 
@@ -19,6 +20,20 @@ import de.jawb.tools.string.StringUtil;
  * @author dit (25.07.2011)
  */
 public class FileUtil {
+
+    public static String getUserHomePath() {
+        String property = System.getProperty("user.home");
+
+        if(property == null){
+            throw new IllegalStateException("System property 'user.home' is not available");
+        }
+
+        return property;
+    }
+
+    public static File getUserHomeFile() {
+        return new File(getUserHomePath());
+    }
 
     /**
      * @param dir
@@ -49,7 +64,7 @@ public class FileUtil {
     }
 
     /**
-     * @param root
+     * @param path
      * @param fileType
      *            z.B. .png oder .txt
      * @return

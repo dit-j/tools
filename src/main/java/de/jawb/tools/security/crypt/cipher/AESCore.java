@@ -28,10 +28,10 @@ class AESCore {
     private static final Charset UTF_8     = Charset.forName("UTF-8");
     private static final String LEGACY_SEPARATOR = "#";
 
-    private static void checkKeyLengthSupport(int keyLenght) {
+    private static void checkKeyLengthSupport(int keyLength) {
         try {
-            if (Cipher.getMaxAllowedKeyLength("AES") < keyLenght) {
-                throw new CipherException("AES-" + keyLenght + " is not supported. Current vm version: " + System.getProperty("java.version"));
+            if (Cipher.getMaxAllowedKeyLength("AES") < keyLength) {
+                throw new CipherException("AES-" + keyLength + " is not supported. Current vm version: " + System.getProperty("java.version"));
             }
         } catch (Exception e) {
             if (e instanceof CipherException) {
@@ -123,9 +123,33 @@ class AESCore {
                     iv   = fromBase64(encodedData.substring(24, 48));
                     data = fromBase64(encodedData.substring(48));
                 } else {
+
                     salt = fromBase64(encodedData.substring(0, 44));
                     iv   = fromBase64(encodedData.substring(44, 68));
                     data = fromBase64(encodedData.substring(68));
+
+//                    try {
+//
+//                        salt = fromBase64(encodedData.substring(0, 44));
+//                        iv   = fromBase64(encodedData.substring(44, 68));
+//                        data = fromBase64(encodedData.substring(68));
+//
+//                    } catch (Exception e){
+//
+//                        //
+//                        // n6oyAQ==krvlVV/KUziw4iIWp9x8Kg==Cef/hyL60IBIdnP0xa6/xA==
+//                        // password: fn$+lk/jm
+//                        //
+//
+//                        int dataStart = encodedData.length() - 24;
+//                        int ivStart   = dataStart - 24;
+//
+//                        data = fromBase64(encodedData.substring(dataStart));
+//                        iv   = fromBase64(encodedData.substring(ivStart, dataStart));
+//                        salt = fromBase64(encodedData.substring(0, ivStart));
+//                    }
+
+
                 }
 
             }

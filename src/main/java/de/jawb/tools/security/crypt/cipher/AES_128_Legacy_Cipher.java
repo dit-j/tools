@@ -14,10 +14,21 @@ import de.jawb.tools.security.base64.Base64;
 @Deprecated
 class AES_128_Legacy_Cipher implements ICipher {
 
-    private final char[] secKey;
+    private char[] secKey;
 
     AES_128_Legacy_Cipher(char[] secKey) {
         this.secKey = secKey;
+    }
+
+    @Override
+    public ICipher clone() {
+        return new AES_128_Legacy_Cipher(this.secKey.clone());
+    }
+
+    @Override
+    public void reset() {
+        Arrays.fill(secKey, '0');
+        secKey = null;
     }
 
     @Override
@@ -89,12 +100,16 @@ class AES_128_Legacy_Cipher implements ICipher {
 
     public static void main(String[] args) {
 
+        ICipher c = CipherFactory.createAES_256("fn$+lk/jm".toCharArray());
 
-        final String key1 = System.getProperty("cipher.key1", "DSdRHiKkOLEn");
-        final String key2 = System.getProperty("cipher.key2", "T/ndbn3!uHhpo");
-        final ICipher c = CipherFactory.createMaskedAESCipher(key1, key2.toCharArray());
+//        System.out.println(c.encrypt("name"));
+//        System.out.println(c.encrypt("userName"));
+//        System.out.println(c.encrypt("password"));
+        String decoded = c.decrypt("n6oyAQ==krvlVV/KUziw4iIWp9x8Kg==Cef/hyL60IBIdnP0xa6/xA==");
+        String decoded2 = c.decrypt("LF0mpVeK/aOZkcLfTbL0WGpjhdAvZZ6NdB5Y89EUj8s=#Eb+nZoclbSf38JVr2OX2Gg==#IufnK3JUFIuUlmimXjwulA==");
 
-        System.out.println(c.decrypt("6cVeeiynhR8eHerWhOEeYdgUxg7A8Gkx5puxFRkIcQs="));
+        System.out.println(decoded);
+        System.out.println(decoded2);
 
     }
 }

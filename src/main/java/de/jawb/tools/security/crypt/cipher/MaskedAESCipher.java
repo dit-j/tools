@@ -19,7 +19,7 @@ public class MaskedAESCipher implements ICipher {
 
     /**
      * @param xorKey
-     * @param aes128Key
+     * @param aesKey
      */
     MaskedAESCipher(String xorKey, char[] aesKey) {
         maskers = Arrays.asList( //
@@ -29,6 +29,22 @@ public class MaskedAESCipher implements ICipher {
         ciphers = Arrays.asList( //
                 CipherFactory.createAES_128_Legacy(aesKey) //
         );
+    }
+
+    @Override
+    public ICipher clone() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void reset() {
+        for(ICipher cipher : this.ciphers){
+            cipher.reset();
+        }
+        ciphers.clear();
+        ciphers = null;
+        maskers.clear();
+        maskers = null;
     }
 
     @Override

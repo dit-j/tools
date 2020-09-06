@@ -34,7 +34,6 @@ public class CipherTest {
         });
     }
 
-    @Test
     public void testAES_1() {
         ICipher c = CipherFactory.createAES_128_Legacy("example-unsafe_key".toCharArray());
         String encoded = c.encrypt(original);
