@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author dit
  * @param <K>
  * @param <V>
+ * @author dit
  */
-public class GroupingMap<K, V> implements IGroupingMap<K, V> {
+public class GroupingMap<K, V> {
 
     private final Map<K, Group<K, V>> map = new HashMap<>();
 
-    @Override
     public void add(K key, V paramV) {
         Group<K, V> l = getGroup(key);
         if (l == null) {
@@ -22,13 +21,10 @@ public class GroupingMap<K, V> implements IGroupingMap<K, V> {
         l.add(paramV);
     }
 
-    @Override
     public final Group<K, V> getGroup(K key) {
-        Group<K, V> group = map.get(key);
-        return group;
+        return map.get(key);
     }
 
-    @Override
     public Collection<Group<K, V>> getGroups() {
         return map.values();
     }

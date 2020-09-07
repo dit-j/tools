@@ -1,4 +1,4 @@
-package de.jawb.tools.io.http;
+package de.jawb.tools.http;
 
 import java.util.HashMap;
 import java.util.Map;

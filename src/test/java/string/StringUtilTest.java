@@ -1,10 +1,9 @@
 package string;
 
+import de.jawb.tools.string.StringUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.jawb.tools.string.StringUtil;
 
 public class StringUtilTest {
 

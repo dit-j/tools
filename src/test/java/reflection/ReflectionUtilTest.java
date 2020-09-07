@@ -1,12 +1,11 @@
 package reflection;
 
-import java.util.Map;
-
+import de.jawb.tools.reflection.ReflectionUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.jawb.tools.reflection.ReflectionUtil;
+import java.util.Map;
 
 public class ReflectionUtilTest {
 

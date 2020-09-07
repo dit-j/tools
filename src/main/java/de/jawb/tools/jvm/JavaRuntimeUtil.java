@@ -1,20 +1,20 @@
 package de.jawb.tools.jvm;
 
-import java.util.concurrent.TimeUnit;
-
 import de.jawb.tools.io.ByteUtil;
 import de.jawb.tools.number.NumberUtil;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author dit (11.04.2013)
  */
-public class RuntimeUtil {
+public class JavaRuntimeUtil {
 
     /**
      * @param time
      *            in millis
      */
-    public static final void sleep(long time) {
+    public static void sleep(long time) {
         try {
             TimeUnit.MILLISECONDS.sleep(time);
         } catch (InterruptedException ex) {
@@ -38,11 +38,11 @@ public class RuntimeUtil {
         return ByteUtil.getReadableSizeString(total - free);
     }
 
-    public static String getUsedMemoryInfoInPercent() {
+    public static float getUsedMemoryInfoInPercent() {
         long total = Runtime.getRuntime().totalMemory();
         long free = Runtime.getRuntime().freeMemory();
         double used = ((total - free) * 100.0) / total;
-        return NumberUtil.round(used) + " %";
+        return (float)NumberUtil.round(used);
     }
 
     public static String getFreeMemoryInfo() {
@@ -50,11 +50,8 @@ public class RuntimeUtil {
         return ByteUtil.getReadableSizeString(bytes);
     }
 
-    public static void main(String[] args) {
-        System.out.println(getMaxMemoryInfo());
-        System.out.println(getTotalMemoryInfo());
-        System.out.println(getFreeMemoryInfo());
-        System.out.println(getUsedMemoryInfo());
-        System.out.println(getUsedMemoryInfoInPercent());
+    public static JavaRuntimeMemoryInfo getJavaRuntimeMemoryInfo(){
+        return new JavaRuntimeMemoryInfo();
     }
+
 }

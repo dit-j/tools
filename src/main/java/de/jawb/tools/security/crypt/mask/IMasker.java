@@ -5,4 +5,6 @@ public interface IMasker {
     String mask(String str);
 
     String unmask(String encodedStr);
+
+    void reset();
 }

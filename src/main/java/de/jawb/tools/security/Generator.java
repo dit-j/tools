@@ -3,18 +3,18 @@
  */
 package de.jawb.tools.security;
 
-import java.security.SecureRandom;
-import java.util.Random;
-
 import de.jawb.tools.security.password.PasswordAnalysisResult;
 import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
 import de.jawb.tools.security.password.PasswordScoreCalculator;
+
+import java.security.SecureRandom;
+import java.util.Random;
 
 /**
  * @author dit (13.08.2012)
  */
 public class Generator {
-    
+
     public static final String CHARS_UP_LC_NR = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     public static final String CHARS_LC       = "abcdefghijklmnopqrstuvwxyz";
     public static final String CHARS_UC       = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -22,13 +22,7 @@ public class Generator {
     public static final String CHARS_LC_UC    = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     public static final String CHARS_SPECIAL  = "()[]{}?!$%&/*+~-,.;:<=>_|@#";
     public static final String CHARS_ALL      = CHARS_UP_LC_NR + CHARS_SPECIAL;
-    
-    public static void main(String[] args) {
-        String ps = generatePassword(8, false);
-        System.out.println(ps);
-        System.out.println(PasswordScoreCalculator.calculateScore(ps));
-    }
-    
+
     /**
      * Generiert ein zufaelliges Passwort
      *
@@ -39,7 +33,7 @@ public class Generator {
     public static String generatePassword(int length) {
         return generatePassword(length, false);
     }
-    
+
     /**
      * Generiert ein zufaelliges Passwort mit spez. Zeichen (optional)
      *
@@ -52,9 +46,9 @@ public class Generator {
     public static String generatePassword(final int length, boolean useSymbols) {
         final StringBuilder sb = new StringBuilder();
         final Random r = new SecureRandom();
-        
+
         if (length >= 4) {
-            
+
             int minStrength = useSymbols ? Math.min(length * 10, 100) : Math.min((length * 10) - 10, 100);
             boolean done = false;
             do {
@@ -65,32 +59,32 @@ public class Generator {
                 int score   = si.score();
                 done = countLC > 0 && countUC > 0 && countNr > 0 && score >= minStrength;
             } while (!done);
-            
+
         } else {
             final String chars = useSymbols ? CHARS_ALL : CHARS_UP_LC_NR;
             for (int i = 0; i < length; i++) {
                 sb.append(getRandomFromString(r, chars));
             }
         }
-        
+
         return sb.toString();
     }
-    
+
     private static PasswordAnalysisResult createPrettyPassword(Random r, StringBuilder sb, int length, boolean sym) {
         if (sb.length() > 0) sb.setLength(0);
-        
+
         sb.append(getRandomFromString(r, CHARS_LC_UC));
-        
+
         int lastType = 0;
         int nextType = 0;
         String src = null;
         int maxCharType = sym ? 4 : 3;
-        
+
         for (int i = 0; i < length - 2; i++) {
-            
+
             while ((nextType = r.nextInt(maxCharType)) == lastType)
                 ;
-            
+
             if (nextType == 0) {
                 src = CHARS_LC_UC;
             } else if (nextType == 1) {
@@ -103,16 +97,16 @@ public class Generator {
             lastType = nextType;
             sb.append(getRandomFromString(r, src));
         }
-        
+
         sb.append(getRandomFromString(r, CHARS_LC_UC));
-        
+
         return PasswordScoreCalculator.calculateScore(sb.toString());
     }
-    
+
     private static char getRandomFromString(Random r, String src) {
         return src.charAt(r.nextInt(src.length()));
     }
-    
+
     /**
      * Generiert eine "zufaellige" Zeichenkette der Laenge 40.
      *
@@ -121,7 +115,7 @@ public class Generator {
     public static String generateToken() {
         return generateToken(40);
     }
-    
+
     /**
      * Generiert eine "zufaellige" Zeichenkette.
      *
@@ -138,7 +132,7 @@ public class Generator {
         }
         return sb.toString();
     }
-    
+
     /**
      * Generiert eine "zufaellige" Zeichenkette die aus X Bloecken besteht je 5
      * Zeichen.
@@ -162,7 +156,7 @@ public class Generator {
         }
         return sb.toString();
     }
-    
+
     /**
      * Erzeugt aus einem String einen Integer. String muss genau vier Zeichen
      * lang sein.
@@ -172,11 +166,11 @@ public class Generator {
      * @return Integer der diesen String repraesenstiert
      */
     public static int stringToSalt(String str) {
-        
+
         if (str.length() > 4) {
             throw new IllegalArgumentException("str to int. max 4 chars");
         }
-        
+
         byte[] salt = str.getBytes();
         int a = 0;
         int s = 24;
@@ -186,7 +180,7 @@ public class Generator {
         }
         return a;
     }
-    
+
     /**
      * Wandelt einen Integer in einen String um
      *
@@ -202,7 +196,7 @@ public class Generator {
         temp[3] = (byte) (salt);
         return new String(temp);
     }
-    
+
     /**
      * Maskiert ein Password. Erste 3 Zeichen bleiben offen, der Rest wird durch
      * mehrere Sternchen ersetzt.
@@ -219,11 +213,4 @@ public class Generator {
         }
         return stars;
     }
-    
-//    public static void main(String[] args) {
-//        for (int i = 0; i < 6; i++) {
-//            String pw = generatePassword(6, true);
-//            System.out.println(pw + "\t" + PasswordScoreCalculator.calculateScore(pw));
-//        }
-//    }
 }

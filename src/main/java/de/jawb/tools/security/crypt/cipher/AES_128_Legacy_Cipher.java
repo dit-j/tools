@@ -1,12 +1,11 @@
 package de.jawb.tools.security.crypt.cipher;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
+import de.jawb.tools.security.base64.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-
-import de.jawb.tools.security.base64.Base64;
+import java.security.MessageDigest;
+import java.util.Arrays;
 
 /**
  * @author dit
@@ -27,7 +26,7 @@ class AES_128_Legacy_Cipher implements ICipher {
 
     @Override
     public void reset() {
-        Arrays.fill(secKey, '0');
+        SecUtil.clean(secKey);
         secKey = null;
     }
 
@@ -96,20 +95,5 @@ class AES_128_Legacy_Cipher implements ICipher {
     @Override
     public String toString() {
         return "AES-128-Cipher-Legacy";
-    }
-
-    public static void main(String[] args) {
-
-        ICipher c = CipherFactory.createAES_256("fn$+lk/jm".toCharArray());
-
-//        System.out.println(c.encrypt("name"));
-//        System.out.println(c.encrypt("userName"));
-//        System.out.println(c.encrypt("password"));
-        String decoded = c.decrypt("n6oyAQ==krvlVV/KUziw4iIWp9x8Kg==Cef/hyL60IBIdnP0xa6/xA==");
-        String decoded2 = c.decrypt("LF0mpVeK/aOZkcLfTbL0WGpjhdAvZZ6NdB5Y89EUj8s=#Eb+nZoclbSf38JVr2OX2Gg==#IufnK3JUFIuUlmimXjwulA==");
-
-        System.out.println(decoded);
-        System.out.println(decoded2);
-
     }
 }

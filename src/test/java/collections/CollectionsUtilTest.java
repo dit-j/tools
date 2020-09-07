@@ -1,21 +1,13 @@
 package collections;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import de.jawb.tools.collections.CollectionsUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import de.jawb.tools.collections.CollectionsUtil;
+import java.util.*;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CollectionsUtilTest {
@@ -89,15 +81,15 @@ public class CollectionsUtilTest {
 
     @Test
     public void testInitMap() {
-        Map<String, String> map = CollectionsUtil.initMap("a", "b");
+        Map<String, String> map = CollectionsUtil.mapOf("a", "b");
         Assert.assertTrue("b".equals(map.get("a")));
     }
 
     @Test
     public void testJoin() {
-        Assert.assertEquals("a", CollectionsUtil.join(Arrays.asList("a"), ","));
-        Assert.assertEquals("a,b,c", CollectionsUtil.join(Arrays.asList("a", "b", "c"), ","));
-        Assert.assertNull(CollectionsUtil.join(new ArrayList<>(), ","));
+        Assert.assertEquals("a", CollectionsUtil.toString(Arrays.asList("a"), ","));
+        Assert.assertEquals("a,b,c", CollectionsUtil.toString(Arrays.asList("a", "b", "c"), ","));
+        Assert.assertNull(CollectionsUtil.toString(new ArrayList<>(), ","));
     }
 
     @Test

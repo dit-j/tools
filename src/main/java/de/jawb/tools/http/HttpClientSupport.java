@@ -1,14 +1,13 @@
-package de.jawb.tools.io.http;
+package de.jawb.tools.http;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import de.jawb.tools.io.http.ssl.SSLConfiguration;
+import de.jawb.tools.http.ssl.SSLConfiguration;
 import de.jawb.tools.io.net.NetworkUtil;
 import de.jawb.tools.logging.ISimpleLogger;
 import de.jawb.tools.logging.NopLogger;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 
 class HttpClientSupport {
 

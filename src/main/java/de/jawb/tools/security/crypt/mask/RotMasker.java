@@ -14,6 +14,11 @@ class RotMasker implements IMasker {
     }
 
     @Override
+    public void reset() {
+        //
+    }
+
+    @Override
     public String mask(String str) {
         StringBuilder sb = new StringBuilder();
         for (char ch : str.toCharArray()) {
@@ -35,7 +40,4 @@ class RotMasker implements IMasker {
         return mask(encodedStr); // involution
     }
 
-    public static void main(String[] args) {
-        System.out.println(new RotMasker().mask("abcdf8fjhndjcnbeDDGsid"));
-    }
 }

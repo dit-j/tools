@@ -10,11 +10,13 @@ class Base64Masker implements IMasker {
     }
 
     @Override
+    public void reset() {
+        //
+    }
+
+    @Override
     public String unmask(String maskedString) {
         return Base64.decodeToString(maskedString);
     }
 
-    public static void main(String[] args) {
-        System.out.println(new Base64Masker().mask("abc"));
-    }
 }

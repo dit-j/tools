@@ -1,20 +1,19 @@
 package io.http;
 
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Collection;
-
+import de.jawb.tools.http.HttpClient;
+import de.jawb.tools.http.HttpRequest;
+import de.jawb.tools.http.HttpRequestMethod;
+import de.jawb.tools.http.HttpResponse;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.jawb.tools.io.http.HttpClient;
-import de.jawb.tools.io.http.HttpRequest;
-import de.jawb.tools.io.http.HttpRequestMethod;
-import de.jawb.tools.io.http.HttpResponse;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class HttpClientTest {
@@ -45,19 +44,19 @@ public class HttpClientTest {
     @Test
     public void testRequest_IsCachable() {
         HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
-        Assert.assertTrue(r.isCachable());
+        Assert.assertTrue(r.isCacheable());
     }
 
     @Test
     public void testRequest_IsCachable2() {
         HttpRequest r = new HttpRequest(HttpRequestMethod.POST, url);
-        Assert.assertFalse(r.isCachable());
+        Assert.assertFalse(r.isCacheable());
     }
 
     @Test
     public void testClient() throws SocketTimeoutException, UnknownHostException {
         HttpRequest r = new HttpRequest(HttpRequestMethod.GET, url);
-        r.addPathParameter("path", "search").addParameter("q", "apple");
+        r.addPathParameter("path", "search").addQueryParameter("q", "apple");
 
         HttpResponse response = new HttpClient().sendRequest(r);
 

@@ -1,13 +1,12 @@
-package de.jawb.tools.io.http.ssl;
-
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
+package de.jawb.tools.http.ssl;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.X509TrustManager;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dit

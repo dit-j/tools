@@ -4,50 +4,13 @@
 	<groupId>jawb.tools</groupId>
 	<artifactId>jawb-tools-util</artifactId>
 	<packaging>jar</packaging>
-	<version>1.4.3</version>
+	<version>2.0.0</version>
 
 	<properties>
-		<slf4j.version>1.7.22</slf4j.version>
-		<json.jackson.version>2.8.5</json.jackson.version>
-		<javax.activation.version>1.1</javax.activation.version>
-		<javax.mail.version>1.4.7</javax.mail.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
-
-		<!-- LIBRARIES WRAPPER START -->
-
-		<dependency>
-			<groupId>javax.activation</groupId>
-			<artifactId>activation</artifactId>
-			<version>${javax.activation.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>${javax.mail.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-			<version>${json.jackson.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>${json.jackson.version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- LIBRARIES WRAPPER END -->
 
 		<dependency>
 			<groupId>junit</groupId>

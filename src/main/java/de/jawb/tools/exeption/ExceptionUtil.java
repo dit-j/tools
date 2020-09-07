@@ -92,20 +92,10 @@ public class ExceptionUtil {
     }
 
     /**
-     * Ruft die Methode {@link Throwable#printStackTrace()} aus
-     *
-     * @param throwable
-     *            Objekt des Typs {@link Throwable}
-     */
-    public static void printStackTrace(Throwable throwable) {
-        throwable.printStackTrace();
-    }
-
-    /**
      * Aktuellen Stacktrace ausgeben.
      */
     public static void printStackTrace() {
-        printStackTrace(new Exception());
+        new Exception().printStackTrace();
     }
 
 }

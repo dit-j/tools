@@ -1,10 +1,9 @@
 package io.http;
 
+import de.jawb.tools.io.ByteUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.jawb.tools.io.ByteUtil;
 
 public class ByteUtilTest {
 

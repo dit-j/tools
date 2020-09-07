@@ -1,19 +1,18 @@
 package de.jawb.tools.security.password;
 
+import de.jawb.tools.security.password.PasswordAnalysisResult.Bonus;
+import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
+import de.jawb.tools.security.password.PasswordAnalysisResult.Penalty;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import de.jawb.tools.security.password.PasswordAnalysisResult.Bonus;
-import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
-import de.jawb.tools.security.password.PasswordAnalysisResult.Penalty;
-
 /**
  * @author dit (15.02.2018)
  */
 public class PasswordScoreCalculator {
-
 
     private static List<String> BLACK_LIST = Arrays.asList("password", "123456789", "12345678", "1234567", "123456", "12345", "1234", "123", "qwerty", "abc123", "football", "monkey", "letmein",
             "111111", "1q2w3e4r", "google", "1q2w3e4r5t", "123qwe", "zxcvbnm", "1q2w3e", "666666", "123321", "suzuki", "yamaha", "honda");
@@ -187,14 +186,4 @@ public class PasswordScoreCalculator {
         return result; //
     }
 
-    public static void main(String[] args) {
-        System.out.println(PasswordScoreCalculator.calculateScore("aGn5nd123"));
-
-        System.out.println(getBlackListedStrings("letmeinaGn5nd123"));
-
-//        for(int i = 1; i < 30; i++){
-//            int multiplier = Math.max((i - 4) + 1, 2);
-//            System.out.println(i + ": " + multiplier + " -> "+ (i * multiplier));
-//        }
-    }
 }

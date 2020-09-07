@@ -662,16 +662,4 @@ public enum Currency {
         throw new RuntimeException("code: " + code + " not found");
     }
 
-    /**
-     * Bahraini_Dinar 1000 Malagasy_Ariary 5
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        for (Currency c : Currency.values()) {
-            System.out.println("currency.Full." + c.code + " = " + c.name);
-            System.out.println("currency.Short." + c.code + " = " + c.symbol);
-        }
-    }
-
 }

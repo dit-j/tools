@@ -1,16 +1,15 @@
 package tools.security;
 
-import java.util.Arrays;
-import java.util.Collection;
-
+import de.jawb.tools.security.crypt.mask.IMasker;
+import de.jawb.tools.security.crypt.mask.MaskerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.jawb.tools.security.crypt.mask.IMasker;
-import de.jawb.tools.security.crypt.mask.MaskerFactory;
+import java.util.Arrays;
+import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class MaskTest {
@@ -38,7 +37,7 @@ public class MaskTest {
 
     @Test
     public void testXORMasker() {
-        IMasker masker = MaskerFactory.xor("xocn$s+4");
+        IMasker masker = MaskerFactory.xor("xocn$s+4".toCharArray());
         Assert.assertEquals(txt, masker.unmask(masker.mask(txt)));
     }
 

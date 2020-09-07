@@ -1,17 +1,15 @@
 package de.jawb.tools.io.image;
 
-import java.awt.Image;
-import java.awt.Rectangle;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.ImageInputStream;
 
 /**
  * @author dit (18.05.2013)
@@ -145,9 +143,9 @@ public class ImageUtil {
      *
      * @param source
      *            The image to convert
-     * @param w
+     * @param width
      *            The desired image width
-     * @param h
+     * @param height
      *            The desired image height
      * @return The converted image
      * @param type

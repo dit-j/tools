@@ -1,9 +1,8 @@
-package de.jawb.tools.io.http.ssl;
-
-import java.util.List;
+package de.jawb.tools.http.ssl;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
+import java.util.List;
 
 public class MultiHostnameVerifier implements HostnameVerifier {
 

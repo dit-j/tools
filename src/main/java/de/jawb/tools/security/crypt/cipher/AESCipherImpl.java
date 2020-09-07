@@ -1,7 +1,5 @@
 package de.jawb.tools.security.crypt.cipher;
 
-import java.util.Arrays;
-
 class AESCipherImpl implements ICipher {
 
     private char[] password;
@@ -19,7 +17,7 @@ class AESCipherImpl implements ICipher {
 
     @Override
     public void reset() {
-        Arrays.fill(password, '0');
+        SecUtil.clean(password);
         password = null;
         keyLength = -1;
     }
@@ -36,7 +34,7 @@ class AESCipherImpl implements ICipher {
 
     @Override
     public String toString() {
-        return "AES-" + keyLength + "-Cipher (AES/CBC/PKCS5Padding)";
+        return "AES-" + keyLength + "-Cipher (" + AESCore.TRANSFORMATION + ")";
     }
 
     @Override

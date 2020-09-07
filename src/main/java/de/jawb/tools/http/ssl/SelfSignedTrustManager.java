@@ -1,14 +1,9 @@
-package de.jawb.tools.io.http.ssl;
-
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.PublicKey;
-import java.security.SignatureException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+package de.jawb.tools.http.ssl;
 
 import javax.net.ssl.X509TrustManager;
+import java.security.*;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 /**
  * @author dit

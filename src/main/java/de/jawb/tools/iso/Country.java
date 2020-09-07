@@ -1,17 +1,17 @@
 package de.jawb.tools.iso;
 
+import de.jawb.tools.iso.i18n.ITranslatable;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import de.jawb.tools.iso.i18n.ITranslatable;
-
 /**
  * CountryList ISO 3166<br>
- * 
+ *
  * @author dit (24.11.2012)
  */
 public enum Country implements ITranslatable{
-    
+
     Afghanistan(
             "Afghanistan",
             "af",
@@ -2012,13 +2012,13 @@ public enum Country implements ITranslatable{
             "263",
             Currency.Zimbabwe_Dollar,
             Continent.Africa);
-    
+
     public final String    capital;
     /**
      * ISO-2 Code
      */
     public final String    code;
-    
+
     /**
      * ISO-3 Code
      */
@@ -2027,9 +2027,9 @@ public enum Country implements ITranslatable{
     public final Currency  currency;
     public final String    name;
     public final String    phone;
-    
+
     private final String i18nCode;
-    
+
     private Country(String n, String iso2, String iso3, String cap, String p, Currency curr, Continent c) {
         name = n;
         code = iso2;
@@ -2040,28 +2040,28 @@ public enum Country implements ITranslatable{
         capital = cap;
         i18nCode = "country." + code;
     }
-    
+
     @Override
     public String key() {
         return i18nCode;
     }
-    
+
     private static Map<String, Country> _cache = new HashMap<String, Country>();
-    
+
     public static Country getByISO2Code(String code) {
-        
+
         String lowerCase = code.toLowerCase();
         Country c = _cache.get(lowerCase);
-        
+
         if (c == null) {
             c = getByISOCode(lowerCase);
             if (c == null) throw new IllegalArgumentException("unknown country code: " + code);
             _cache.put(lowerCase, c);
         }
-        
+
         return c;
     }
-    
+
     static Country getByISOCode(String code) {
         for (Country c : Country.values()) {
             if (c.code.equalsIgnoreCase(code)) {
@@ -2070,5 +2070,5 @@ public enum Country implements ITranslatable{
         }
         return null;
     }
-    
+
 }

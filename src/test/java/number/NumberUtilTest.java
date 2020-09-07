@@ -1,10 +1,9 @@
 package number;
 
+import de.jawb.tools.number.NumberUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.jawb.tools.number.NumberUtil;
 
 public class NumberUtilTest {
 

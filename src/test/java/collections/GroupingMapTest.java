@@ -1,11 +1,9 @@
 package collections;
 
+import de.jawb.tools.collections.GroupingMap;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import de.jawb.tools.collections.GroupingMap;
-import de.jawb.tools.collections.IGroupingMap;
 
 public class GroupingMapTest {
 
@@ -14,7 +12,7 @@ public class GroupingMapTest {
 
     @Test
     public void testGeneral() {
-        IGroupingMap<String, String> gmap = new GroupingMap<>();
+        GroupingMap<String, String> gmap = new GroupingMap<>();
         gmap.add("a", "a");
         gmap.add("a", "a");
         gmap.add("a", "a");

@@ -1,4 +1,4 @@
-package de.jawb.tools.io.http.ssl;
+package de.jawb.tools.http.ssl;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;

@@ -1,11 +1,19 @@
 package de.jawb.tools.security.crypt.mask;
 
+import java.util.Arrays;
+
 class XORMasker implements IMasker {
 
-    private String xorKey;
+    private char[] xorKey;
 
-    XORMasker(String xorKey) {
+    XORMasker(char[] xorKey) {
         this.xorKey = xorKey;
+    }
+
+    @Override
+    public void reset() {
+        Arrays.fill(xorKey, '\0');
+        xorKey = null;
     }
 
     @Override

@@ -2,7 +2,7 @@ package de.jawb.tools.security.crypt.mask;
 
 public class MaskerFactory {
 
-    public static IMasker xor(String xorKey) {
+    public static IMasker xor(char[] xorKey) {
         return new XORMasker(xorKey);
     }
 

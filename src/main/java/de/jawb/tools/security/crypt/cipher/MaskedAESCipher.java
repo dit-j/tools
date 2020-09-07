@@ -1,10 +1,10 @@
 package de.jawb.tools.security.crypt.cipher;
 
-import java.util.Arrays;
-import java.util.List;
-
 import de.jawb.tools.security.crypt.mask.IMasker;
 import de.jawb.tools.security.crypt.mask.MaskerFactory;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -21,7 +21,7 @@ public class MaskedAESCipher implements ICipher {
      * @param xorKey
      * @param aesKey
      */
-    MaskedAESCipher(String xorKey, char[] aesKey) {
+    MaskedAESCipher(char[] xorKey, char[] aesKey) {
         maskers = Arrays.asList( //
                 MaskerFactory.base64(), //
                 MaskerFactory.xor(xorKey) //
@@ -43,6 +43,10 @@ public class MaskedAESCipher implements ICipher {
         }
         ciphers.clear();
         ciphers = null;
+
+        for(IMasker masker : this.maskers){
+            masker.reset();
+        }
         maskers.clear();
         maskers = null;
     }

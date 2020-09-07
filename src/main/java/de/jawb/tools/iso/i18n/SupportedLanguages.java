@@ -13,11 +13,11 @@ enum SupportedLanguages {
     ENGLISH(
             Language.English,
             "de.jawb.tools.iso.files.lang_en");
-    
+
     final Language language;
     final String   path;
-    
-    private SupportedLanguages(Language l, String p) {
+
+    SupportedLanguages(Language l, String p) {
         language = l;
         path = p;
     }

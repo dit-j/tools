@@ -1,11 +1,6 @@
 package de.jawb.tools.security.crypt.cipher;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.security.SecureRandom;
-import java.security.spec.KeySpec;
-import java.util.Arrays;
+import de.jawb.tools.security.base64.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -13,8 +8,10 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-
-import de.jawb.tools.security.base64.Base64;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.security.spec.KeySpec;
 
 /**
  * https://nelenkov.blogspot.de/2012/04/using-password-based-encryption-on.html
@@ -25,8 +22,10 @@ import de.jawb.tools.security.base64.Base64;
  */
 class AESCore {
 
-    private static final Charset UTF_8     = Charset.forName("UTF-8");
-    private static final String LEGACY_SEPARATOR = "#";
+    private static final Charset UTF_8            = StandardCharsets.UTF_8;
+    private static final String  LEGACY_SEPARATOR = "#";
+            static final String  TRANSFORMATION   = "AES/CBC/PKCS5Padding";
+            static final String  SECRET_KEY_ALG   = "PBKDF2WithHmacSHA1";
 
     private static void checkKeyLengthSupport(int keyLength) {
         try {
@@ -52,7 +51,7 @@ class AESCore {
             // to take > 100ms.
             final int iterations = 1000;
 
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(SECRET_KEY_ALG);
             KeySpec keySpec = new PBEKeySpec(passwordOrPin, salt, iterations, outputKeyLength);
             byte[] keyBytes = secretKeyFactory.generateSecret(keySpec).getEncoded();
 
@@ -76,12 +75,12 @@ class AESCore {
 
         try {
 
-            byte[] salt = createSalt(keyLengthInBits / 8);
-            byte[] iv   = createIV(16);
+            byte[] salt = randomBytes(keyLengthInBits / 8);
+            byte[] iv   = randomBytes(16);
 
             SecretKey key = generateKey(password, salt, keyLengthInBits);
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
             byte[] encryptedData = cipher.doFinal(text.getBytes(UTF_8));
 
@@ -128,36 +127,12 @@ class AESCore {
                     iv   = fromBase64(encodedData.substring(44, 68));
                     data = fromBase64(encodedData.substring(68));
 
-//                    try {
-//
-//                        salt = fromBase64(encodedData.substring(0, 44));
-//                        iv   = fromBase64(encodedData.substring(44, 68));
-//                        data = fromBase64(encodedData.substring(68));
-//
-//                    } catch (Exception e){
-//
-//                        //
-//                        // n6oyAQ==krvlVV/KUziw4iIWp9x8Kg==Cef/hyL60IBIdnP0xa6/xA==
-//                        // password: fn$+lk/jm
-//                        //
-//
-//                        int dataStart = encodedData.length() - 24;
-//                        int ivStart   = dataStart - 24;
-//
-//                        data = fromBase64(encodedData.substring(dataStart));
-//                        iv   = fromBase64(encodedData.substring(ivStart, dataStart));
-//                        salt = fromBase64(encodedData.substring(0, ivStart));
-//                    }
-
-
                 }
 
             }
 
-
             SecretKey key = generateKey(password, salt, keyLengthInBits);
-
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             cipher.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv));
             byte[] decryptedData = cipher.doFinal(data);
 
@@ -176,33 +151,21 @@ class AESCore {
         return Base64.decodeToBytes(base64Data);
     }
 
-    private static byte[] createSalt(int keySize) {
-        SecureRandom random = new SecureRandom();
+    private static byte[] randomBytes(int keySize) {
         byte[] salt = new byte[keySize];
-        random.nextBytes(salt);
+        new SecureRandom().nextBytes(salt);
         return salt;
     }
 
-    private static byte[] createIV(int ivSize) {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[ivSize];
-        random.nextBytes(salt);
-        return salt;
-    }
+//    private static byte[] toBytes(char[] chars) {
+//        CharBuffer charBuffer = CharBuffer.wrap(chars);
+//        ByteBuffer byteBuffer = UTF_8.encode(charBuffer);
+//        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
+//
+//        SecUtil.clean(charBuffer);// clear sensitive data
+//        SecUtil.clean(byteBuffer);// clear sensitive data
+//
+//        return bytes;
+//    }
 
-    private static byte[] toBytes(char[] chars) {
-        CharBuffer charBuffer = CharBuffer.wrap(chars);
-        ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
-        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(), byteBuffer.position(), byteBuffer.limit());
-        Arrays.fill(charBuffer.array(), '\u0000'); // clear sensitive data
-        Arrays.fill(byteBuffer.array(), (byte) 0); // clear sensitive data
-        return bytes;
-    }
-
-    public static void main(String[] args) {
-        // S2chxO/ASL4j7r1w/7i1Jg==|X1HbTkU9yPw83UTiadXuBA==|rCKsXyJB8DDEj30+uJztDw==
-        String encrypted = encrypt("letmein".toCharArray(), "name", 256);
-        System.out.println(encrypted);
-        System.out.println(decrypt("letmein".toCharArray(), encrypted, 256));
-    }
 }

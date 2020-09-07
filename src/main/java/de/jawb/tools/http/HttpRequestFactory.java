@@ -1,10 +1,10 @@
-package de.jawb.tools.io.http;
-
-import java.util.Map;
-import java.util.Map.Entry;
+package de.jawb.tools.http;
 
 import de.jawb.tools.reflection.ReflectionUtil;
 import de.jawb.tools.string.StringUtil;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class HttpRequestFactory {
 
@@ -18,7 +18,7 @@ public class HttpRequestFactory {
             if (value != null) {
                 String valueAsStr = value.toString();
                 if (StringUtil.notEmpty(valueAsStr)) {
-                    request.addParameter(entry.getKey(), valueAsStr);
+                    request.addQueryParameter(entry.getKey(), valueAsStr);
                 }
             }
         }

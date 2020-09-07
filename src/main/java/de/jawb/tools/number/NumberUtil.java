@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.jawb.tools.number;
 
 
@@ -41,6 +38,7 @@ public class NumberUtil {
      *
      * @param number
      *            eine ganze Zahl
+     * @param delimiter Trennzeichen
      * @return <tt>13.423.434.543</tt>
      */
     public static String readableString(long number, String delimiter) {

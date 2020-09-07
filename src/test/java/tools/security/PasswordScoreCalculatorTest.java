@@ -1,13 +1,12 @@
 package tools.security;
 
-import java.util.Arrays;
-import java.util.HashSet;
-
+import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
+import de.jawb.tools.security.password.PasswordScoreCalculator;
 import org.junit.Assert;
 import org.junit.Test;
 
-import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
-import de.jawb.tools.security.password.PasswordScoreCalculator;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class PasswordScoreCalculatorTest {
 

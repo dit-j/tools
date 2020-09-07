@@ -1,17 +1,16 @@
 package tools.security;
 
-import java.util.Arrays;
-import java.util.Collection;
-
+import de.jawb.tools.security.Generator;
+import de.jawb.tools.security.crypt.cipher.CipherFactory;
+import de.jawb.tools.security.crypt.cipher.ICipher;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import de.jawb.tools.security.Generator;
-import de.jawb.tools.security.crypt.cipher.CipherFactory;
-import de.jawb.tools.security.crypt.cipher.ICipher;
+import java.util.Arrays;
+import java.util.Collection;
 
 @RunWith(Parameterized.class)
 public class CipherTest {
@@ -43,7 +42,7 @@ public class CipherTest {
 
     @Test
     public void testAES_2() {
-        ICipher c = CipherFactory.createMaskedAESCipher("example-XOR-Key", "example-AES-Key".toCharArray());
+        ICipher c = CipherFactory.createMaskedAESCipher("example-XOR-Key".toCharArray(), "example-AES-Key".toCharArray());
         String encoded = c.encrypt(original);
         String decoded = c.decrypt(encoded);
         Assert.assertEquals(original, decoded);

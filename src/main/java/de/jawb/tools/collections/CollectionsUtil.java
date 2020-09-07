@@ -1,13 +1,6 @@
 package de.jawb.tools.collections;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CollectionsUtil {
 
@@ -43,13 +36,13 @@ public class CollectionsUtil {
         return !isEmpty(arr);
     }
 
-    public static <E, T> Map<E, T> initMap(E key, T value) {
+    public static <E, T> Map<E, T> mapOf(E key, T value) {
         Map<E, T> map = new HashMap<E, T>();
         map.put(key, value);
         return map;
     }
 
-    public static String join(long[] longs, String separator) {
+    public static String toString(long[] longs, String separator) {
         if(isEmpty(longs)){
             return null;
         }
@@ -57,21 +50,21 @@ public class CollectionsUtil {
         for (long i : longs) {
             list.add(i);
         }
-        return join(list, separator);
+        return toString(list, separator);
     }
 
-    public static String join(int[] ints, String separator) {
-        if(isEmpty(ints)){
+    public static String toString(int[] array, String separator) {
+        if(isEmpty(array)){
             return null;
         }
         List<Integer> list = new ArrayList<>();
-        for (int i : ints) {
+        for (int i : array) {
             list.add(i);
         }
-        return join(list, separator);
+        return toString(list, separator);
     }
 
-    public static String join(Collection<?> list, String separator) {
+    public static String toString(Collection<?> list, String separator) {
 
         if (isEmpty(list)) {
             return null;
@@ -106,18 +99,18 @@ public class CollectionsUtil {
         return set;
     }
 
-    public static <K, V> V getOneValid(Map<K, V> map, Object... prefferedKeys) {
+    public static <K, V> V getOneValid(Map<K, V> map, Object... preferredKeys) {
 
         if (map.size() == 0) {
             return null;
         }
 
-        if (prefferedKeys != null) {
-            if (prefferedKeys.length == 1) {
-                V v = map.get(prefferedKeys[0]);
+        if (preferredKeys != null) {
+            if (preferredKeys.length == 1) {
+                V v = map.get(preferredKeys[0]);
                 if (v != null) return v;
             } else {
-                for (Object key : toNoNullItemSet(prefferedKeys)) { // new HashSet<>(Arrays.asList(suggestedKeys))
+                for (Object key : toNoNullItemSet(preferredKeys)) { // new HashSet<>(Arrays.asList(suggestedKeys))
                     V v = map.get(key);
                     if (v != null) {
                         return v;

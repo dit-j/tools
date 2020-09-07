@@ -1,6 +1,6 @@
 package de.jawb.tools.io.net;
 
-import static de.jawb.tools.string.StringUtil.isEmpty;
+import de.jawb.tools.collections.CollectionsUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.jawb.tools.collections.CollectionsUtil;
+import static de.jawb.tools.string.StringUtil.isEmpty;
 
 public class NetworkUtil {
 
@@ -45,7 +45,7 @@ public class NetworkUtil {
         Map<String, List<String>> map = connection.getHeaderFields();
         for (Map.Entry<String, List<String>> entry : map.entrySet()) {
             String headerName = entry.getKey();
-            String headerValue = CollectionsUtil.join(entry.getValue(), ",");
+            String headerValue = CollectionsUtil.toString(entry.getValue(), ",");
             if (headerValue != null) {
                 headerMap.put(headerName, headerValue);
             }
@@ -67,10 +67,6 @@ public class NetworkUtil {
         }
         String rawData = result.toString("UTF-8").trim();
         return isEmpty(rawData) ? null : rawData;
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getHostNameByIP("172.217.21.46"));
     }
 
 }

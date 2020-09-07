@@ -17,7 +17,7 @@ public class CipherFactory {
     }
 
     @Deprecated
-    public static ICipher createMaskedAESCipher(String xorKey, char[] aesKey) {
+    public static ICipher createMaskedAESCipher(char[] xorKey, char[] aesKey) {
         return new MaskedAESCipher(xorKey, aesKey);
     }
 

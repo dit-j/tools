@@ -3,18 +3,16 @@
  */
 package de.jawb.tools.io.file;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
-
-import javax.swing.filechooser.FileSystemView;
-
 import de.jawb.tools.collections.CollectionsUtil;
 import de.jawb.tools.io.ByteUtil;
 import de.jawb.tools.security.Generator;
 import de.jawb.tools.string.Regex;
 import de.jawb.tools.string.StringCleaner;
 import de.jawb.tools.string.StringUtil;
+
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * @author dit (25.07.2011)

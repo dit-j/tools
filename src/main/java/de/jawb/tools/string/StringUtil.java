@@ -60,7 +60,7 @@ public class StringUtil {
 
     public static String trim(String str) {
         if(str == null){
-            return null;
+            return "";
         }
         return str.trim();
     }
@@ -74,7 +74,7 @@ public class StringUtil {
     }
 
     /**
-     * Aus einem String 'blaBla' wird 'BlaBla'
+     * Aus einem String 'text' wird 'Text'
      *
      * @param str
      * @return

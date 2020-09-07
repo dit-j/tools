@@ -3,11 +3,7 @@
  */
 package de.jawb.tools.pattern.threadpool;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 5 Threads stehen zur Verfuegung.<br>
@@ -20,8 +16,8 @@ public class ThreadPool {
     /**
      * Anzahl der Threads in dem Pool.
      */
-    private static int                POOLSIZE = 5;
-    private static ThreadPoolExecutor executorService;
+    private static final int                POOLSIZE = 5;
+    private static final ThreadPoolExecutor executorService;
 
     static {
         executorService = new ThreadPoolExecutor(POOLSIZE, // Anzahl der Threads
@@ -32,7 +28,7 @@ public class ThreadPool {
 
     }
 
-    public static final void execute(Runnable job) {
+    public static void execute(Runnable job) {
         if (!executorService.isShutdown()) {
             executorService.execute(job);
         } else {
@@ -40,19 +36,17 @@ public class ThreadPool {
         }
     }
 
-    public static final void execute(Job job) {
+    public static void execute(Job job) {
         if (!executorService.isShutdown()) {
             executorService.execute(job);
-        } else {
-
         }
     }
 
-    public static final <V> Future<V> executCallable(Callable<V> task) {
+    public static <V> Future<V> executCallable(Callable<V> task) {
         return executorService.submit(task);
     }
 
-    public static final void shutdownNow() {
+    public static void shutdownNow() {
         executorService.shutdownNow();
         try {
             executorService.awaitTermination(2, TimeUnit.SECONDS);
@@ -61,8 +55,9 @@ public class ThreadPool {
         }
     }
 
-    public static final String getInfo() {
+    public static String getInfo() {
         StringBuffer sb = new StringBuffer();
+
         sb.append("|~| " + ThreadPool.class.getSimpleName());
         sb.append(": Initial pool size - ");
         sb.append(executorService.getCorePoolSize() + ", Current  pool size- ");
