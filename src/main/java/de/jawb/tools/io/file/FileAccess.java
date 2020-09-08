@@ -3,7 +3,8 @@ package de.jawb.tools.io.file;
 import de.jawb.tools.io.net.NetworkUtil;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dit (04.05.2012)

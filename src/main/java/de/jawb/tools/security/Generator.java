@@ -100,7 +100,7 @@ public class Generator {
 
         sb.append(getRandomFromString(r, CHARS_LC_UC));
 
-        return PasswordScoreCalculator.calculateScore(sb.toString());
+        return PasswordScoreCalculator.calculateScore(sb.toString().toCharArray());
     }
 
     private static char getRandomFromString(Random r, String src) {

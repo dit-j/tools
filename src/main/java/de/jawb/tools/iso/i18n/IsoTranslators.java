@@ -1,6 +1,5 @@
 package de.jawb.tools.iso.i18n;
 
-import de.jawb.tools.iso.Continent;
 import de.jawb.tools.iso.Language;
 
 import java.util.Hashtable;

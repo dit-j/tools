@@ -1,4 +1,4 @@
-package tools.security;
+package tools.security.password;
 
 import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
 import de.jawb.tools.security.password.PasswordScoreCalculator;
@@ -12,8 +12,8 @@ public class PasswordScoreCalculatorTest {
 
     @Test
     public void testPasswordBlackList_1() {
-        Assert.assertEquals(new HashSet<>(Arrays.asList("123")), PasswordScoreCalculator.getBlackListedStrings("gnvhf123"));
-        Assert.assertEquals(new HashSet<>(Arrays.asList("123", "letmein")), PasswordScoreCalculator.getBlackListedStrings("gletmeinnvhf123"));
+        Assert.assertEquals(new HashSet<>(Arrays.asList("123")), PasswordScoreCalculator.getBlackListedStrings("gnvhf123".toCharArray()));
+        Assert.assertEquals(new HashSet<>(Arrays.asList("123", "letmein")), PasswordScoreCalculator.getBlackListedStrings("gletmeinnvhf123".toCharArray()));
     }
 
     @Test
@@ -50,6 +50,7 @@ public class PasswordScoreCalculatorTest {
 
     @Test
     public void testPasswordScore() {
+
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("12345").score() < 10);
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("123456").score() < 10);
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("1234567").score() < 10);

@@ -4,6 +4,73 @@ import java.util.*;
 
 public class CollectionsUtil {
 
+    public static char[] remove(char[] array, char[] sequenceToRemove) {
+
+        int start;
+        char[] temp = array;
+
+        while ((start = find(temp, sequenceToRemove)) >= 0) {
+
+            int end = start + sequenceToRemove.length;
+
+            int newLength   = temp.length - sequenceToRemove.length;
+            char[] newArray = new char[newLength];
+            int j = 0;
+
+            for (int i = 0; i < temp.length; i++) {
+                if (i < start || i >= end) {
+                    newArray[j++] = temp[i];
+                }
+            }
+            temp = newArray;
+        }
+
+        return temp;
+    }
+
+    public static boolean contains(char[] array, char[] searchSequence){
+        return find(array, searchSequence) >= 0;
+    }
+
+    public static int find(char[] array, char[] searchSequence){
+
+        if(isEmpty(searchSequence)){
+            return -1;
+        }
+
+        for(int start = 0; start < array.length; start++){
+
+            int i    = start;
+            int hits = 0;
+            for(int j = 0; j < searchSequence.length; j++){
+
+                if(array[i] == searchSequence[j]){
+                    ++hits;
+                } else {
+                    hits = 0;
+                    break;
+                }
+
+                ++i;
+
+                if(i > array.length - 1){
+                    break;
+                }
+            }
+
+            if(hits == searchSequence.length){
+                return start;
+            }
+
+        }
+
+        return -1;
+    }
+
+    public static boolean isEmpty(char[] arr) {
+        return arr == null || arr.length == 0;
+    }
+
     public static boolean isEmpty(long[] longs) {
         return longs == null || longs.length == 0;
     }
@@ -77,10 +144,13 @@ public class CollectionsUtil {
         StringBuilder sb = new StringBuilder();
         Iterator<?> it = list.iterator();
         while (it.hasNext()) {
-            sb.append(it.next().toString());
+
+            sb.append(it.next());
+
             if (it.hasNext()) {
                 sb.append(separator);
             }
+
         }
 
         return sb.toString();

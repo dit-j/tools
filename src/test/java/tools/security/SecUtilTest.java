@@ -2,8 +2,6 @@ package tools.security;
 
 import de.jawb.tools.security.Generator;
 import de.jawb.tools.security.crypt.cipher.SecUtil;
-import de.jawb.tools.security.crypt.mask.IMasker;
-import de.jawb.tools.security.crypt.mask.MaskerFactory;
 import org.junit.Assert;
 import org.junit.Test;
 

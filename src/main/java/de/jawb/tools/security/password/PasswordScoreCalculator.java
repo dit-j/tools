@@ -1,5 +1,6 @@
 package de.jawb.tools.security.password;
 
+import de.jawb.tools.collections.CollectionsUtil;
 import de.jawb.tools.security.password.PasswordAnalysisResult.Bonus;
 import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
 import de.jawb.tools.security.password.PasswordAnalysisResult.Penalty;
@@ -14,44 +15,48 @@ import java.util.Set;
  */
 public class PasswordScoreCalculator {
 
-    private static List<String> BLACK_LIST = Arrays.asList("password", "123456789", "12345678", "1234567", "123456", "12345", "1234", "123", "qwerty", "abc123", "football", "monkey", "letmein",
-            "111111", "1q2w3e4r", "google", "1q2w3e4r5t", "123qwe", "zxcvbnm", "1q2w3e", "666666", "123321", "suzuki", "yamaha", "honda");
+    private static final List<String> BLACK_LIST = Arrays.asList(
+                                                    "password", "123456789", "12345678",
+                                                    "1234567", "123456", "12345", "1234",
+                                                    "123", "qwerty", "abc123", "football",
+                                                    "monkey", "letmein", "111111", "1q2w3e4r",
+                                                    "google", "1q2w3e4r5t", "123qwe", "zxcvbnm",
+                                                    "1q2w3e", "666666", "123321", "suzuki", "yamaha", "honda"
+                                             );
 
     private PasswordScoreCalculator() {
     }
 
-    private static String removeBlackListed(String password) {
-        String temp = password;
+    public static boolean containsBlackListed(char[] password) {
         for (String s : BLACK_LIST) {
-            if (temp.contains(s)) temp = temp.replaceAll(s, "");
-        }
-        return temp;
-    }
-
-    public static Set<String> getBlackListedStrings(String password){
-        Set<String> set = new HashSet<>();
-        for (String s : BLACK_LIST) {
-            if (password.contains(s)) set.add(s);
-        }
-        return set;
-    }
-
-    public static boolean containsBlackListed(String password) {
-        for (String s : BLACK_LIST) {
-            if (password.contains(s)) return true;
+            if (CollectionsUtil.contains(password, s.toCharArray())) return true;
         }
         return false;
     }
 
+    public static Set<String> getBlackListedStrings(char[] password){
+        Set<String> set = new HashSet<>();
+        for (String s : BLACK_LIST) {
+            if (CollectionsUtil.contains(password, s.toCharArray())) {
+                set.add(s);
+            }
+        }
+        return set;
+    }
+
+    @Deprecated // Nutze char[]
     public static PasswordAnalysisResult calculateScore(final String password) {
+        return calculateScore(password.toCharArray());
+    }
+
+    public static PasswordAnalysisResult calculateScore(final char[] password) {
 
         PasswordAnalysisResult result = new PasswordAnalysisResult();
 
-        String cleaned = removeBlackListed(password);
-        char[] chars = cleaned.toCharArray();
-        int ignoredChars = password.length() - cleaned.length();
+        char[] chars = removeBlackListed(password);
+        int ignoredChars = password.length - chars.length;
         int countUC = 0, countLC = 0, countNr = 0;
-        int countSymbols = 0, countRepeatChars = 0;
+        int countSymbols = 0, countRepeatChars;
         int countNrOrSymInTheMiddle = 0, countRequirements = 0;
         int countConsecutiveLC = 0;
         int countConsecutiveUC = 0;
@@ -97,7 +102,7 @@ public class PasswordScoreCalculator {
 
         countRepeatChars = length - uniqueChars.size();
 
-        result.setProperty(PasswordProperty.countAllChars, password.length());
+        result.setProperty(PasswordProperty.countAllChars, password.length);
         result.setProperty(PasswordProperty.countIgnoredChars, ignoredChars);
         result.setProperty(PasswordProperty.countRepeatChars, countRepeatChars);
         result.setProperty(PasswordProperty.countUC, countUC);
@@ -184,6 +189,14 @@ public class PasswordScoreCalculator {
         }
 
         return result; //
+    }
+
+    static char[] removeBlackListed(char[] password) {
+        char[] temp = password;
+        for (String s : BLACK_LIST) {
+            temp = CollectionsUtil.remove(temp, s.toCharArray());
+        }
+        return temp;
     }
 
 }

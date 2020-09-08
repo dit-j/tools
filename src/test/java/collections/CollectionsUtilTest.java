@@ -12,12 +12,50 @@ import java.util.*;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CollectionsUtilTest {
 
-    @Before
-    public void setUp() throws Exception {}
+    @Test
+    public void testIndexOf() {
+
+        Assert.assertEquals(0, CollectionsUtil.find("123abcd".toCharArray(), "123".toCharArray()));
+        Assert.assertEquals(0, CollectionsUtil.find("123abcd123".toCharArray(), "123".toCharArray()));
+
+        Assert.assertEquals(4, CollectionsUtil.find("abcd123".toCharArray(), "123".toCharArray()));
+        Assert.assertEquals(2, CollectionsUtil.find("ab123cd".toCharArray(), "123".toCharArray()));
+
+        Assert.assertEquals(-1, CollectionsUtil.find("123abcd".toCharArray(), "1234".toCharArray()));
+        Assert.assertEquals(-1, CollectionsUtil.find("abcd123".toCharArray(), "1234".toCharArray()));
+        Assert.assertEquals(-1, CollectionsUtil.find("ab123cd".toCharArray(), "1234".toCharArray()));
+
+        Assert.assertEquals(-1, CollectionsUtil.find("12".toCharArray(), "123".toCharArray()));
+
+        Assert.assertEquals(-1, CollectionsUtil.find("".toCharArray(), "123".toCharArray()));
+        Assert.assertEquals(-1, CollectionsUtil.find("123".toCharArray(), "".toCharArray()));
+        Assert.assertEquals(-1, CollectionsUtil.find("".toCharArray(), "".toCharArray()));
+    }
+
+    @Test
+    public void testRemove() {
+
+        char[] expected = "abcd".toCharArray();
+        char[] badSeq   = "123".toCharArray();
+
+        Assert.assertArrayEquals(expected, CollectionsUtil.remove("123abcd".toCharArray(),      badSeq));
+        Assert.assertArrayEquals(expected, CollectionsUtil.remove("123abcd123".toCharArray(),   badSeq));
+        Assert.assertArrayEquals(expected, CollectionsUtil.remove("123ab123cd".toCharArray(),   badSeq));
+        Assert.assertArrayEquals(expected, CollectionsUtil.remove("abcd123".toCharArray(),      badSeq));
+        Assert.assertArrayEquals(expected, CollectionsUtil.remove("ab123cd".toCharArray(),      badSeq));
+
+        char[] arr = "123abcd".toCharArray();
+        Assert.assertArrayEquals(arr, CollectionsUtil.remove(arr, "1234".toCharArray()));
+
+        Assert.assertArrayEquals(new char[0], CollectionsUtil.remove(arr, arr));
+        Assert.assertArrayEquals(new char[0], CollectionsUtil.remove("123123".toCharArray(), badSeq));
+        Assert.assertArrayEquals("d".toCharArray(), CollectionsUtil.remove("123123d".toCharArray(), badSeq));
+        Assert.assertArrayEquals("d".toCharArray(), CollectionsUtil.remove("d123123".toCharArray(), badSeq));
+    }
 
     @Test
     public void testIsEmptyMap() {
-        Map<String, String> mapNull = null;
+        Map<String, String> mapNull  = null;
         Map<String, String> mapEmpty = new HashMap<>();
 
         Assert.assertTrue(CollectionsUtil.isEmpty(mapNull));
