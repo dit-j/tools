@@ -23,7 +23,8 @@ import java.security.spec.KeySpec;
 class AESCore {
 
     private static final Charset UTF_8            = StandardCharsets.UTF_8;
-    private static final String  LEGACY_SEPARATOR = "#";
+    private static final String  SEPARATOR        = "#";
+
             static final String  TRANSFORMATION   = "AES/CBC/PKCS5Padding";
             static final String  SECRET_KEY_ALG   = "PBKDF2WithHmacSHA1";
 
@@ -63,12 +64,6 @@ class AESCore {
         }
     }
 
-    /**
-     * @param password
-     * @param text
-     * @param keyLengthInBits
-     * @return
-     */
     static String encrypt(char[] password, String text, int keyLengthInBits) {
 
         checkKeyLengthSupport(keyLengthInBits);
@@ -84,32 +79,26 @@ class AESCore {
             cipher.init(Cipher.ENCRYPT_MODE, key, new IvParameterSpec(iv));
             byte[] encryptedData = cipher.doFinal(text.getBytes(UTF_8));
 
-//            return toBase64(salt) + LEGACY_SEPARATOR + toBase64(iv) + LEGACY_SEPARATOR + toBase64(encryptedData);
-            String saltBase64   = toBase64(salt);
-            String ivBase64     = toBase64(iv);
-            String dataBase64   = toBase64(encryptedData);
-
-            return saltBase64 + ivBase64 + dataBase64;
+            return toBase64(salt) + SEPARATOR + toBase64(iv) + SEPARATOR + toBase64(encryptedData);
+//            String saltBase64   = toBase64(salt);
+//            String ivBase64     = toBase64(iv);
+//            String dataBase64   = toBase64(encryptedData);
+//            return saltBase64 + ivBase64 + dataBase64;
 
         } catch (Exception e) {
             throw new CipherException(e);
         }
     }
 
-    /**
-     * @param password
-     * @param encodedData
-     * @param keyLengthInBits
-     * @return
-     */
     static String decrypt(char[] password, String encodedData, int keyLengthInBits) {
 
         try {
 
             byte[] salt, iv, data;
 
-            if(encodedData.contains(LEGACY_SEPARATOR)){
-                String[] parts = encodedData.split(LEGACY_SEPARATOR);
+            if(encodedData.contains(SEPARATOR)){
+
+                String[] parts = encodedData.split(SEPARATOR);
 
                 salt = fromBase64(parts[0]);
                 iv   = fromBase64(parts[1]);

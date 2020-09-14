@@ -1,6 +1,3 @@
-/**
- *
- */
 package de.jawb.tools.date;
 
 import java.text.DateFormat;
@@ -16,17 +13,11 @@ public class DateUtil {
 
     private static final Map<FormatterCacheKey, DateFormat> formatterCache     = new HashMap<>();
 
-    public static final SimpleDateFormat                    DATE_TIME          = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
-    public static final SimpleDateFormat                    SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
-    public static final SimpleDateFormat                    TIME_HMS           = new SimpleDateFormat("HH:mm:ss");
-    public static final SimpleDateFormat                    TIME_HM            = new SimpleDateFormat("HH:mm");
+    public static final SimpleDateFormat GER_DATE_TIME          = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
+    public static final SimpleDateFormat GER_SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy"       );
+    public static final SimpleDateFormat TIME_HMS               = new SimpleDateFormat("HH:mm:ss"         );
+    public static final SimpleDateFormat TIME_HM                = new SimpleDateFormat("HH:mm"            );
 
-    /**
-     * @param millis
-     * @param locale
-     * @param style
-     * @return
-     */
     public static String dateToString(long millis, Locale locale, Style style) {
         return dateToString(new Date(millis), locale, style);
     }
@@ -34,13 +25,6 @@ public class DateUtil {
     public static String dateToString(long millis, Style style) {
         return dateToString(new Date(millis), Locale.getDefault(), style);
     }
-
-    /**
-     * @param date
-     * @param locale
-     * @param style
-     * @return
-     */
     public static String dateToString(Date date, Locale locale, Style style) {
         FormatterCacheKey key = new FormatterCacheKey(locale, style);
         DateFormat formatter = formatterCache.get(key);
@@ -209,7 +193,7 @@ public class DateUtil {
             return "-1";
         }
 
-        String today = SIMPLE_DATE_FORMAT.format(millis);
+        String today = GER_SIMPLE_DATE_FORMAT.format(millis);
         if (!time) {
             return today;
         }
@@ -234,9 +218,9 @@ public class DateUtil {
     public static final long getMillisFromDateString(String dateTime) {
         try {
             if ((dateTime != null) && (dateTime.indexOf(',') < 0)) {
-                return SIMPLE_DATE_FORMAT.parse(dateTime).getTime();
+                return GER_SIMPLE_DATE_FORMAT.parse(dateTime).getTime();
             } else {
-                return DATE_TIME.parse(dateTime).getTime();
+                return GER_DATE_TIME.parse(dateTime).getTime();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
