@@ -22,7 +22,7 @@ import java.security.spec.KeySpec;
  */
 class AESCore {
 
-    private static final Charset UTF_8            = StandardCharsets.UTF_8;
+    private static final Charset UTF_8            = Charset.forName("UTF-8");
     private static final String  SEPARATOR        = "#";
 
             static final String  TRANSFORMATION   = "AES/CBC/PKCS5Padding";

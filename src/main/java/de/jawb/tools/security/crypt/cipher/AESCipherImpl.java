@@ -34,6 +34,9 @@ class AESCipherImpl implements ICipher {
 
     @Override
     public String toString() {
+        if(keyLength < 0){
+            return "AES-Cipher - cleaned";
+        }
         return "AES-" + keyLength + "-Cipher (" + AESCore.TRANSFORMATION + ")";
     }
 
