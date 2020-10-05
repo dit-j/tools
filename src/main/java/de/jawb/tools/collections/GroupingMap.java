@@ -1,9 +1,6 @@
 package de.jawb.tools.collections;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @param <K>
@@ -12,7 +9,7 @@ import java.util.Map;
  */
 public class GroupingMap<K, V> implements Iterable<Group<K, V>> {
 
-    private final Map<K, Group<K, V>> map = new HashMap<>();
+    private final Map<K, Group<K, V>> map = new LinkedHashMap<>();
 
     public void add(K key, V paramV) {
         Group<K, V> l = getGroup(key);
