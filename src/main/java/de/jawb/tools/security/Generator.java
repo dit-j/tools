@@ -30,6 +30,7 @@ public class Generator {
      *            Laenge des Passworts
      * @return Passwort
      */
+    @Deprecated
     public static String generatePassword(int length) {
         return generatePassword(length, false);
     }
@@ -43,6 +44,7 @@ public class Generator {
      *            Sonderzeichen: <tt>()[]{}?!$%&/=*+~,.;:<>-_</tt>
      * @return Passwort
      */
+    @Deprecated
     public static String generatePassword(final int length, boolean useSymbols) {
         final StringBuilder sb = new StringBuilder();
         final Random r = new SecureRandom();
@@ -70,6 +72,7 @@ public class Generator {
         return sb.toString();
     }
 
+    @Deprecated
     private static PasswordAnalysisResult createPrettyPassword(Random r, StringBuilder sb, int length, boolean sym) {
         if (sb.length() > 0) sb.setLength(0);
 

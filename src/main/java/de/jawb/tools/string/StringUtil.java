@@ -209,4 +209,11 @@ public class StringUtil {
             return text.toLowerCase();
         }
     }
+
+    public static String nullToEmpty(String str) {
+        if(isEmpty(str)){
+            return "";
+        }
+        return str;
+    }
 }
