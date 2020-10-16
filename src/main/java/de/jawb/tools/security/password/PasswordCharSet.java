@@ -7,6 +7,11 @@ import java.util.List;
 
 public class PasswordCharSet {
 
+    public static final String DEFAULT_LOWER_CASES = "abcdefghijklmnopqrstuvwxyz";
+    public static final String DEFAULT_UPPER_CASES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String DEFAULT_DIGITS      = "0123456789";
+    public static final String DEFAULT_SPECIALS    = "()[]{}?!$%&/*+~-,.;:<=>_|@#";
+
     private final String CHARS_LC;
     private final String CHARS_UC;
     private final String CHARS_NR;
@@ -48,10 +53,7 @@ public class PasswordCharSet {
     }
 
     private PasswordCharSet() {
-        this("abcdefghijklmnopqrstuvwxyz",
-                "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                "0123456789",
-                "()[]{}?!$%&/*+~-,.;:<=>_|@#");
+        this(DEFAULT_LOWER_CASES, DEFAULT_UPPER_CASES, DEFAULT_DIGITS, DEFAULT_SPECIALS);
     }
 
     public static PasswordCharSet create(String lc, String uc, String digits, String special){
