@@ -12,6 +12,29 @@ public class StringCleanerTest {
     public void setUp() throws Exception {}
 
     @Test
+    public void test_removeNonUniqueChars() {
+        Assert.assertEquals("1234",   StringCleaner.removeNonUniqueChars("1233444444444444444444"));
+        Assert.assertEquals("12+3-4", StringCleaner.removeNonUniqueChars("1122+33+-4"));
+        Assert.assertEquals("1234 ",   StringCleaner.removeNonUniqueChars("1234  "));
+        Assert.assertEquals("",   StringCleaner.removeNonUniqueChars(""));
+    }
+
+
+    @Test
+    public void test_removeAllNonLetters() {
+        Assert.assertEquals("abcD", StringCleaner.removeAllNotLetter("a1b2c3D "));
+        Assert.assertEquals("aäsd", StringCleaner.removeAllNotLetter(" +a#ä1s2d3  "));
+        Assert.assertEquals("", StringCleaner.removeAllNotLetter(""));
+    }
+
+    @Test
+    public void testRemoveNonNumeric() {
+        Assert.assertEquals("123", StringCleaner.removeAllNonNumeric("a1s2d3  "));
+        Assert.assertEquals("123", StringCleaner.removeAllNonNumeric(" +a#ä1s2d3  "));
+        Assert.assertEquals("", StringCleaner.removeAllNonNumeric(""));
+    }
+
+    @Test
     public void testRemoveDoubleWhiteSpaces() {
         Assert.assertEquals(" ", StringCleaner.removeDoubleWhiteSpaces("  "));
         Assert.assertEquals(" a ", StringCleaner.removeDoubleWhiteSpaces(" a  "));

@@ -134,7 +134,7 @@ public class CollectionsUtil {
     public static String toString(Collection<?> list, String separator) {
 
         if (isEmpty(list)) {
-            return null;
+            return "";
         }
 
         if (list.size() == 1) {

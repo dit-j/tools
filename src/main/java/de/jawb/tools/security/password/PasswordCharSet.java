@@ -7,10 +7,10 @@ import java.util.List;
 
 public class PasswordCharSet {
 
-    public static final String DEFAULT_LOWER_CASES = "abcdefghijklmnopqrstuvwxyz";
-    public static final String DEFAULT_UPPER_CASES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public static final String DEFAULT_DIGITS      = "0123456789";
-    public static final String DEFAULT_SPECIALS    = "()[]{}?!$%&/*+~-,.;:<=>_|@#";
+    public static final String DEFAULT_LOWER_CASES = "abcdefghijkmnpqrstuvwxyz";
+    public static final String DEFAULT_UPPER_CASES = "ABCDEFGHJKLMNPQRSTUVWXYZ";
+    public static final String DEFAULT_DIGITS      = "123456789";
+    public static final String DEFAULT_SPECIALS    = "?!$%&/*+~-,.;:<=>_@#"; // -()[]{}|
 
     private final String CHARS_LC;
     private final String CHARS_UC;
@@ -44,7 +44,7 @@ public class PasswordCharSet {
             types.add(PasswordCharType.Digit);
         }
         if(CHARS_SPECIAL.length() > 0){
-            types.add(PasswordCharType.Special);
+            types.add(PasswordCharType.Symbol);
         }
 
         if(types.size() == 0){
@@ -68,13 +68,29 @@ public class PasswordCharSet {
         return types;
     }
 
+    public boolean hasLowerCases(){
+        return types.contains(PasswordCharType.LowerCaseLetter);
+    }
+
+    public boolean hasUpperCases(){
+        return types.contains(PasswordCharType.UpperCaseLetter);
+    }
+
+    public boolean hasDigits(){
+        return types.contains(PasswordCharType.Digit);
+    }
+
+    public boolean hasSymbols(){
+        return types.contains(PasswordCharType.Symbol);
+    }
+
     public String get(PasswordCharType type){
 
         if (type == PasswordCharType.LowerOrUpperCaseLetter) return CHARS_LC_UC;
         if (type == PasswordCharType.LowerCaseLetter) return CHARS_LC;
         if (type == PasswordCharType.UpperCaseLetter) return CHARS_UC;
         if (type == PasswordCharType.Digit          ) return CHARS_NR;
-        if (type == PasswordCharType.Special        ) return CHARS_SPECIAL;
+        if (type == PasswordCharType.Symbol) return CHARS_SPECIAL;
 
         return CHARS_ALL;
     }

@@ -7,5 +7,5 @@ public enum PasswordCharType {
     UpperCaseLetter,
     LowerOrUpperCaseLetter,
     Digit,
-    Special
+    Symbol
 }

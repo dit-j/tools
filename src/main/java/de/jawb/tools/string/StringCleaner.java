@@ -1,11 +1,49 @@
 package de.jawb.tools.string;
 
+import de.jawb.tools.collections.CollectionsUtil;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 /**
  * Ein globaler HilfsCleaner.
  *
  * @author dit (23.09.2010)
  */
 public class StringCleaner {
+
+    /**
+     * Laesst nur Buchstaben uebrig.
+     *
+     * @param s
+     *            Zeichenkette die bearbeitet werden soll.
+     * @return Zeichenkette die nur aus Buchstaben besteht.
+     */
+    public static String removeAllNotLetter(String s) {
+        if (StringUtil.notEmpty(s)) {
+            StringBuilder sb = new StringBuilder();
+            for (char ch : s.toCharArray()) {
+                if (Character.isLetter(ch)) {
+                    sb.append(ch);
+                }
+            }
+            return sb.toString();
+        }
+        return s;
+    }
+
+    public static String removeAllNonNumeric(String str){
+        return str.replaceAll("[^\\d]", "");
+    }
+
+    public static String removeNonUniqueChars(String str){
+        Set<Character> charSet = new LinkedHashSet<>();
+        for (char c : str.toCharArray()) {
+            charSet.add(c);
+        }
+        return CollectionsUtil.toString(charSet, "");
+    }
 
     /**
      * Entfernt doppelte Leerzeichen.
@@ -76,24 +114,6 @@ public class StringCleaner {
         return string.replaceAll(regex.regex, "");
     }
 
-    /**
-     * Laesst nur Buchstaben uebrig.
-     *
-     * @param s
-     *            Zeichenkette die bearbeitet werden soll.
-     * @return Zeichenkette die nur aus Buchstaben besteht.
-     */
-    public static String removeAllNotLetter(String s) {
-        if (StringUtil.notEmpty(s)) {
-            StringBuilder sb = new StringBuilder();
-            for (char ch : s.toCharArray()) {
-                if (Character.isLetter(ch)) {
-                    sb.append(ch);
-                }
-            }
-            return sb.toString();
-        }
-        return s;
-    }
+
 
 }

@@ -65,7 +65,8 @@ public class PasswordScoreCalculator {
         final int length = chars.length;
         final int minPwLength = 8; // req1
         final int minRequirements = 4;
-        final Set<Character> uniqueChars = new HashSet<>();
+        final Set<Character> uniqueChars   = new HashSet<>();
+        final Set<Character> uniqueSymbols = new HashSet<>();
 
         for (int i = 0; i < length; i++) {
             char ch = chars[i];
@@ -97,6 +98,7 @@ public class PasswordScoreCalculator {
                 if (i > 0 && i < length - 1) {
                     countNrOrSymInTheMiddle++;
                 }
+                uniqueSymbols.add(ch);
             }
         }
 
@@ -105,6 +107,8 @@ public class PasswordScoreCalculator {
         result.setProperty(PasswordProperty.countAllChars, password.length);
         result.setProperty(PasswordProperty.countIgnoredChars, ignoredChars);
         result.setProperty(PasswordProperty.countRepeatChars, countRepeatChars);
+        result.setProperty(PasswordProperty.countRepeatSym, Math.max(0, countSymbols - uniqueSymbols.size()));
+        result.setProperty(PasswordProperty.percentageSym, (countSymbols * 100) / password.length);
         result.setProperty(PasswordProperty.countUC, countUC);
         result.setProperty(PasswordProperty.countLC, countLC);
         result.setProperty(PasswordProperty.countNr, countNr);

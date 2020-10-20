@@ -127,7 +127,7 @@ public class CollectionsUtilTest {
     public void testJoin() {
         Assert.assertEquals("a", CollectionsUtil.toString(Arrays.asList("a"), ","));
         Assert.assertEquals("a,b,c", CollectionsUtil.toString(Arrays.asList("a", "b", "c"), ","));
-        Assert.assertNull(CollectionsUtil.toString(new ArrayList<>(), ","));
+        Assert.assertEquals("", CollectionsUtil.toString(new ArrayList<>(), ","));
     }
 
     @Test

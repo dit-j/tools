@@ -49,6 +49,19 @@ public class PasswordScoreCalculatorTest {
     }
 
     @Test
+    public void testPasswordUniqueSymCount() {
+        Assert.assertEquals(0, PasswordScoreCalculator.calculateScore("a$9b#L1c").property(PasswordProperty.countRepeatSym));
+        Assert.assertEquals(1, PasswordScoreCalculator.calculateScore("a+9b-+1c").property(PasswordProperty.countRepeatSym));
+    }
+
+    @Test
+    public void testPasswordPercentageSymbols() {
+        Assert.assertEquals(100, PasswordScoreCalculator.calculateScore("+-&/%").property(PasswordProperty.percentageSym));
+        Assert.assertEquals( 50, PasswordScoreCalculator.calculateScore("abcd+-%&").property(PasswordProperty.percentageSym));
+        Assert.assertEquals( 33, PasswordScoreCalculator.calculateScore("abcdef-%&").property(PasswordProperty.percentageSym));
+    }
+
+    @Test
     public void testPasswordScore() {
 
         Assert.assertTrue(PasswordScoreCalculator.calculateScore("12345").score() < 10);

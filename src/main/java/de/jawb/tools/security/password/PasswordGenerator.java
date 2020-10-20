@@ -39,17 +39,42 @@ class PasswordGenerator {
 
             if(minStrength > 0){
 
-                Password password;
-                int tries = 0;
-                do {
-                    password = createPrettyPassword(r, length, charSet);
-                } while (password.analysisResult().score() < minStrength && ++tries < 10);
+                Password strongestSoFar = null;
+                int tries =  0;
+                final int maxTries = 20;
 
-                return password;
+                do {
+                    Password temp = createPrettyPassword(r, length, charSet);
+                    PasswordAnalysisResult result   = temp.analysisResult();
+
+                    boolean symOK    = charSet.hasSymbols() ? result.property(PasswordAnalysisResult.PasswordProperty.countSym) > 0 : true;
+                    boolean repSymOK = charSet.hasSymbols() ? result.property(PasswordAnalysisResult.PasswordProperty.countRepeatSym) == 0 : true;
+                    boolean perSymOk = charSet.hasSymbols() ? result.property(PasswordAnalysisResult.PasswordProperty.percentageSym) < 40 : true;
+                    boolean lcOk     = charSet.hasLowerCases() ? result.property(PasswordAnalysisResult.PasswordProperty.countLC) > 0 : true;
+                    boolean repOk    = charSet.hasLowerCases() || charSet.hasUpperCases() ? result.property(PasswordAnalysisResult.PasswordProperty.countRepeatChars) == 0 : true;
+                    boolean ucOk     = charSet.hasUpperCases() ? result.property(PasswordAnalysisResult.PasswordProperty.countUC) > 0 : true;
+                    boolean nrOk     = charSet.hasDigits() ? result.property(PasswordAnalysisResult.PasswordProperty.countNr) > 0 : true;
+                    boolean scoreOk  = result.score() > minStrength;
+
+                    if(scoreOk && symOK && repSymOK && perSymOk && lcOk && ucOk && nrOk && repOk){
+                        return temp;
+                    }
+
+                    if(strongestSoFar == null){
+                        strongestSoFar = temp;
+                    } else {
+                        if(strongestSoFar.analysisResult().score() < result.score()){
+                            strongestSoFar = temp;
+                        }
+                    }
+
+                } while (++tries < maxTries);
+
+                return strongestSoFar;
+
             } else {
                 return createPrettyPassword(r, length, charSet);
             }
-
 
         } else {
 
@@ -109,7 +134,7 @@ class PasswordGenerator {
                 nextType = getRandom(r, types);
             }
 
-            chars[nextIndex++] = getRandomFromString(r, charSet.get(nextType));
+            chars[nextIndex] = getRandomFromString(r, charSet.get(nextType));
         }
 
         return new Password(chars);

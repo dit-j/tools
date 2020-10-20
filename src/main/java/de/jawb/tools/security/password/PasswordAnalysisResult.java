@@ -13,9 +13,11 @@ public class PasswordAnalysisResult {
         countNr,
         countSym,
         countRepeatChars,
+        countRepeatSym,
         countConsecutiveLC,
         countConsecutiveUC,
-        countConsecutiveNr;
+        countConsecutiveNr,
+        percentageSym;
     }
 
     public enum Bonus {
