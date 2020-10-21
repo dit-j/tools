@@ -81,4 +81,16 @@ public class CipherTest {
         String b = c.encrypt("test");
         Assert.assertNotEquals(a, b);
     }
+
+    @Test
+    public void testAES_256_empty_string_are_encrypted() {
+        ICipher c = CipherFactory.createAES_256("example-unsafe_key".toCharArray());
+
+        String a = c.encrypt("");
+        String b = c.encrypt("");
+
+        Assert.assertNotEquals("", a);
+        Assert.assertNotEquals("", b);
+        Assert.assertNotEquals(a, b);
+    }
 }
