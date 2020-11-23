@@ -2,6 +2,9 @@ package de.jawb.tools.security.password;
 
 import de.jawb.tools.security.crypt.cipher.SecUtil;
 
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 public class Password implements CharSequence {
@@ -30,6 +33,22 @@ public class Password implements CharSequence {
     // Unsafe
     public String asString(){
         return new String(chars);
+    }
+
+    public char[] getChars(){
+        return this.chars.clone();
+    }
+
+    public byte[] getBytes() {
+
+        CharBuffer charBuffer = CharBuffer.wrap(chars);
+        ByteBuffer byteBuffer = Charset.forName("UTF-8").encode(charBuffer);
+        byte[] bytes = Arrays.copyOfRange(byteBuffer.array(),
+                byteBuffer.position(), byteBuffer.limit());
+
+        SecUtil.clean(byteBuffer);
+
+        return bytes;
     }
 
     public PasswordAnalysisResult analysisResult(){

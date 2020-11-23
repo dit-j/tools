@@ -5,17 +5,14 @@ import de.jawb.tools.security.password.PasswordAnalysisResult.Bonus;
 import de.jawb.tools.security.password.PasswordAnalysisResult.PasswordProperty;
 import de.jawb.tools.security.password.PasswordAnalysisResult.Penalty;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author dit (15.02.2018)
  */
 public class PasswordScoreCalculator {
 
-    private static final List<String> BLACK_LIST = Arrays.asList(
+    private static final List<String> UNSAFE_PASSWORDS = Arrays.asList(
                                                     "password", "123456789", "12345678",
                                                     "1234567", "123456", "12345", "1234",
                                                     "123", "qwerty", "abc123", "football",
@@ -27,18 +24,44 @@ public class PasswordScoreCalculator {
     private PasswordScoreCalculator() {
     }
 
-    public static boolean containsBlackListed(char[] password) {
-        for (String s : BLACK_LIST) {
+    public static boolean containsUnsafeParts(char[] password) {
+        for (String s : UNSAFE_PASSWORDS) {
             if (CollectionsUtil.contains(password, s.toCharArray())) return true;
         }
         return false;
     }
 
-    public static Set<String> getBlackListedStrings(char[] password){
-        Set<String> set = new HashSet<>();
-        for (String s : BLACK_LIST) {
-            if (CollectionsUtil.contains(password, s.toCharArray())) {
+    public static List<String> getUnsafeParts(char[] password){
+        List<String> set = new ArrayList<>();
+
+        char[] copy = password.clone();
+
+        for (String s : UNSAFE_PASSWORDS) {
+
+            char[] sArr     = s.toCharArray();
+            int startIndex  = CollectionsUtil.find(copy, sArr);
+
+            if (startIndex >= 0) {
+
+                final int newLength = copy.length - sArr.length;
+                final int endIndex  = startIndex + sArr.length;
+                final char[] temp   = new char[newLength];
+
+                int j = 0;
+
+                for(int i = 0; i < copy.length; i++){
+                    if(i < startIndex || i >= endIndex){
+                        temp[j++] = copy[i];
+                    }
+                }
+
                 set.add(s);
+
+                copy = temp;
+
+                if(copy.length == 0){
+                    break;
+                }
             }
         }
         return set;
@@ -50,6 +73,10 @@ public class PasswordScoreCalculator {
     }
 
     public static PasswordAnalysisResult calculateScore(final char[] password) {
+
+        if(password == null || password.length == 0){
+            throw new IllegalArgumentException("password may not be empty");
+        }
 
         PasswordAnalysisResult result = new PasswordAnalysisResult();
 
@@ -197,7 +224,7 @@ public class PasswordScoreCalculator {
 
     static char[] removeBlackListed(char[] password) {
         char[] temp = password;
-        for (String s : BLACK_LIST) {
+        for (String s : UNSAFE_PASSWORDS) {
             temp = CollectionsUtil.remove(temp, s.toCharArray());
         }
         return temp;

@@ -205,4 +205,12 @@ public class CollectionsUtil {
     public static boolean contains(Object[] arr, Object item) {
         return find(arr, item) >= 0;
     }
+
+    public static <T> List<T> toList(Enumeration<T> enumeration){
+        List<T> list = new ArrayList<>();
+        while(enumeration.hasMoreElements()){
+            list.add(enumeration.nextElement());
+        }
+        return list;
+    }
 }

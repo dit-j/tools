@@ -6,14 +6,32 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.List;
 
 public class PasswordScoreCalculatorTest {
 
     @Test
-    public void testPasswordBlackList_1() {
-        Assert.assertEquals(new HashSet<>(Arrays.asList("123")), PasswordScoreCalculator.getBlackListedStrings("gnvhf123".toCharArray()));
-        Assert.assertEquals(new HashSet<>(Arrays.asList("123", "letmein")), PasswordScoreCalculator.getBlackListedStrings("gletmeinnvhf123".toCharArray()));
+    public void testPasswordUnsafeParts_1() {
+
+        List<String> unsafeParts = PasswordScoreCalculator.getUnsafeParts("123456123guntletmeinigjh".toCharArray());
+
+        Assert.assertEquals(3,          unsafeParts.size());
+
+        Assert.assertEquals("123456",   unsafeParts.get(0));
+        Assert.assertEquals("123",      unsafeParts.get(1));
+        Assert.assertEquals("letmein",  unsafeParts.get(2));
+
+    }
+
+    @Test
+    public void testPasswordUnsafeParts_2() {
+        Assert.assertEquals(Collections.emptyList(), PasswordScoreCalculator.getUnsafeParts("fuRn4d".toCharArray()));
+        Assert.assertEquals(Arrays.asList("123456"), PasswordScoreCalculator.getUnsafeParts("123456guntigjh".toCharArray()));
+        Assert.assertEquals(Arrays.asList("123456", "123", "letmein"), PasswordScoreCalculator.getUnsafeParts("123456123guntletmeinigjh".toCharArray()));
+        Assert.assertEquals(Arrays.asList("123", "letmein"), PasswordScoreCalculator.getUnsafeParts("123letmein".toCharArray()));
+        Assert.assertEquals(Arrays.asList("123"), PasswordScoreCalculator.getUnsafeParts("gnvhf123".toCharArray()));
+        Assert.assertEquals(Arrays.asList("123", "letmein"), PasswordScoreCalculator.getUnsafeParts("gletmeinnvhf123".toCharArray()));
     }
 
     @Test
